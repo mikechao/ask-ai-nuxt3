@@ -18,7 +18,11 @@ export default defineAppConfig({
       layout: {
         page: {
             navbar: {
-                menus: [{type: 'button', title:'Text', to: '/text'}]
+                menus: [
+                  { type: 'button', title:'Text', to: '/text' },
+                  { type: 'button', title: 'Audio', to: '/audio' },
+                  { type: 'button', title: 'Image', to: '/image'}
+                ]
             }
         }
       }

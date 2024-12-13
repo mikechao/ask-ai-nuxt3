@@ -7,14 +7,20 @@
       <div class="flex-1 flex flex-col items-center justify-center">
         <AwesomeButton
           size="lg"
-          text="I want to ask questions about written text"
+          text="Ask questions about written text"
           to="/text"
-          class="font-extrabold"
+          class="font-extrabold mb-4"
         />
         <AwesomeButton
           size="lg"
-          text="I want to ask questions about audio"
+          text="Ask questions about spoken language"
           to="/audio"
+          class="font-extrabold mb-4"
+        />
+        <AwesomeButton
+          size="lg"
+          text="Ask questions about an image"
+          to="/image"
           class="font-extrabold"
         />
       </div>
