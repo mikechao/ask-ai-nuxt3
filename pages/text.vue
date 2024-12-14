@@ -9,7 +9,9 @@
       </section>
     </LayoutPageSection>
     <LayoutPageSection class="flex-1 flex">
-        <ChatWindow />
+        <ClientOnly>
+          <ChatWindow />
+        </ClientOnly>
     </LayoutPageSection>
   </LayoutPageWrapper>
 </template>
