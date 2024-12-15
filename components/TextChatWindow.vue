@@ -1,0 +1,76 @@
+<script setup lang="ts">
+import { register, type Room, type Message, type RoomUser, type UserStatus, } from 'vue-advanced-chat'
+import { useTextChatStore } from '~/stores/textChat'
+register()
+
+const colorMode = useColorMode()
+
+const textChatStore = useTextChatStore()
+
+const currentUserId = '1234'
+const userAvatar = 'https://i.pravatar.cc/100'
+
+const userStatus: UserStatus = { state: 'online', lastChanged: "Never"}
+const users: RoomUser[] = [
+  { _id: "1", username: "AI Bot", avatar: 'https://i.pravatar.cc/100', status: userStatus },
+  { _id: currentUserId, username: "Guest User", avatar: userAvatar, status: userStatus }
+]
+const rooms: Ref<Room[]> = ref([
+  { roomId: '1', roomName: 'Ask AI', users: users, avatar: 'https://i.pravatar.cc/100'  }
+])
+
+const aiAvatar = "https://i.pravatar.cc/100?u=1"
+const aiSenderId = "1"
+let messageId = 1
+const messages: Ref<Message[]> = ref([
+  { _id: messageId.toString(), senderId: aiSenderId, content: "Hello! Type your question below and I will answer", avatar: aiAvatar }
+])
+
+const messagesLoaded = ref(false)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function fetchMessages({ _room, _options = {} } : any) {
+  // part of vue-advanced chat for when room is opened 
+  // this funciton is called to get messages
+  messagesLoaded.value = true
+}
+
+function addAIMessage(content: string) {
+  messageId++
+  messages.value.push({ _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: aiAvatar})
+}
+
+function addUserMessage(content: string) {
+  messageId++
+  messages.value.push({ _id: messageId.toString(), senderId: currentUserId, content: content, avatar: userAvatar})
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function sendMessage({ content }: any) {
+  console.log('content', content)
+  addUserMessage(content)
+  if (textChatStore.text.length === 0) {
+    addAIMessage("You did not give me any text to analyze")
+  }
+}
+</script>
+
+<template>
+  <vue-advanced-chat
+    height="calc(100vh - 100px)"
+    :theme="colorMode.preference"
+    :messages-loaded="messagesLoaded"
+    :rooms-loaded="true"
+    :single-room="true"
+    :show-search="false"
+    :show-add-room="true"
+    :show-files="false"
+    :show-audio="false"
+    :show-emojis="false"
+    .rooms="rooms"
+    .messages="messages"
+    :current-user-id="currentUserId"
+    @fetch-messages="fetchMessages($event.detail[0])"
+    @send-message="sendMessage($event.detail[0])"
+  />
+</template>
