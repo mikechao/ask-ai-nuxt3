@@ -37,20 +37,26 @@ async function fetchMessages({ _room, _options = {} } : any) {
 
 function addAIMessage(content: string) {
   messageId++
-  messages.value.push({ _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: aiAvatar})
+  const aiMessage = { _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: aiAvatar}
+  messages.value = [...messages.value, aiMessage]
 }
 
 function addUserMessage(content: string) {
   messageId++
-  messages.value.push({ _id: messageId.toString(), senderId: currentUserId, content: content, avatar: userAvatar})
+  const userMessage = { _id: messageId.toString(), senderId: currentUserId, content: content, avatar: userAvatar}
+  messages.value = [...messages.value, userMessage]
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sendMessage({ content }: any) {
-  console.log('content', content)
+async function sendMessage({ content }: any) {
   addUserMessage(content)
   if (textChatStore.text.length === 0) {
     addAIMessage("You did not give me any text to analyze")
+  } else {
+    textChatStore.question = content
+    textChatStore.createPrompt()
+    await textChatStore.sendPrompt()
+    addAIMessage(textChatStore.gptResponse)
   }
 }
 </script>
