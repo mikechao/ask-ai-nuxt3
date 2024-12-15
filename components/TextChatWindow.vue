@@ -18,7 +18,7 @@ const users: RoomUser[] = [
 const rooms: Ref<Room[]> = ref([
   { roomId: '1', roomName: 'Ask AI', users: users, avatar: 'https://i.pravatar.cc/100'  }
 ])
-
+const messageActions: string[] = []
 const aiAvatar = "https://i.pravatar.cc/100?u=1"
 const aiSenderId = "1"
 let messageId = 1
@@ -65,6 +65,8 @@ async function sendMessage({ content }: any) {
   <vue-advanced-chat
     height="calc(100vh - 100px)"
     :theme="colorMode.preference"
+    :message-actions="messageActions"
+    :show-reaction-emojis="false"
     :messages-loaded="messagesLoaded"
     :rooms-loaded="true"
     :single-room="true"
