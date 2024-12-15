@@ -12,6 +12,9 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.23",
+    "@langchain/langgraph": "^0.2.33",
+    "@langchain/openai": "^0.3.14",
     "@nuxt-awesome/theme": "^2.0.12",
     "@nuxt/content": "^2.13.4",
     "@nuxt/kit": "^3.14.1592",
