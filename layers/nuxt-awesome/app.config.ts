@@ -8,6 +8,9 @@ import {
 export interface NuxtAwesomeAppConfig {
   /** title name */
   name?: string
+
+  /** icon that comes before name */
+  icon?: string
   /** description */
   description?: string
 
@@ -78,6 +81,7 @@ declare module '@nuxt/schema' {
 export default defineAppConfig({
   awesome: {
     name: 'Nuxt 3 Awesome Starter',
+    icon: 'simple-icons:nuxtdotjs',
     description:
       'a starter template for Nuxt 3 with minimalist themes design, built in components, drawer & menus, and more.',
     project: {

@@ -27,7 +27,7 @@ const showDrawer = ref(false)
         <slot name="title">
           <NuxtLink to="/" class="font-bold text-lg text-primary-500">
             <Icon
-              name="simple-icons:nuxtdotjs"
+              :name="awesome.icon"
               class="font-black text-xl font-mono mr-2 inline-block"
             />
             <span class="capitalize">{{ awesome.name }}</span>
