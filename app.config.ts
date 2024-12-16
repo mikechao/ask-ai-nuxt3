@@ -21,7 +21,8 @@ export default defineAppConfig({
                 menus: [
                   { type: 'button', title:'Text', to: '/text' },
                   { type: 'button', title: 'Audio', to: '/audio' },
-                  { type: 'button', title: 'Image', to: '/image'}
+                  { type: 'button', title: 'Image', to: '/image'},
+                  { type: 'button', title: 'Login', to: '/login'}
                 ]
             }
         }
