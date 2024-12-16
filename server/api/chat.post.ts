@@ -1,3 +1,5 @@
+import { chatOpenAI } from "../utils/chatOpenAI"
+
 export default defineEventHandler(async event => {
     const body = await readBody(event)
     const input = body.messages
@@ -9,7 +11,7 @@ export default defineEventHandler(async event => {
     }
     console.log('input', input)
     const response = {
-        gptResponse: 'You ask about: ' + input[0].content
+        gptResponse: await chatOpenAI(input)
     }
     return response
 })
