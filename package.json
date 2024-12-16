@@ -21,12 +21,15 @@
     "@nuxtjs/color-mode": "3.5.2",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@pinia/nuxt": "0.9.0",
+    "firebase": "^9.0.0 || ^10.0.0",
     "nuxt": "^3.14.1592",
+    "nuxt-vuefire": "1.0.4",
     "pinia": "^2.3.0",
     "uuid": "^11.0.3",
     "vue": "latest",
     "vue-advanced-chat": "^2.1.0",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuefire": ">=3.2.0"
   },
   "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c",
   "devDependencies": {
