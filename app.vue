@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+const { awesome } = useAppConfig()
+useHead({
+  title: awesome.name
+})
 </script>
 
 <template>
