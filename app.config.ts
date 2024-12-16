@@ -2,6 +2,7 @@
 export default defineAppConfig({
     awesome: {
       name: 'Ask AI',
+      icon: 'line-md:chat-round-dots',
       description:
         'Ask AI about text, audio or an image',
       author: {
