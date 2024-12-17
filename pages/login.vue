@@ -7,12 +7,14 @@ const firebaseAuth = useFirebaseAuth() as Auth
 
 const router = useRouter()
 
-function login() {
+function changeToLogOut() {
     const menus = awesome.layout?.page?.navbar?.menus
     if (menus !== undefined) {
         const index = menus.findIndex(m => m.title === 'Login')
-        menus[index].title = 'Log Out'
-        menus[index].to = '/logout'
+        if (index > -1) {
+            menus[index].title = 'Log Out'
+            menus[index].to = '/logout'
+        }
     }
 }
 
@@ -20,6 +22,7 @@ onAuthStateChanged(firebaseAuth, (user) => {
     if (user) {
         console.log('user found in onAuthStateChanged')
         console.log('onAuthStateChanged user', user)
+        changeToLogOut()
         router.push('/')
     } else {
         // user is signed out
