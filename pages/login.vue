@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GoogleAuthProvider, signInWithPopup, type Auth } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signInAnonymously , type Auth } from 'firebase/auth';
 const googleProvider = new GoogleAuthProvider()
 
 const { awesome } = useAppConfig()
@@ -16,19 +16,32 @@ function login() {
     }
 }
 
+onAuthStateChanged(firebaseAuth, (user) => {
+    if (user) {
+        console.log('user found in onAuthStateChanged')
+        console.log('onAuthStateChanged user', user)
+        router.push('/')
+    } else {
+        // user is signed out
+        console.log('No user in onAuthStateChanged')
+    }
+})
+
 function loginWithGoogle() {
     signInWithPopup(firebaseAuth, googleProvider)
-    .then((result) => {
-        console.log('login success')
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        console.log('token', token)
-        // The signed-in user info.
-        const user = result.user;
-        console.log('user', user)
-        router.push('/')
-    }).catch((error) => {
+    .catch((error) => {
         console.log('Failed to login')
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('errorCode', errorCode)
+        console.log('errorMessage', errorMessage)
+    })
+}
+
+function loginAsGuest() {
+    signInAnonymously(firebaseAuth)
+    .catch((error) => {
+        console.log('Fail to login')
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('errorCode', errorCode)
@@ -40,10 +53,13 @@ function loginWithGoogle() {
 <template>
     <div>
         <h1>This is the login page</h1>
-        <AwesomeButton text="Login" @click="login"/>
         <AwesomeButton @click="loginWithGoogle">
             <Icon name="simple-line-icons:social-google" class="w-5 h-5 mr-1"/>
             Login with Google
+        </AwesomeButton>
+        <AwesomeButton @click="loginAsGuest">
+            <Icon name="fluent:guest-24-regular" class="w-5 h5"/>
+            Login as Guest
         </AwesomeButton>
     </div>
 </template>
