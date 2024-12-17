@@ -64,7 +64,7 @@ async function sendMessage({ content }: any) {
 <template>
   <vue-advanced-chat
     height="calc(100vh - 100px)"
-    :theme="colorMode.preference"
+    :theme="colorMode.value"
     :message-actions="messageActions"
     :show-reaction-emojis="false"
     :messages-loaded="messagesLoaded"
