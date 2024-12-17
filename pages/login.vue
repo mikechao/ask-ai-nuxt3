@@ -4,7 +4,7 @@ const googleProvider = new GoogleAuthProvider()
 
 const { awesome } = useAppConfig()
 const firebaseAuth = useFirebaseAuth() as Auth
-
+const token = useCookie('token')
 const router = useRouter()
 
 function changeToLogOut() {
@@ -20,8 +20,7 @@ function changeToLogOut() {
 
 onAuthStateChanged(firebaseAuth, (user) => {
     if (user) {
-        console.log('user found in onAuthStateChanged')
-        console.log('onAuthStateChanged user', user)
+        token.value = user.uid
         changeToLogOut()
         router.push('/')
     } else {

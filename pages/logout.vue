@@ -3,6 +3,7 @@ import type { Auth } from 'firebase/auth';
 const router = useRouter()
 const firebaseAuth = useFirebaseAuth() as Auth
 const { awesome } = useAppConfig()
+const token = useCookie('token')
 
 function changeToLogin() {
     const menus = awesome.layout?.page?.navbar?.menus
@@ -17,6 +18,7 @@ function changeToLogin() {
 
 onMounted(async () => {
     await firebaseAuth.signOut()
+    token.value = null
     changeToLogin()
     router.push('/')
 })
