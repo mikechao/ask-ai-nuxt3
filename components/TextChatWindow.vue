@@ -20,7 +20,7 @@ const users: RoomUser[] = [
   { _id: currentUserId, username: userStore.getUserName(), avatar: userAvatar, status: userStatus }
 ]
 const rooms: Ref<Room[]> = ref([
-  { roomId: '1', roomName: 'Ask AI', users: users, avatar: 'https://i.pravatar.cc/100', }
+  { roomId: '1', roomName: 'Ask AI', users: users, avatar: aiAvatar, }
 ])
 const messageActions: string[] = []
 
