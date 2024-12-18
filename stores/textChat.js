@@ -11,16 +11,13 @@ export const useTextChatStore = defineStore('textChat', () => {
   // reponse from open ai
   const gptResponse = ref('')
 
-  const questionAnswerList = ref([])
-
   // generate prompt for AI request
   function createPrompt() {
     const textToAnalyze = text.value
     const chatQuestion = question.value
  
-    if (questionAnswerList.value.length === 0) {
-      // if there hasn't been any questions and answers send the textToanalyze
-      // and the chatQuestion
+    if (gptResponse.value.length === 0) {
+      // if we haven't gotten a response yet include textToAnalyze
       prompt.value.push(textToAnalyze)
       prompt.value.push(chatQuestion)
     } else {
@@ -45,12 +42,7 @@ export const useTextChatStore = defineStore('textChat', () => {
           'Content-Type': 'application/json'
         }
       })
-      console.log('res', res)
       gptResponse.value = res.gptResponse
-      questionAnswerList.value.push({
-        question: question.value,
-        answer: res.gptResponse
-      })
     }
   }
 
@@ -60,8 +52,7 @@ export const useTextChatStore = defineStore('textChat', () => {
     question.value = ''
     prompt.value = []
     gptResponse.value = ''
-    questionAnswerList.value = []
   }
 
-  return { text, question, prompt, gptResponse, createPrompt, sendPrompt, clearChat, questionAnswerList }
+  return { text, question, prompt, gptResponse, createPrompt, sendPrompt, clearChat }
 })
