@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@firebase/app-types": "^0.9.3",
+    "@langchain/community": "^0.3.19",
     "@langchain/core": "^0.3.23",
     "@langchain/langgraph": "^0.2.33",
     "@langchain/openai": "^0.3.14",
@@ -25,6 +26,7 @@
     "firebase": "^9.0.0 || ^10.0.0",
     "firebase-admin": "^13.0.1",
     "firebase-functions": "^6.1.2",
+    "langchain": "^0.3.7",
     "nuxt": "^3.14.1592",
     "nuxt-vuefire": "1.0.4",
     "pinia": "^2.3.0",
