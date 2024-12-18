@@ -25,3 +25,6 @@ logs
 
 notes.txt
 service-account.json
+
+.vscode/
+.editorconfig

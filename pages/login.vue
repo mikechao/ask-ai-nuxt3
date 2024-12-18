@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signInAnonymously , type Auth } from 'firebase/auth';
-const googleProvider = new GoogleAuthProvider()
+import { onAuthStateChanged, type Auth } from 'firebase/auth';
+import { useUserStore } from '~/stores/userStore';
+
 
 const { awesome } = useAppConfig()
 const firebaseAuth = useFirebaseAuth() as Auth
 const token = useCookie('token')
 const router = useRouter()
+
+const userStore = useUserStore()
 
 function changeToLogOut() {
     const menus = awesome.layout?.page?.navbar?.menus
@@ -28,28 +31,6 @@ onAuthStateChanged(firebaseAuth, (user) => {
         console.log('No user in onAuthStateChanged')
     }
 })
-
-function loginWithGoogle() {
-    signInWithPopup(firebaseAuth, googleProvider)
-    .catch((error) => {
-        console.log('Failed to login')
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('errorCode', errorCode)
-        console.log('errorMessage', errorMessage)
-    })
-}
-
-function loginAsGuest() {
-    signInAnonymously(firebaseAuth)
-    .catch((error) => {
-        console.log('Fail to login')
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('errorCode', errorCode)
-        console.log('errorMessage', errorMessage)
-    })
-}
 
 const titlesText = computed<string[]>(() =>
   (
@@ -103,11 +84,11 @@ const leadingsText = computed(() => [
           }}
         </div>
         <div class="flex space-x-4 ml-2 mt-8 justify-center md:justify-start">
-          <AwesomeButton @click="loginAsGuest">
+          <AwesomeButton @click="userStore.loginAsGuest">
             <Icon name="fluent:guest-24-regular" class="w-5 h5"/>
             Login as Guest
           </AwesomeButton>
-          <AwesomeButton @click="loginWithGoogle">
+          <AwesomeButton @click="userStore.loginWithGoogle">
             <Icon name="simple-line-icons:social-google" class="w-5 h-5 mr-1"/>
             Login with Google
           </AwesomeButton>
