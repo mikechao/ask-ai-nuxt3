@@ -12,16 +12,18 @@ const currentUserId = '1234'
 const userAvatar = userStore.getUserPhotoURL()
 
 const userStatus: UserStatus = { state: 'online', lastChanged: "Never"}
+
+const aiAvatar = "./aiAvatar.webp"
+const aiSenderId = "1"
 const users: RoomUser[] = [
-  { _id: "1", username: "AI Bot", avatar: 'https://i.pravatar.cc/100', status: userStatus },
+  { _id: aiSenderId, username: "AI Bot", avatar: aiAvatar, status: userStatus },
   { _id: currentUserId, username: userStore.getUserName(), avatar: userAvatar, status: userStatus }
 ]
 const rooms: Ref<Room[]> = ref([
   { roomId: '1', roomName: 'Ask AI', users: users, avatar: 'https://i.pravatar.cc/100', }
 ])
 const messageActions: string[] = []
-const aiAvatar = "https://i.pravatar.cc/100?u=1"
-const aiSenderId = "1"
+
 let messageId = 1
 
 const formattedDate = new Intl.DateTimeFormat('en-US', {
