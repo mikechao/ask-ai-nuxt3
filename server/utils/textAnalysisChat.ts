@@ -14,10 +14,13 @@ const llm = new ChatOpenAI({
 })
 
 
-const prompt = PromptTemplate.fromTemplate(`You are a helpful AI. You will answer a question about the following text 
+const prompt = PromptTemplate.fromTemplate(`You are a helpful AI. 
+  You will answer a question about the following text 
   and any follow up questions the human might have. 
+  You will keep responses short as if you are replying
+  in an online chat. Do not include AI: in your responses.
   Current conversation: {chat_history} 
-  Human: {input}`)
+  {input}`)
 
 export async function textAnalysis(inputs: string[], uid: string) {
   const chatHistory = new FirestoreChatMessageHistory({
