@@ -16,14 +16,22 @@ const users: RoomUser[] = [
   { _id: currentUserId, username: "Guest User", avatar: userAvatar, status: userStatus }
 ]
 const rooms: Ref<Room[]> = ref([
-  { roomId: '1', roomName: 'Ask AI', users: users, avatar: 'https://i.pravatar.cc/100'  }
+  { roomId: '1', roomName: 'Ask AI', users: users, avatar: 'https://i.pravatar.cc/100', }
 ])
 const messageActions: string[] = []
 const aiAvatar = "https://i.pravatar.cc/100?u=1"
 const aiSenderId = "1"
 let messageId = 1
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric'
+}).format(new Date())
+
 const messages: Ref<Message[]> = ref([
-  { _id: messageId.toString(), senderId: aiSenderId, content: "Hello! Type your question below and I will answer", avatar: aiAvatar }
+  { _id: messageId.toString(), senderId: aiSenderId, content: "Hello! Type your question below and I will answer", 
+  avatar: aiAvatar, date: formattedDate }
 ])
 
 const messagesLoaded = ref(false)
