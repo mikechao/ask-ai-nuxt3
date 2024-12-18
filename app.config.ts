@@ -26,6 +26,10 @@ export default defineAppConfig({
                   { type: 'button', title: 'Login', to: '/login'}
                 ]
             }
+        },
+        welcome: {
+          title: 'Ask AI',
+          disableInfoReplaceIndexInWelcomePage: true
         }
       }
     },
