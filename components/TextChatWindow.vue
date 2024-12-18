@@ -6,14 +6,15 @@ register()
 const colorMode = useColorMode()
 
 const textChatStore = useTextChatStore()
+const userStore = useUserStore()
 
 const currentUserId = '1234'
-const userAvatar = 'https://i.pravatar.cc/100'
+const userAvatar = userStore.getUserPhotoURL()
 
 const userStatus: UserStatus = { state: 'online', lastChanged: "Never"}
 const users: RoomUser[] = [
   { _id: "1", username: "AI Bot", avatar: 'https://i.pravatar.cc/100', status: userStatus },
-  { _id: currentUserId, username: "Guest User", avatar: userAvatar, status: userStatus }
+  { _id: currentUserId, username: userStore.getUserName(), avatar: userAvatar, status: userStatus }
 ]
 const rooms: Ref<Room[]> = ref([
   { roomId: '1', roomName: 'Ask AI', users: users, avatar: 'https://i.pravatar.cc/100', }

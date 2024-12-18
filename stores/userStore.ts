@@ -58,7 +58,15 @@ export const useUserStore = defineStore('userStore', () => {
         menus[index].to = '/login'
       }
     }
-}
+  }
+
+  function getUserName() {
+    return appUser.value?.displayName ?? 'Guest User'
+  }
+
+  function getUserPhotoURL() {
+    return appUser.value?.photoURL ?? 'https://i.pravatar.cc/100'
+  }
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -72,5 +80,5 @@ export const useUserStore = defineStore('userStore', () => {
     }
   })
 
-  return { loginAsGuest, loginWithGoogle, logout }
+  return { loginAsGuest, loginWithGoogle, logout, getUserName, getUserPhotoURL }
 })
