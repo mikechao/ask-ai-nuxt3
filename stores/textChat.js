@@ -15,8 +15,8 @@ export const useTextChatStore = defineStore('textChat', () => {
 
   // generate prompt for AI request
   function createPrompt() {
-    const textToAnalyze = { role: 'user', content: text.value }
-    const chatQuestion = { role: 'user', content: question.value }
+    const textToAnalyze = text.value
+    const chatQuestion = question.value
  
     if (questionAnswerList.value.length === 0) {
       // if there hasn't been any questions and answers send the textToanalyze

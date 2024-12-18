@@ -41,7 +41,7 @@ const workflow = new StateGraph(MessagesAnnotation)
   .addEdge(START, "model")
   .addEdge("model", END);
 
-let memory = new MemorySaver()
+const memory = new MemorySaver()
 const app = workflow.compile({ checkpointer: memory })
 const config = { configurable: { thread_id: uuidv4() } };
 

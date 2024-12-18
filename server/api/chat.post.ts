@@ -1,4 +1,4 @@
-import { chatOpenAIFirebase } from "../utils/chatOpenAIFirebase"
+import { textAnalysis } from "../utils/textAnalysisChat"
 
 export default defineEventHandler(async event => {
     const body = await readBody(event)
@@ -14,7 +14,7 @@ export default defineEventHandler(async event => {
     }
     // console.log('input', input)
     const response = {
-        gptResponse: await chatOpenAIFirebase(input, token)
+        gptResponse: await textAnalysis(input, token)
     }
     return response
 })
