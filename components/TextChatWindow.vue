@@ -48,13 +48,13 @@ async function fetchMessages({ _room, _options = {} } : any) {
 
 function addAIMessage(content: string) {
   messageId++
-  const aiMessage = { _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: aiAvatar}
+  const aiMessage = { _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: aiAvatar, date: formattedDate}
   messages.value = [...messages.value, aiMessage]
 }
 
 function addUserMessage(content: string) {
   messageId++
-  const userMessage = { _id: messageId.toString(), senderId: currentUserId, content: content, avatar: userAvatar}
+  const userMessage = { _id: messageId.toString(), senderId: currentUserId, content: content, avatar: userAvatar, date: formattedDate}
   messages.value = [...messages.value, userMessage]
 }
 
