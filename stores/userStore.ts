@@ -1,10 +1,19 @@
-import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged, type Auth } from "firebase/auth"
+import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged, type Auth, type User } from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
   const auth = useFirebaseAuth() as Auth
   const token = useCookie('token')
   const router = useRouter()
   const { awesome } = useAppConfig()
+
+  const appUser = ref<User>()
+
+  async function logout() {
+    await auth.signOut()
+    token.value = null
+    changeToLogin()
+    router.push('/')
+  }
 
   function loginAsGuest() {
     signInAnonymously(auth)
@@ -40,17 +49,28 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  function changeToLogin() {
+    const menus = awesome.layout?.page?.navbar?.menus
+    if (menus !== undefined) {
+      const index = menus.findIndex(m => m.title === 'Log Out')
+      if (index > -1) {
+        menus[index].title = 'Login'
+        menus[index].to = '/login'
+      }
+    }
+}
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      appUser.value = user
       token.value = user.uid
       changeToLogOut()
       router.push('/')
     } else {
       // user is signed out
-      token.value = null
-      console.log('No user in onAuthStateChanged')
+      appUser.value = undefined
     }
   })
 
-  return { loginAsGuest, loginWithGoogle }
+  return { loginAsGuest, loginWithGoogle, logout }
 })
