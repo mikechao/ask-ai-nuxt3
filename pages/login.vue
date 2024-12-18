@@ -1,36 +1,9 @@
 <script setup lang="ts">
-import { onAuthStateChanged, type Auth } from 'firebase/auth';
 import { useUserStore } from '~/stores/userStore';
 
-
 const { awesome } = useAppConfig()
-const firebaseAuth = useFirebaseAuth() as Auth
-const token = useCookie('token')
-const router = useRouter()
 
 const userStore = useUserStore()
-
-function changeToLogOut() {
-    const menus = awesome.layout?.page?.navbar?.menus
-    if (menus !== undefined) {
-        const index = menus.findIndex(m => m.title === 'Login')
-        if (index > -1) {
-            menus[index].title = 'Log Out'
-            menus[index].to = '/logout'
-        }
-    }
-}
-
-onAuthStateChanged(firebaseAuth, (user) => {
-    if (user) {
-        token.value = user.uid
-        changeToLogOut()
-        router.push('/')
-    } else {
-        // user is signed out
-        console.log('No user in onAuthStateChanged')
-    }
-})
 
 const titlesText = computed<string[]>(() =>
   (
