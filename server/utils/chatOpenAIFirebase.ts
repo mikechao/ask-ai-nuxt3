@@ -18,10 +18,7 @@ import type { HumanMessage } from "@langchain/core/messages";
 const runtimeConfig = useRuntimeConfig()
 
 const prompt = ChatPromptTemplate.fromMessages([
-    [
-        'system',
-        'You will answer a question about the following text'
-    ],
+    [ 'ai', 'You will answer a question about the following text' ],
     new MessagesPlaceholder("messages")
 ])
 
@@ -50,12 +47,11 @@ const app = workflow.compile({ checkpointer: memory })
 
 export async function chatOpenAIFirebase(inputs: HumanMessage[], uid: string) {
   console.log('chatOpenAIFirebase')
-  console.log('inputs', inputs)
   console.log('uid', uid)
   const chatHistory = new FirestoreChatMessageHistory({
     collections: ["chats"],
-    docs: ["user-id"],
-    sessionId: uid,
+    docs: [uid],
+    sessionId: 'sid' + uid,
     userId: uid,
     config: {
       projectId: "ask-ai-nuxt3",
@@ -71,19 +67,24 @@ export async function chatOpenAIFirebase(inputs: HumanMessage[], uid: string) {
   const memory = new BufferMemory({
       chatHistory: chatHistory,
     });
+  // const chain = new ConversationChain({llm: llm, memory})
+  // const res = await chain.call({ input: "I am an orange cat, what about you?"})
+  // console.log('res', res)
+  // return res.response
+
   const chain = new ConversationChain({llm: llm, memory})
-  const res = await chain.call({ input: "I an orange cat, what about you?"})
-  console.log('res', res)
-  return res.text
+  let lastRes = ''
+  for (const msg of inputs) {
+    const content = msg.content
+    const res = await chain.call( { input: content })
+    console.log(res)
+    lastRes = res.response
+  }
+  return lastRes
+
   // const chain = new ConversationChain({ llm: llm, prompt, memory })
   // const res = await chain.call({ messages: inputs })
   // console.log('res', res)
-  // return res.text
+  // return res.response
 
-  // let lastRes = ''
-  // for (const msg of inputs) {
-  //   const res = await chain.call({ messages: msg.content })
-  //   lastRes = res.text
-  // }
-  // return lastRes
 }
