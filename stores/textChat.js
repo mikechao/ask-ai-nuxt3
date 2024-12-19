@@ -11,15 +11,23 @@ export const useTextChatStore = defineStore('textChat', () => {
   // reponse from open ai
   const gptResponse = ref('')
 
+  let includeTextToAnalyze = true
+
+  watch(text, (newText, oldText) => {
+    if (newText !== oldText) {
+      includeTextToAnalyze = true
+    }
+  })
+
   // generate prompt for AI request
   function createPrompt() {
     const textToAnalyze = text.value
     const chatQuestion = question.value
  
-    if (gptResponse.value.length === 0) {
-      // if we haven't gotten a response yet include textToAnalyze
+    if (includeTextToAnalyze) {
       prompt.value.push(textToAnalyze)
       prompt.value.push(chatQuestion)
+      includeTextToAnalyze = false
     } else {
       // else clear out the prompt and just send the chatQuestion
       prompt.value.length = 0
