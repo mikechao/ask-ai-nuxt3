@@ -56,6 +56,12 @@ const leadingsText = computed(() => [
             'Ask AI about text, audio or an image'
           }}
         </div>
+        <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
+            Guest User's AI Chatbot memory will be wiped after logging out
+        </div>
+        <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
+            Google/GitHub User's AI Chatbot memory will be retained after logging out
+        </div>
         <div class="flex space-x-4 ml-2 mt-8 justify-center md:justify-start">
           <AwesomeButton @click="userStore.loginAsGuest">
             <Icon name="fluent:guest-24-regular" class="w-5 h5"/>
