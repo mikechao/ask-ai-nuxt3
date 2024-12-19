@@ -8,16 +8,16 @@ const colorMode = useColorMode()
 const textChatStore = useTextChatStore()
 const userStore = useUserStore()
 
-const currentUserId = '1234'
+const userId = '1234'
 const userAvatar = userStore.getUserPhotoURL()
 
-const userStatus: UserStatus = { state: 'online', lastChanged: "Never"}
+const status: UserStatus = { state: 'online', lastChanged: "Never"}
 
 const aiAvatar = "./aiAvatar.webp"
 const aiSenderId = "1"
 const users: RoomUser[] = [
-  { _id: aiSenderId, username: "AI Bot", avatar: aiAvatar, status: userStatus },
-  { _id: currentUserId, username: userStore.getUserName(), avatar: userAvatar, status: userStatus }
+  { _id: aiSenderId, username: "AI Bot", avatar: aiAvatar, status: status },
+  { _id: userId, username: userStore.getUserName(), avatar: userAvatar, status: status }
 ]
 const rooms: Ref<Room[]> = ref([
   { roomId: '1', roomName: 'Ask AI', users: users, avatar: aiAvatar, }
@@ -50,7 +50,7 @@ function addAIMessage(content: string) {
 
 function addUserMessage(content: string) {
   messageId++
-  const userMessage = { _id: messageId.toString(), senderId: currentUserId, content: content, avatar: userAvatar, date: formattedDate}
+  const userMessage = { _id: messageId.toString(), senderId: userId, content: content, avatar: userAvatar, date: formattedDate}
   messages.value = [...messages.value, userMessage]
 }
 
@@ -84,7 +84,7 @@ async function sendMessage({ content }: any) {
     :show-emojis="false"
     .rooms="rooms"
     .messages="messages"
-    :current-user-id="currentUserId"
+    :current-user-id="userId"
     @fetch-messages="fetchMessages($event.detail[0])"
     @send-message="sendMessage($event.detail[0])"
   />
