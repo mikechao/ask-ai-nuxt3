@@ -1,10 +1,8 @@
 import { PromptTemplate, } from "@langchain/core/prompts"
 import { ChatOpenAI } from "@langchain/openai"
-import admin from "firebase-admin"
 import { BufferMemory } from "langchain/memory";
-import { FirestoreChatMessageHistory } from "@langchain/community/stores/message/firestore";
 import { ConversationChain } from "langchain/chains"
-import type { ServiceAccount } from "firebase-admin";
+import { getFirestoreChatMessageHistory } from "./firestoreChatHistory";
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -13,9 +11,6 @@ const llm = new ChatOpenAI({
     temperature: 0,
     apiKey: runtimeConfig.openaiAPIKey
 })
-
-const cred = process.env.GOOGLE_APPLICATION_CREDENTIALS as string
-const serviceAccountJSON = JSON.parse(cred)
 
 const prompt = PromptTemplate.fromTemplate(`You are a helpful AI. 
   You will answer a question about the following text 
@@ -26,16 +21,7 @@ const prompt = PromptTemplate.fromTemplate(`You are a helpful AI.
   {input}`)
 
 export async function textAnalysis(inputs: string[], uid: string) {
-  const chatHistory = new FirestoreChatMessageHistory({
-    collections: ["chats"],
-    docs: [uid],
-    sessionId: 'sid' + uid,
-    userId: uid,
-    config: {
-      projectId: "ask-ai-nuxt3",
-      credential: admin.credential.cert(serviceAccountJSON as ServiceAccount),
-    },
-  })
+  const chatHistory = getFirestoreChatMessageHistory(uid)
   
   const memory = new BufferMemory({
       chatHistory: chatHistory,

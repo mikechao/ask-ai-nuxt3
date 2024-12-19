@@ -9,6 +9,11 @@ export const useUserStore = defineStore('userStore', () => {
   const appUser = ref<User>()
 
   async function logout() {
+    if (appUser.value) {
+      if (appUser.value.isAnonymous) {
+        $fetch('/api/chat', { method: 'DELETE'})
+      }
+    }
     await auth.signOut()
     token.value = null
     changeToLogin()
