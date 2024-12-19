@@ -65,6 +65,10 @@ const leadingsText = computed(() => [
             <Icon name="simple-line-icons:social-google" class="w-5 h-5 mr-1"/>
             Login with Google
           </AwesomeButton>
+          <AwesomeButton @click="userStore.loginWithGitHub">
+            <Icon name="mdi:github-face" class="w-5 h-5 mr-1"/>
+            Login with GitHub
+          </AwesomeButton>
         </div>
       </div>
     </LayoutPageSection>

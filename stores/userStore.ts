@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged, type Auth, type User } from "firebase/auth"
+import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged, type Auth, type User, GithubAuthProvider, type AuthProvider } from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
   const auth = useFirebaseAuth() as Auth
@@ -26,16 +26,28 @@ export const useUserStore = defineStore('userStore', () => {
     })
   }
 
+  function loginWithProvider(provider: AuthProvider) {
+    signInWithPopup(auth, provider)
+      .catch((error) => {
+        console.log('Fail to login')
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('errorCode', errorCode)
+        console.log('errorMessage', errorMessage)
+      })
+  }
+
   function loginWithGoogle() {
-    const googleProvider = new GoogleAuthProvider()
-    signInWithPopup(auth, googleProvider)
-    .catch((error) => {
-      console.log('Fail to login')
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('errorCode', errorCode)
-      console.log('errorMessage', errorMessage)
-    })
+    loginWithProvider(new GoogleAuthProvider())
+  }
+
+  function loginWithGitHub() {
+    const provider = new GithubAuthProvider()
+
+    // https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps
+    //provider.addScope('repo')
+    // no scope Grants read-only access to public information (including user profile info, repository info, and gists)
+    loginWithProvider(provider)
   }
 
   function changeToLogOut() {
@@ -80,5 +92,5 @@ export const useUserStore = defineStore('userStore', () => {
     }
   })
 
-  return { loginAsGuest, loginWithGoogle, logout, getUserName, getUserPhotoURL }
+  return { loginAsGuest, loginWithGoogle, loginWithGitHub, logout, getUserName, getUserPhotoURL }
 })
