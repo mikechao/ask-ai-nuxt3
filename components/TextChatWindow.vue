@@ -26,11 +26,7 @@ const messageActions: string[] = []
 
 let messageId = 1
 
-const formattedDate = new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric'
-}).format(new Date())
+const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric'})
 
 const messages: Ref<Message[]> = ref([
   { _id: messageId.toString(), senderId: aiSenderId, content: "Hello! Type your question below and I will answer", 
