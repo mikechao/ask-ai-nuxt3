@@ -5,6 +5,7 @@ export const useUserStore = defineStore('userStore', () => {
   const token = useCookie('token')
   const router = useRouter()
   const { awesome } = useAppConfig()
+  const textChatStore = useTextChatStore()
 
   const appUser = ref<User>()
 
@@ -18,6 +19,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   async function logout() {
     deleteChat()
+    textChatStore.clearChat()
     await auth.signOut()
     token.value = null
     changeToLogin()

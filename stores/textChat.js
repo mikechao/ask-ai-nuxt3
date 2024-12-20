@@ -60,6 +60,7 @@ export const useTextChatStore = defineStore('textChat', () => {
     question.value = ''
     prompt.value = []
     gptResponse.value = ''
+    includeTextToAnalyze = true
   }
 
   return { text, question, prompt, gptResponse, createPrompt, sendPrompt, clearChat }
