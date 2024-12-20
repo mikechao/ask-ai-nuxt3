@@ -38,20 +38,16 @@ export const useTextChatStore = defineStore('textChat', () => {
 
   // sends prompt and recevies the AI-generated response
   async function sendPrompt() {
-    if (text.value.length === 0) {
-      alert('You have not added any text to analyze.')
-    } else {
-      const res = await $fetch('/api/chat', {
-        method: 'POST',
-        body: JSON.stringify({
-          messages: prompt.value
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      gptResponse.value = res.gptResponse
-    }
+    const res = await $fetch('/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({
+        messages: prompt.value
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    gptResponse.value = res.gptResponse
   }
 
   // Resets the chat data
