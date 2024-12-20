@@ -1,12 +1,13 @@
 export default defineEventHandler(async event => {
-  const token = getCookie(event, 'token') as string
-  if (!token) {
-    console.log('Delete request failed, event missing cookie', JSON.stringify(event))
+  const { uid } = getQuery(event)
+  console.log('deleting chat history for ', uid)
+  if (!uid) {
+    console.log('Delete request failed, event missing uid param', JSON.stringify(event))
     throw createError({
       statusCode: 400,
-      statusMessage: 'Request is missing cookie'
+      statusMessage: 'Request is missing uid param'
     })
   }
-    const chatHistory = getFirestoreChatMessageHistory(token)
+    const chatHistory = getFirestoreChatMessageHistory(uid.toString())
     chatHistory.clear()
 })

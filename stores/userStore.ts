@@ -8,12 +8,16 @@ export const useUserStore = defineStore('userStore', () => {
 
   const appUser = ref<User>()
 
-  async function logout() {
+  async function deleteChat() {
     if (appUser.value) {
       if (appUser.value.isAnonymous) {
-        $fetch('/api/chat', { method: 'DELETE'})
+        $fetch('/api/chat?uid=' + token.value, { method: 'DELETE'})
       }
     }
+  }
+
+  async function logout() {
+    deleteChat()
     await auth.signOut()
     token.value = null
     changeToLogin()
@@ -97,5 +101,5 @@ export const useUserStore = defineStore('userStore', () => {
     }
   })
 
-  return { loginAsGuest, loginWithGoogle, loginWithGitHub, logout, getUserName, getUserPhotoURL }
+  return { loginAsGuest, loginWithGoogle, loginWithGitHub, logout, getUserName, getUserPhotoURL, deleteChat }
 })
