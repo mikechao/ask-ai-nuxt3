@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     openaiAPIKey: '',
+    deepgramAPIKey: '',
   },
   vue: {
     compilerOptions: {
