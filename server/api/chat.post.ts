@@ -13,8 +13,6 @@ export default defineEventHandler(async event => {
         })
     }
     // console.log('input', input)
-    const response = {
-        gptResponse: await textAnalysis(input, token)
-    }
+    const response = await textAnalysis(input, token)
     return response
 })

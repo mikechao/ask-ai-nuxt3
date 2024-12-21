@@ -20,7 +20,7 @@ const prompt = PromptTemplate.fromTemplate(`You are a helpful AI.
   Current conversation: {chat_history} 
   {input}`)
 
-export async function textAnalysis(inputs: string[], uid: string) {
+export async function textAnalysis(inputs: string[], uid: string): Promise<TextChatResposne> {
   const chatHistory = getFirestoreChatMessageHistory(uid)
   
   const memory = new BufferMemory({
@@ -32,6 +32,8 @@ export async function textAnalysis(inputs: string[], uid: string) {
   const joined = inputs.join('\n')
   const res = await chain.call({ input: joined })
 
-  return res.response
+  return new Promise<TextChatResposne>((resolve) => {
+    resolve({gptResponse: res.response})
+  })
 
 }

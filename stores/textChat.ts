@@ -1,15 +1,15 @@
 export const useTextChatStore = defineStore('textChat', () => {
   // text we want openai to analyze
-  const text = ref('')
+  const text = ref<string>('')
 
   // quest we want to ask openai about the text
-  const question = ref('')
+  const question = ref<string>('')
 
   // prompt built as the message array
-  const prompt = ref([])
+  const prompt = ref<string[]>([])
 
   // reponse from open ai
-  const gptResponse = ref('')
+  const gptResponse = ref<string>('')
 
   let includeTextToAnalyze = true
 
@@ -38,7 +38,7 @@ export const useTextChatStore = defineStore('textChat', () => {
 
   // sends prompt and recevies the AI-generated response
   async function sendPrompt() {
-    const res = await $fetch('/api/chat', {
+    const res = await $fetch<TextChatResposne>('/api/chat', {
       method: 'POST',
       body: JSON.stringify({
         messages: prompt.value
