@@ -6,11 +6,7 @@ import { getFirestoreChatMessageHistory } from "./firestoreChatHistory";
 
 const runtimeConfig = useRuntimeConfig()
 
-const llm = new ChatOpenAI({
-    model: 'gpt-4o-mini',
-    temperature: 0,
-    apiKey: runtimeConfig.openaiAPIKey
-})
+
 
 const prompt = PromptTemplate.fromTemplate(`You are a helpful AI. 
   You will answer a question about the following text 
@@ -28,12 +24,31 @@ export async function textAnalysis(inputs: string[], uid: string): Promise<TextC
       memoryKey: "chat_history"
   });
 
+  let totalTokens = 0
+  const llm = new ChatOpenAI({
+    model: 'gpt-4o-mini',
+    temperature: 0,
+    apiKey: runtimeConfig.openaiAPIKey,
+    callbacks: [
+      {
+        handleLLMEnd(output) {
+          // console.log(JSON.stringify(output, null, 2))
+          // tokenUsage.totalTokens is specific to the model gpt-4o-mini
+          totalTokens = output.llmOutput?.tokenUsage.totalTokens
+        },
+      },
+    ],
+  })
+
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, })
   const joined = inputs.join('\n')
   const res = await chain.call({ input: joined })
-
+  console.log('totalTokens', totalTokens)
   return new Promise<TextChatResposne>((resolve) => {
-    resolve({gptResponse: res.response})
+    resolve({
+      gptResponse: res.response,
+      tokensUsed: totalTokens
+    })
   })
 
 }
