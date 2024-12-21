@@ -3,7 +3,10 @@ import { useFileDialog } from "@vueuse/core"
 import { useAudioChatStore } from "~/stores/audioChat";
 
 const audioChatStore = useAudioChatStore()
-const { files, open, reset, onChange } = useFileDialog()
+const { files, open, reset, onChange } = useFileDialog({
+  accept: "audio/*",
+  multiple: false
+})
 const { clearFile } = storeToRefs(audioChatStore)
 
 watch(clearFile, () => {
