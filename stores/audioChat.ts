@@ -7,6 +7,15 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const clearFile = ref<boolean>(false)
 
   function transcribeFile() {
+    if (file.value) {
+      const formData = new FormData()
+      formData.append("file", file.value)
+      const resposne = $fetch('/api/audio/transcribe', {
+        method: 'POST',
+        body: formData
+      })
+      console.log('response', resposne)
+    }
   }
 
   function createPrompt() {
