@@ -26,8 +26,9 @@ function resetFile() {
 <template>
   <div class="flex flex-col h-36">
     <div class="flex space-x-4 justify-center md:justify-start">
-      <AwesomeButton name="file" text="Choose File" @click="open()"/>
+      <AwesomeButton name="file" size="md" text="Choose File" @click="open()"/>
       <AwesomeButton
+        size="md"
         :disabled="!files"
         text="Reset"
         @click="resetFile()"

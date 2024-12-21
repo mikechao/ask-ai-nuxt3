@@ -4,8 +4,8 @@ const audioChatStore = useAudioChatStore()
 <template>
   <div>
     <h3 class="mb-4">Transcribe the speech to text:</h3>
-    <div  class="flex flex-col space-x-4 justify-center md:justify-start">
-      <AwesomeButton text="Transcribe" size="sm" @click="audioChatStore.transcribeFile()"/>
+    <div  class="flex flex-col items-start space-x-4 md:justify-start">
+      <AwesomeButton text="Transcribe" size="md" @click="audioChatStore.transcribeFile()"/>
     </div>
   </div>
   <div
