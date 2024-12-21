@@ -5,6 +5,7 @@
         <section class="my-4">
           <AudioFileUploader file-type="audio/*"/>
         </section>
+        <AudioTranscribe />
       </LayoutPageSection>
       <LayoutPageSection class="flex-1 flex h-full">
         <TextChatWindow class="block w-full"/>

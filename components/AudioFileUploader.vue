@@ -25,18 +25,13 @@ function resetFile() {
 </script>
 <template>
   <div class="flex flex-col h-36">
-    <div class="flex">
-      <button type="button" name="file" class="button button-primary w-36 mr-2" @click="open()">
-        Choose file
-      </button>
-      <button
-        type="button"
+    <div class="flex space-x-4 justify-center md:justify-start">
+      <AwesomeButton name="file" text="Choose File" @click="open()"/>
+      <AwesomeButton
         :disabled="!files"
-        class="button button-secondary w-36"
+        text="Reset"
         @click="resetFile()"
-      >
-        Reset
-      </button>
+      />
     </div>
 
     <div v-if="files" class="mt-6" >
