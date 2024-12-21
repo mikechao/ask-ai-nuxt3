@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import TextChatWindow from '~/components/TextChatWindow.vue'
-import { useTextChatStore } from '~/stores/textChat'
 
 const textChatStore = useTextChatStore()
 </script>
