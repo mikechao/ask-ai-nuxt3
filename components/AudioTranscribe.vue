@@ -1,11 +1,12 @@
 <script setup lang="ts">
 const audioChatStore = useAudioChatStore()
+const hasFile = computed(() => audioChatStore.file === undefined)
 </script>
 <template>
   <div>
     <h3 class="mb-4">Transcribe the speech to text:</h3>
     <div  class="flex flex-col items-start space-x-4 md:justify-start">
-      <AwesomeButton text="Transcribe" size="md" @click="audioChatStore.transcribeFile()"/>
+      <AwesomeButton text="Transcribe" size="md" :disabled="hasFile" @click="audioChatStore.transcribeFile()"/>
     </div>
   </div>
   <div
