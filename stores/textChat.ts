@@ -21,8 +21,8 @@ export const useTextChatStore = defineStore('textChat', () => {
 
   // generate prompt for AI request
   function createPrompt() {
-    const textToAnalyze = text.value
-    const chatQuestion = question.value
+    const textToAnalyze = 'Text to analyze\n' + text.value
+    const chatQuestion = 'Question to answer\n' + question.value
  
     if (includeTextToAnalyze) {
       prompt.value.push(textToAnalyze)

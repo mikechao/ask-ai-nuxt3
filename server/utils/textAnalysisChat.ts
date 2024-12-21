@@ -9,8 +9,9 @@ const runtimeConfig = useRuntimeConfig()
 
 
 const prompt = PromptTemplate.fromTemplate(`You are a helpful AI. 
-  You will answer a question about the following text 
-  and any follow up questions the human might have. 
+  You will answer questions about the text under Text to analyze. 
+  You will also answer follow up questions the human might have.
+  The human question is under Question to answer.
   You will keep responses short as if you are replying
   in an online chat. Do not include AI: in your responses.
   Current conversation: {chat_history} 
@@ -43,7 +44,7 @@ export async function textAnalysis(inputs: string[], uid: string): Promise<TextC
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, })
   const joined = inputs.join('\n')
   const res = await chain.call({ input: joined })
-  console.log('totalTokens', totalTokens)
+
   return new Promise<TextChatResposne>((resolve) => {
     resolve({
       gptResponse: res.response,

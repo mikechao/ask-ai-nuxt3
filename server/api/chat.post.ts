@@ -12,7 +12,6 @@ export default defineEventHandler(async event => {
             statusMessage: 'Request body is missing messages'
         })
     }
-    // console.log('input', input)
     const response = await textAnalysis(input, token)
     return response
 })
