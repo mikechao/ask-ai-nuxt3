@@ -9,4 +9,16 @@ declare global {
     /** The number of tokens used so far */
     tokensUsed: number
   }
+
+  interface AudioTranscribeResposne {
+
+    /** The transcribe text from the audio file */
+    transcript: string | undefined,
+
+    /** The level of confidence the model has in the transcript */
+    confidence: number | undefined,
+
+    /** If there were any error that occured during audio transcribing */
+    error: Error | null
+  }
 }

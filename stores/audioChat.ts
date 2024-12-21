@@ -10,12 +10,14 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     if (file.value) {
       const formData = new FormData()
       formData.append("file", file.value)
-      $fetch('/api/audio/transcribe', {
+      $fetch<AudioTranscribeResposne>('/api/audio/transcribe', {
         method: 'POST',
         body: formData
       })
         .then((response) => {
-          console.log('response', response)
+          if (!response.error) {
+            transcript.value = response.transcript as string
+          }
         })
     }
   }

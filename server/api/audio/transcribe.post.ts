@@ -25,10 +25,13 @@ export default defineEventHandler(async event => {
         punctuate: true
       }
     )
-    console.log('dgResponse', dgResponse)
-    return { transcript: dgResponse.result }
+    //console.log('dgResponse\n', JSON.stringify(dgResponse))
+    const transcript = dgResponse.result?.results?.channels[0]?.alternatives[0]?.transcript
+    const confidence = dgResponse.result?.results?.channels[0]?.alternatives[0]?.confidence
+    const error = dgResponse.error
+    return { transcript: transcript, confidence: confidence, error: error }
   } catch (error) {
-    console.error(error)
+    return { errror: error}
   }
 
   return "Should not get here fix later"
