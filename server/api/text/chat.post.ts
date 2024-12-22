@@ -1,4 +1,4 @@
-import { textAnalysis } from "../utils/textAnalysisChat"
+import { textAnalysis } from "../../utils/textAnalysisChat"
 import { PromptTemplate, } from "@langchain/core/prompts"
 
 const prompt = PromptTemplate.fromTemplate(`You are a helpful AI. 
