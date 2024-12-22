@@ -13,8 +13,7 @@ const { rooms, messages, messageActions, userId } = vueAdvancedChat
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchMessages({ _room, _options = {} } : any) {
-  // part of vue-advanced chat for when room is opened 
-  // this funciton is called to get messages
+  vueAdvancedChat.addAIMessage("Hello add some text to the left and ask questions below and I will answer to the best of my ability")
   messagesLoaded.value = true
 }
 

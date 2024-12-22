@@ -13,13 +13,21 @@ const { rooms, messages, messageActions, userId } = vueAdvancedChat
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchMessages({ _room, _options = {} } : any) {
-  // part of vue-advanced chat for when room is opened 
-  // this funciton is called to get messages
+  vueAdvancedChat.addAIMessage('Hello click the Choose File button to select an audio file, then hit the Transcribe button and ask your question below.')
   messagesLoaded.value = true
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function sendMessage({ content }: any) {
+  vueAdvancedChat.addUserMessage(content)
+  if (audioChatStore.transcript.length === 0) {
+    vueAdvancedChat.addAIMessage('You did not give me any audio to analyze')
+  } else {
+    audioChatStore.question = content
+    audioChatStore.createPrompt()
+    await audioChatStore.sendPrompt()
+    vueAdvancedChat.addAIMessage(audioChatStore.gptResponse)
+  }
 }
 </script>
 <template>

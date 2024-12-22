@@ -28,7 +28,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   function createPrompt() {
   }
 
-  function sendPrompt() {
+  async function sendPrompt() {
   }
   
   function clearChat() {

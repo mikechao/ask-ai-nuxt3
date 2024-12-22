@@ -24,10 +24,7 @@ export default function() {
 
   const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric'})
 
-  const messages: Ref<Message[]> = ref([
-    { _id: messageId.toString(), senderId: aiSenderId, content: "Hello! Type your question below and I will answer", 
-    avatar: aiAvatar, date: formattedDate }
-  ])
+  const messages: Ref<Message[]> = ref([])
 
   function addAIMessage(content: string) {
     messageId++
