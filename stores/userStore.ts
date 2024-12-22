@@ -6,7 +6,7 @@ export const useUserStore = defineStore('userStore', () => {
   const router = useRouter()
   const { awesome } = useAppConfig()
   const textChatStore = useTextChatStore()
-
+  const audioChatStore = useAudioChatStore()
   const appUser = ref<User>()
 
   async function deleteChat() {
@@ -20,6 +20,7 @@ export const useUserStore = defineStore('userStore', () => {
   async function logout() {
     deleteChat()
     textChatStore.clearChat()
+    audioChatStore.clearChat()
     await auth.signOut()
     token.value = null
     changeToLogin()
