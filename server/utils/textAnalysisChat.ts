@@ -1,4 +1,4 @@
-import { PromptTemplate, } from "@langchain/core/prompts"
+import type { PromptTemplate, } from "@langchain/core/prompts"
 import { ChatOpenAI } from "@langchain/openai"
 import { BufferMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains"
@@ -6,18 +6,7 @@ import { getFirestoreChatMessageHistory } from "./firestoreChatHistory";
 
 const runtimeConfig = useRuntimeConfig()
 
-
-
-const prompt = PromptTemplate.fromTemplate(`You are a helpful AI. 
-  You will answer questions about the text under Text to analyze. 
-  You will also answer follow up questions the human might have.
-  The human question is under Question to answer.
-  You will keep responses short as if you are replying
-  in an online chat. Do not include AI: in your responses.
-  Current conversation: {chat_history} 
-  {input}`)
-
-export async function textAnalysis(inputs: string[], uid: string): Promise<TextChatResposne> {
+export async function textAnalysis(inputs: string[], uid: string, prompt: PromptTemplate): Promise<TextChatResposne> {
   const chatHistory = getFirestoreChatMessageHistory(uid)
   
   const memory = new BufferMemory({

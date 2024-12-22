@@ -1,11 +1,18 @@
 export const useAudioChatStore = defineStore('audioChat', () => {
   const file = ref<File>()
-  const prompt = ref([])
-  const gptResponse = ref('')
-  const transcript = ref('')
-  const question = ref('')
+  const prompt = ref<string[]>([])
+  const gptResponse = ref<string>('')
+  const transcript = ref<string>('')
+  const question = ref<string>('')
   const clearFile = ref<boolean>(false)
   const isTranscribing = ref(false)
+  let includeTranscriptToAnalyze = true
+
+  watch(transcript, (newTranscript, oldTranscript) => {
+    if (newTranscript !== oldTranscript) {
+      includeTranscriptToAnalyze = true
+    }
+  })
 
   function transcribeFile() {
     if (file.value) {
@@ -26,9 +33,30 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   }
 
   function createPrompt() {
+    const transcriptToAnalyze = 'Transcript to analyze\n' + transcript.value
+    const chatQuestion = 'Question to answer\n' + question.value
+
+    if (includeTranscriptToAnalyze) {
+      prompt.value.push(transcriptToAnalyze)
+      prompt.value.push(chatQuestion)
+      includeTranscriptToAnalyze = false
+    } else {
+      prompt.value.length = 0
+      prompt.value.push(chatQuestion)
+    }
   }
 
   async function sendPrompt() {
+    const res = await $fetch<TextChatResposne>('/api/audio/chat', {
+      method: 'POST',
+      body: JSON.stringify({
+        messages: prompt.value
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    gptResponse.value = res.gptResponse
   }
   
   function clearChat() {
