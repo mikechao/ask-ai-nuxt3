@@ -5,11 +5,13 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const transcript = ref('')
   const question = ref('')
   const clearFile = ref<boolean>(false)
+  const isTranscribing = ref(false)
 
   function transcribeFile() {
     if (file.value) {
       const formData = new FormData()
       formData.append("file", file.value)
+      isTranscribing.value = true
       $fetch<AudioTranscribeResposne>('/api/audio/transcribe', {
         method: 'POST',
         body: formData
@@ -18,6 +20,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
           if (!response.error) {
             transcript.value = response.transcript as string
           }
+          isTranscribing.value = false
         })
     }
   }
@@ -35,6 +38,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     transcript.value = ''
     question.value = ''
     clearFile.value = true
+    isTranscribing.value = false
     // clear memory in server:
   }
 
@@ -49,5 +53,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     question,
     clearChat,
     clearFile,
+    isTranscribing
   }
 })
