@@ -1,20 +1,35 @@
 import { createClient } from '@deepgram/sdk'
 import formidable from 'formidable'
 import { readFile } from 'fs/promises'
+import type { IncomingMessage } from 'http'
+
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
-export default defineEventHandler(async event => {
+function parseFile(req: IncomingMessage) {
   const form = formidable({ multiples: true })
-
-  const { files } = await new Promise<{ files: formidable.Files }>((resolve, reject) => {
-    form.parse(event.node.req, (err, fields, files) => {
+  return new Promise<{ files: formidable.Files }>((resolve, reject) => {
+    form.parse(req, (err, _fields, files) => {
       if (err) reject(err)
       resolve({ files })
     })
   })
+}
 
-  const audioFile = files.file[0]
+export default defineEventHandler(async event => {
+  let audioFiles = null
+  try {
+    const { files } = await parseFile(event.node.req)
+    audioFiles = files
+  } catch (error) {
+    return { error: error}
+  }
+
+  if (!audioFiles || !audioFiles.file) {
+    return { error: new Error('No file was uploaded')}
+  }
+
+  const audioFile = audioFiles.file[0]
   const audioBuffer = await readFile(audioFile.filepath)
 
   try {
@@ -31,8 +46,6 @@ export default defineEventHandler(async event => {
     const error = dgResponse.error
     return { transcript: transcript, confidence: confidence, error: error }
   } catch (error) {
-    return { errror: error}
+    return { errror: error }
   }
-
-  return "Should not get here fix later"
 })
