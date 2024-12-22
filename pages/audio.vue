@@ -8,7 +8,7 @@
         <AudioTranscribe />
       </LayoutPageSection>
       <LayoutPageSection class="flex-1 flex h-full">
-        <TextChatWindow class="block w-full"/>
+        <AudioChatWindow class="block w-full"/>
       </LayoutPageSection>
     </LayoutPageWrapper>
 </template>
