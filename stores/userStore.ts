@@ -8,6 +8,7 @@ export const useUserStore = defineStore('userStore', () => {
   const textChatStore = useTextChatStore()
   const audioChatStore = useAudioChatStore()
   const appUser = ref<User>()
+  const isLoading = ref(false)
 
   async function deleteChat() {
     if (appUser.value) {
@@ -22,12 +23,14 @@ export const useUserStore = defineStore('userStore', () => {
     textChatStore.clearChat()
     audioChatStore.clearChat()
     await auth.signOut()
+    isLoading.value = false
     token.value = null
     changeToLogin()
     router.push('/')
   }
 
   function loginAsGuest() {
+    isLoading.value = true
     signInAnonymously(auth)
     .catch((error) => {
       console.log('Fail to login')
@@ -36,9 +39,13 @@ export const useUserStore = defineStore('userStore', () => {
       console.log('errorCode', errorCode)
       console.log('errorMessage', errorMessage)
     })
+    .finally(() => {
+      isLoading.value = false
+    })
   }
 
   function loginWithProvider(provider: AuthProvider) {
+    isLoading.value = true
     signInWithPopup(auth, provider)
       .catch((error) => {
         console.log('Fail to login')
@@ -46,6 +53,9 @@ export const useUserStore = defineStore('userStore', () => {
         const errorMessage = error.message;
         console.log('errorCode', errorCode)
         console.log('errorMessage', errorMessage)
+      })
+      .finally(() => {
+        isLoading.value = false
       })
   }
 
@@ -104,5 +114,5 @@ export const useUserStore = defineStore('userStore', () => {
     }
   })
 
-  return { loginAsGuest, loginWithGoogle, loginWithGitHub, logout, getUserName, getUserPhotoURL, deleteChat }
+  return { loginAsGuest, loginWithGoogle, loginWithGitHub, logout, getUserName, getUserPhotoURL, deleteChat, isLoading }
 })

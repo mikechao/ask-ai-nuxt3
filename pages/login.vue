@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserStore } from '~/stores/userStore';
+import { useUserStore } from '~/stores/userStore'
 
 const { awesome } = useAppConfig()
 
@@ -78,6 +78,7 @@ const leadingsText = computed(() => [
         </div>
       </div>
     </LayoutPageSection>
+    <ModalOverlay :is-visible="userStore.isLoading"/>
   </LayoutPageWrapper>
 </template>
 <style lang="scss">
