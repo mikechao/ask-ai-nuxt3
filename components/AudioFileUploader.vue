@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFileDialog } from "@vueuse/core"
-import { useAudioChatStore } from "~/stores/audioChat";
+import { useAudioChatStore } from "~/stores/audioChat"
 
 const audioChatStore = useAudioChatStore()
 const { files, open, reset, onChange } = useFileDialog({
