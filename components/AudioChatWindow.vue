@@ -4,6 +4,13 @@ import useVueAdvancedChat from '~/composables/useVueAdvancedChat'
 import { useAudioChatStore } from '~/stores/audioChat'
 register()
 
+const props = defineProps({
+  height: {
+    type: String,
+    default: '100%',
+  }
+})
+
 const colorMode = useColorMode()
 const vueAdvancedChat = useVueAdvancedChat()
 const audioChatStore = useAudioChatStore()
@@ -32,7 +39,7 @@ async function sendMessage({ content }: any) {
 </script>
 <template>
   <vue-advanced-chat
-    height="100%"
+    :height="props.height"
     :theme="colorMode.value"
     :message-actions="messageActions"
     :show-reaction-emojis="false"
