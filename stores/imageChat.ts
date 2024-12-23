@@ -4,6 +4,9 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const gptResponse = ref<string>('')
   const question = ref<string>('')
   const clearFile = ref<boolean>(false)
+  const imageURL = computed(() => {
+    return file.value ? URL.createObjectURL(file.value) : ''
+  })
 
   function clearChat() {
     file.value = undefined
@@ -15,6 +18,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
 
   return {
     file,
+    imageURL,
     clearFile,
     clearChat
   }
