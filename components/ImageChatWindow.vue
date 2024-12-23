@@ -32,7 +32,6 @@ async function sendMessage({ content }: any) {
     vueAdvancedChat.addAIMessage('You did not give me an image to analyze')
   } else {
     imageChatStore.question = content
-    imageChatStore.createPrompt()
     await imageChatStore.sendPrompt()
     vueAdvancedChat.addAIMessage(imageChatStore.gptResponse)
   }

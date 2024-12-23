@@ -16,10 +16,6 @@ export const useImageChatStore = defineStore('imageChat', () => {
     }
   })
 
-  function createPrompt() {
-
-  }
-
   async function imageFileToBase64(file: File) {
     const arrayBuffer = await imageFileToArrayBuffer(file) as ArrayBuffer
     const base64 = btoa(
@@ -83,7 +79,6 @@ export const useImageChatStore = defineStore('imageChat', () => {
     gptResponse,
     clearFile,
     clearChat,
-    createPrompt,
     sendPrompt
   }
 })
