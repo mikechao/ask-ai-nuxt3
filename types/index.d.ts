@@ -21,4 +21,11 @@ declare global {
     /** If there were any error that occured during audio transcribing */
     error: Error | null
   }
+
+  interface ImageChatRequest {
+
+    imageBase64: string | undefined,
+
+    question: string
+  }
 }

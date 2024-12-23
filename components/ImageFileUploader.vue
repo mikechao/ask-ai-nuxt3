@@ -17,7 +17,6 @@ onChange((file) => {
   if (file && file.item(0)) {
     imageChatStore.file = file.item(0) as File
     imageChatStore.clearFile = false
-    console.log('file', imageChatStore.file)
   }
 })
 
