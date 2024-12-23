@@ -4,6 +4,13 @@ import useVueAdvancedChat from '~/composables/useVueAdvancedChat';
 import { useTextChatStore } from '~/stores/textChat'
 register()
 
+const props = defineProps({
+  height: {
+    type: String,
+    default: '100%',
+  }
+})
+
 const colorMode = useColorMode()
 const vueAdvancedChat = useVueAdvancedChat()
 const textChatStore = useTextChatStore()
@@ -33,7 +40,7 @@ async function sendMessage({ content }: any) {
 
 <template>
   <vue-advanced-chat
-    height="100%"
+    :height="props.height"
     :theme="colorMode.value"
     :message-actions="messageActions"
     :show-reaction-emojis="false"

@@ -2,11 +2,16 @@
 import TextChatWindow from '~/components/TextChatWindow.vue'
 
 const textChatStore = useTextChatStore()
+const textAreaHeight = ref(0)
+const textChatWindowHeight = computed(() => {
+  return `${textAreaHeight.value}px`
+})
 
 function observeHeight() {
-  const resizeObserver = new ResizeObserver(function(textAreaEl) {
-    console.log('textAreaEl', textAreaEl)
-    console.log("Size changed");
+  const resizeObserver = new ResizeObserver(function(entries: ResizeObserverEntry[]) {
+    const textArea = entries[0]
+    const cr = textArea.contentRect
+    textAreaHeight.value = cr.height
   });
   const textAreaEl = document.getElementById('textArea') as Element
   resizeObserver.observe(textAreaEl);
@@ -29,7 +34,7 @@ onMounted(() => {
       </section>
     </div>
     <div class="flex-1 flex h-full">
-        <TextChatWindow class="block w-full h-full"/>
+        <TextChatWindow :height="textChatWindowHeight" class="block w-full h-full"/>
     </div>
   </LayoutPageWrapper>
 </template>
