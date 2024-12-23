@@ -7,6 +7,14 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const imageURL = computed(() => {
     return file.value ? URL.createObjectURL(file.value) : ''
   })
+  
+  let includeImage = true
+
+  watch(imageURL, (newImageURL, oldImageURL) => {
+    if (newImageURL !== oldImageURL) {
+      includeImage = true
+    }
+  })
 
   function createPrompt() {
 
@@ -34,13 +42,22 @@ export const useImageChatStore = defineStore('imageChat', () => {
 
   async function sendPrompt() {
     if (file.value) {
-      const imageBase64 = await imageFileToBase64(file.value)
-      const res = await $fetch<TextChatResposne>('/api/image/chat', {
-        method: 'POST',
-        body: JSON.stringify({
+      let body = ''
+      if (includeImage) {
+        const imageBase64 = await imageFileToBase64(file.value)
+        body = JSON.stringify({
           imageBase64,
           question: question.value
-        }),
+        })
+        includeImage = false
+      } else {
+        body = JSON.stringify({
+          question: question.value
+        })
+      }
+      const res = await $fetch<TextChatResposne>('/api/image/chat', {
+        method: 'POST',
+        body: body,
         headers: {
           'Content-Type': 'application/json'
         }
