@@ -67,7 +67,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     question.value = ''
     clearFile.value = true
     isTranscribing.value = false
-    // clear memory in server:
   }
 
   return {

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useFileDialog } from "@vueuse/core"
-import { useAudioChatStore } from "~/stores/audioChat";
+import { useImageChatStore } from "~/stores/imageChat"
 
-const audioChatStore = useAudioChatStore()
+const imageChatStore = useImageChatStore()
 const { files, open, reset, onChange } = useFileDialog({
-  accept: "audio/*",
+  accept: "image/*",
   multiple: false
 })
-const { clearFile } = storeToRefs(audioChatStore)
+const { clearFile } = storeToRefs(imageChatStore)
 
 watch(clearFile, () => {
   resetFile()
@@ -15,15 +15,15 @@ watch(clearFile, () => {
 
 onChange((file) => {
   if (file && file.item(0)) {
-    audioChatStore.file = file.item(0) as File
-    audioChatStore.clearFile = false
+    imageChatStore.file = file.item(0) as File
+    imageChatStore.clearFile = false
   }
 })
 
 function resetFile() {
   reset()
-  audioChatStore.clearChat()
-  audioChatStore.clearFile = false
+  imageChatStore.clearChat()
+  imageChatStore.clearFile = false
 }
 </script>
 <template>
