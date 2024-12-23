@@ -34,7 +34,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="flex-1 flex h-full">
-      <AudioChatWindow :height="imageChatWindowHeight" class="block w-full"/>
+      <ImageChatWindow :height="imageChatWindowHeight" class="block w-full"/>
     </div>
   </LayoutPageWrapper>
 </template>

@@ -8,7 +8,15 @@ export const useImageChatStore = defineStore('imageChat', () => {
     return file.value ? URL.createObjectURL(file.value) : ''
   })
 
-  function clearChat() {
+  function createPrompt() {
+
+  }
+
+  async function sendPrompt() {
+
+  }
+
+  async function clearChat() {
     file.value = undefined
     prompt.value = []
     gptResponse.value = ''
@@ -18,8 +26,12 @@ export const useImageChatStore = defineStore('imageChat', () => {
 
   return {
     file,
+    question,
     imageURL,
+    gptResponse,
     clearFile,
-    clearChat
+    clearChat,
+    createPrompt,
+    sendPrompt
   }
 })
