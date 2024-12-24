@@ -69,7 +69,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
     prompt.value = []
     gptResponse.value = ''
     question.value = ''
-    clearFile.value = true
+    clearFile.value = false
   }
 
   return {

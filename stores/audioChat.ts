@@ -65,7 +65,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     gptResponse.value = ''
     transcript.value = ''
     question.value = ''
-    clearFile.value = true
+    clearFile.value = false
     isTranscribing.value = false
   }
 
