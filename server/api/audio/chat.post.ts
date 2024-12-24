@@ -9,6 +9,8 @@ export default defineEventHandler(async event => {
 
   const prompt = PromptTemplate.fromTemplate(`You are a helpful AI assiatant.
     You will answer questions about the following text that has been transcribed from an audio file.
+    You will keep responses short as if you are replying
+    in an online chat. Do not include "AI:" in your responses.
     The transcribed text is under "Transcript to analyze"
     The human question is under "Question to answer".
     Current conversation: {chat_history}
