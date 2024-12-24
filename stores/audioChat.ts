@@ -6,6 +6,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const question = ref<string>('')
   const clearFile = ref<boolean>(false)
   const isTranscribing = ref(false)
+  const confidence = ref<number>(0)
   let includeTranscriptToAnalyze = true
 
   watch(transcript, (newTranscript, oldTranscript) => {
@@ -26,6 +27,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
         .then((response) => {
           if (!response.error) {
             transcript.value = response.transcript as string
+            confidence.value = response.confidence as number
           }
           isTranscribing.value = false
         })
@@ -67,6 +69,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     question.value = ''
     clearFile.value = false
     isTranscribing.value = false
+    confidence.value = 0
   }
 
   return {
@@ -80,6 +83,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     question,
     clearChat,
     clearFile,
-    isTranscribing
+    isTranscribing,
+    confidence
   }
 })

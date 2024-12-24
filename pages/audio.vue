@@ -22,10 +22,10 @@ onMounted(() => {
     <LayoutPageWrapper class="flex-1 flex">
       <div id="audioArea" class="flex-1 flex flex-col mr-2 h-full">
         <h3>Choose audio that has some speech that you would like to ask questions about.</h3>
-        <section class="my-4">
+        <section class="mt-4">
           <AudioFileUploader file-type="audio/*"/>
         </section>
-        <AudioTranscribe />
+        <AudioTranscribe class="h-full"/>
       </div>
       <div class="flex-1 flex h-full">
         <AudioChatWindow :height="audioChatWindowHeight" class="block w-full"/>

@@ -27,7 +27,7 @@ function resetFile() {
 }
 </script>
 <template>
-  <div class="flex flex-col h-36">
+  <div class="flex flex-col h-24">
     <div class="flex space-x-4 justify-center md:justify-start">
       <AwesomeButton name="file" size="md" text="Choose File" @click="open()"/>
       <AwesomeButton
@@ -37,7 +37,7 @@ function resetFile() {
         @click="resetFile()"
       />
     </div>
-    <div v-if="files" class="mt-6" >
+    <div v-if="files" class="mt-2" >
       <li
         v-for="file of files"
         :key="file.name"

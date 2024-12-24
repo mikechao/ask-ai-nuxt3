@@ -40,7 +40,7 @@ export default defineEventHandler(async event => {
         punctuate: true
       }
     )
-    //console.log('dgResponse\n', JSON.stringify(dgResponse))
+    // console.log('dgResponse\n', JSON.stringify(dgResponse))
     const transcript = dgResponse.result?.results?.channels[0]?.alternatives[0]?.transcript
     const confidence = dgResponse.result?.results?.channels[0]?.alternatives[0]?.confidence
     const error = dgResponse.error
