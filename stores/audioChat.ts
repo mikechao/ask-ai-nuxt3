@@ -15,6 +15,13 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   })
 
+  watch(file, (newFile, oldFile) => {
+    if (newFile?.name !== oldFile?.name) {
+      transcript.value = ''
+      confidence.value = 0
+    }
+  })
+
   function transcribeFile() {
     if (file.value) {
       const formData = new FormData()
