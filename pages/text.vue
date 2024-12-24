@@ -32,6 +32,7 @@ onMounted(() => {
           class="w-full h-full"
         />
       </section>
+      <h1>Tokens used so far: {{ textChatStore.tokensUsed }}</h1>
     </div>
     <div class="flex-1 flex h-full">
         <TextChatWindow :height="textChatWindowHeight" class="block w-full h-full"/>

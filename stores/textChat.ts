@@ -11,6 +11,9 @@ export const useTextChatStore = defineStore('textChat', () => {
   // reponse from open ai
   const gptResponse = ref<string>('')
 
+  // the number of tokens used so far
+  const tokensUsed = ref(0)
+
   let includeTextToAnalyze = true
 
   watch(text, (newText, oldText) => {
@@ -48,6 +51,7 @@ export const useTextChatStore = defineStore('textChat', () => {
       }
     })
     gptResponse.value = res.gptResponse
+    tokensUsed.value = res.tokensUsed
   }
 
   // Resets the chat data
@@ -57,7 +61,8 @@ export const useTextChatStore = defineStore('textChat', () => {
     prompt.value = []
     gptResponse.value = ''
     includeTextToAnalyze = true
+    tokensUsed.value = 0
   }
 
-  return { text, question, prompt, gptResponse, createPrompt, sendPrompt, clearChat }
+  return { text, question, prompt, gptResponse, tokensUsed, createPrompt, sendPrompt, clearChat }
 })
