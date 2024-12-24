@@ -4,6 +4,8 @@ const audioChatWindowHeight = computed(() => {
   return `${audioAreaHeight.value}px`
 })
 
+const audioChatStore = useAudioChatStore()
+
 function observeHeight() {
   const resizeObserver = new ResizeObserver(function(entries: ResizeObserverEntry[]) {
     const textArea = entries[0]
@@ -26,6 +28,7 @@ onMounted(() => {
           <AudioFileUploader file-type="audio/*"/>
         </section>
         <AudioTranscribe class="h-full"/>
+        <h3 v-if="audioChatStore.tokensUsed > 0">Tokens used: {{ audioChatStore.tokensUsed }}</h3>
       </div>
       <div class="flex-1 flex h-full">
         <AudioChatWindow :height="audioChatWindowHeight" class="block w-full"/>
