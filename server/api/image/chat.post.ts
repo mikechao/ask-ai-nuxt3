@@ -1,7 +1,7 @@
 import { BufferMemory } from "langchain/memory";
 import { getFirestoreChatMessageHistory } from "../../utils/firestoreChatHistory";
 import { ChatOpenAI } from "@langchain/openai"
-import { ChatPromptTemplate, HumanMessagePromptTemplate, ImagePromptTemplate, PipelinePromptTemplate, PromptTemplate } from "@langchain/core/prompts";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { ConversationChain } from "langchain/chains"
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 
@@ -13,7 +13,7 @@ async function getPrompt(imageBase64: string, question: string) {
       new SystemMessage(`Given the image, you will answer user questions about it.
         You will take into account the current converstation: {chat_history}`),
       new HumanMessage(question),
-      new HumanMessage([{image_url: `data:image/jpeg;base64,${imageBase64}`}])
+      new HumanMessage({content: [{type: "image_url", image_url: { url: `data:image/jpeg;base64,${imageBase64}`} }]}),
     ])
   } else {
     return ChatPromptTemplate.fromMessages([
@@ -44,11 +44,11 @@ export default defineEventHandler(async event => {
 
   const prompt = await getPrompt(imageBase64 as string, question)
 
-  const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, verbose: true})
+  const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, verbose: false})
 
   const res = await chain.call({ question: question})
 
-  console.log('res', res)
+  // console.log('res', res)
 
   return {
     gptResponse: res.response
