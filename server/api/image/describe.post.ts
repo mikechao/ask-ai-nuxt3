@@ -37,7 +37,7 @@ export default defineEventHandler(async event => {
   const prompt = getImageDescriptionPrompt(imageBase64)
   const chain = prompt.pipe(llm)
   const res = await chain.invoke({ input: 'Describe the image'})
-  // const totalTokens = res.usage_metadata?.total_tokens
+  const totalTokens = res.usage_metadata?.total_tokens
   // console.log('describe res', res)
-  return res.content
+  return { imageDescription: res.content, tokensUsed: totalTokens }
 })

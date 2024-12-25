@@ -5,10 +5,15 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const question = ref<string>('')
   const clearFile = ref<boolean>(false)
   const imageDescription = ref<string>('')
+  const imageDescriptionTokensUsed = ref<number>(0)
+  const chatTokensUsed = ref<number>(0)
   const imageURL = computed(() => {
     return file.value ? URL.createObjectURL(file.value) : ''
   })
-  
+  const tokensUsed = computed(() => {
+    return imageDescriptionTokensUsed.value + chatTokensUsed.value
+  })
+
   watch(imageURL, (newImageURL, oldImageURL) => {
     if (newImageURL !== oldImageURL) {
       imageDescription.value = ''
@@ -38,14 +43,15 @@ export const useImageChatStore = defineStore('imageChat', () => {
   async function describeImage() {
     if (file.value) {
       const imageBase64 = await imageFileToBase64(file.value)
-      const res = await $fetch<string>('/api/image/describe', {
+      const res = await $fetch<ImageDescribeResponse>('/api/image/describe', {
         method: 'POST',
         body: JSON.stringify({ imageBase64: imageBase64 }),
         headers: {
           'Content-Type': 'application/json'
         }
       })
-      imageDescription.value = res
+      imageDescription.value = res.imageDescription
+      imageDescriptionTokensUsed.value = res.tokensUsed
     } else {
       console.log('No file to describe')
     }
@@ -65,6 +71,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
         }
       })
       gptResponse.value = res.gptResponse
+      chatTokensUsed.value = res.tokensUsed
     } else {
       console.log('No file to send')
     }
@@ -77,6 +84,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
     question.value = ''
     clearFile.value = false
     imageDescription.value = ''
+    imageDescriptionTokensUsed.value = 0
+    chatTokensUsed.value = 0
   }
 
   return {
@@ -87,7 +96,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
     clearFile,
     clearChat,
     sendPrompt,
-    describeImage,
+    tokensUsed,
     imageDescription
   }
 })

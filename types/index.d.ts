@@ -32,4 +32,9 @@ declare global {
   interface ImageDescribeRequest {
     imageBase64: string
   }
+
+  interface ImageDescribeResponse {
+    imageDescription: string,
+    tokensUsed: number
+  }
 }
