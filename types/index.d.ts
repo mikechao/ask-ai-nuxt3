@@ -24,8 +24,12 @@ declare global {
 
   interface ImageChatRequest {
 
-    imageBase64: string | undefined,
+    imageDescription: string,
 
     question: string
+  }
+
+  interface ImageDescribeRequest {
+    imageBase64: string
   }
 }

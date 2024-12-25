@@ -32,6 +32,13 @@ onMounted(() => {
       <div v-if="imageChatStore.imageURL.length > 0" class="flex-1 flex items-center justify-center">
         <img :src="imageChatStore.imageURL" alt="uploaded image" class="max-w-full max-h-full object-contain">
       </div>
+      <div v-if="imageChatStore.imageDescription.length > 0" class="mt-4 flex-1 flex">
+        <textarea 
+          v-model="imageChatStore.imageDescription"
+          readonly
+          class="w-full flex-1 resize-none overflow-y-auto"
+        />
+      </div>
     </div>
     <div class="flex-1 flex h-full">
       <ImageChatWindow :height="imageChatWindowHeight" class="block w-full"/>

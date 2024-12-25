@@ -4,15 +4,14 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const gptResponse = ref<string>('')
   const question = ref<string>('')
   const clearFile = ref<boolean>(false)
+  const imageDescription = ref<string>('')
   const imageURL = computed(() => {
     return file.value ? URL.createObjectURL(file.value) : ''
   })
   
-  let includeImage = true
-
   watch(imageURL, (newImageURL, oldImageURL) => {
     if (newImageURL !== oldImageURL) {
-      includeImage = true
+      imageDescription.value = ''
     }
   })
 
@@ -36,24 +35,31 @@ export const useImageChatStore = defineStore('imageChat', () => {
     })
   }
 
+  async function describeImage() {
+    if (file.value) {
+      const imageBase64 = await imageFileToBase64(file.value)
+      const res = await $fetch<string>('/api/image/describe', {
+        method: 'POST',
+        body: JSON.stringify({ imageBase64: imageBase64 }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      imageDescription.value = res
+    } else {
+      console.log('No file to describe')
+    }
+  }
+
   async function sendPrompt() {
     if (file.value) {
-      let body = ''
-      if (includeImage) {
-        const imageBase64 = await imageFileToBase64(file.value)
-        body = JSON.stringify({
-          imageBase64,
-          question: question.value
-        })
-        includeImage = false
-      } else {
-        body = JSON.stringify({
-          question: question.value
-        })
+      if (imageDescription.value.length === 0) {
+        await describeImage()
       }
+
       const res = await $fetch<TextChatResposne>('/api/image/chat', {
         method: 'POST',
-        body: body,
+        body: JSON.stringify({ imageDescription: imageDescription.value, question: question.value}),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -70,6 +76,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
     gptResponse.value = ''
     question.value = ''
     clearFile.value = false
+    imageDescription.value = ''
   }
 
   return {
@@ -79,6 +86,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
     gptResponse,
     clearFile,
     clearChat,
-    sendPrompt
+    sendPrompt,
+    describeImage,
+    imageDescription
   }
 })
