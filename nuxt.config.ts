@@ -20,20 +20,8 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => ["vue-advanced-chat"].includes(tag),
     },
   },
-  eslint: {
-
-  },
   colorMode: { 
     preference: 'dark'
-  },
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: 'modern'
-        }
-      }
-    }
   },
   vuefire: {
     auth: {
