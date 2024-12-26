@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useFileDialog } from "@vueuse/core"
+import { useObjectUrl, useFileDialog } from "@vueuse/core"
 import { useImageChatStore } from "~/stores/imageChat"
+import { Jimp } from "jimp"
 
 const imageChatStore = useImageChatStore()
 const { files, open, reset, onChange } = useFileDialog({
@@ -15,6 +16,17 @@ watch(clearFile, () => {
 
 onChange((file) => {
   if (file && file.item(0)) {
+    const imageFile = file.item(0) as File
+    console.log('imageFIle', imageFile)
+    const objectURL = useObjectUrl(imageFile)
+    console.log('objectURL.value', objectURL.value)
+    Jimp.read(objectURL.value as string)
+      .then((image) => {
+        console.log('in then image object', Object.prototype.toString.call(image))
+      })
+      .catch((error) => {
+        console.error('error with jimp', error)
+      })
     imageChatStore.file = file.item(0) as File
     imageChatStore.clearFile = false
   }
