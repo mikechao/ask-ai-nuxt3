@@ -40,6 +40,7 @@ onMounted(() => {
           class="w-full flex-1 resize-none overflow-y-auto"
         />
       </div>
+      <h3 v-if="imageChatStore.tokensUsed > 0">Tokens used so far: {{ imageChatStore.tokensUsed }}</h3>
     </div>
     <div class="flex-1 flex h-full">
       <ImageChatWindow :height="imageChatWindowHeight" class="block w-full"/>

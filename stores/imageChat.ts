@@ -102,6 +102,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
     clearChat,
     sendPrompt,
     tokensUsed,
-    imageDescription
+    imageDescription,
+    imageDescriptionTokensUsed,
+    chatTokensUsed
   }
 })

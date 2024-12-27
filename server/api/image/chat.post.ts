@@ -3,6 +3,7 @@ import { getFirestoreChatMessageHistory } from "../../utils/firestoreChatHistory
 import { ChatOpenAI } from "@langchain/openai"
 import { PromptTemplate } from "@langchain/core/prompts";
 import { ConversationChain } from "langchain/chains"
+import type { LLMResult } from "@langchain/core/outputs";
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -35,15 +36,26 @@ export default defineEventHandler(async event => {
       memoryKey: "chat_history"
   });
 
+  let totalTokens = 0
+
+  const llmEndHandler = {
+    handleLLMEnd(output: LLMResult) {
+      // console.log(JSON.stringify(output, null, 2))
+      // tokenUsage.totalTokens is specific to the model gpt-4o-mini
+      totalTokens = output.llmOutput?.tokenUsage.totalTokens
+    },
+  }
+
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, verbose: false})
 
   const input = "Image Description:\n" + imageDescription + "\nQuestion to answer:\n" + question
 
-  const res = await chain.call({ input: input})
+  const res = await chain.call({ input: input }, { callbacks: [llmEndHandler] })
 
   // console.log('res', res)
 
   return {
-    gptResponse: res.response
+    gptResponse: res.response,
+    tokensUsed: totalTokens
   }
 })
