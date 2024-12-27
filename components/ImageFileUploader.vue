@@ -4,7 +4,7 @@ import { useImageChatStore } from "~/stores/imageChat"
 import { Jimp, JimpMime } from "jimp"
 
 const imageChatStore = useImageChatStore()
-const { files, open, reset, onChange } = useFileDialog({
+const { open, reset, onChange } = useFileDialog({
   accept: "image/*",
   multiple: false
 })
@@ -14,19 +14,19 @@ watch(clearFile, () => {
   resetFile()
 })
 
-async function resizeImage(imageURL: string) {
+async function resizeImage(imageURL: string, fileName: string) {
   const image = await Jimp.read(imageURL)
   const resized = image.scaleToFit({w: 300, h:300})
   const outputBuffer = await resized.getBuffer(JimpMime.jpeg)
   const outputBlob = new Blob([outputBuffer], { type: JimpMime.jpeg})
-  return new File([outputBlob], 'resized.jpeg')
+  return new File([outputBlob], fileName)
 }
 
 onChange( async (file) => {
   if (file && file.item(0)) {
     const imageFile = file.item(0) as File
     const objectURL = useObjectUrl(imageFile)
-    const resizedFile = await resizeImage(objectURL.value as string)
+    const resizedFile = await resizeImage(objectURL.value as string, imageFile.name)
     imageChatStore.file = resizedFile
     imageChatStore.clearFile = false
   }
@@ -44,19 +44,11 @@ function resetFile() {
       <AwesomeButton name="file" size="md" text="Choose File" @click="open()"/>
       <AwesomeButton
         size="md"
-        :disabled="!files"
+        :disabled="!imageChatStore.file"
         text="Reset"
         @click="resetFile()"
       />
     </div>
-    <div v-if="files" class="mt-3" >
-      <li
-        v-for="file of files"
-        :key="file.name"
-        class="list-none font-semibold my-2 text-purple-300"
-      >
-        {{ file.name }}
-      </li>
-    </div>
+    <h3 v-if="imageChatStore.file?.name" class="font-semibold my-2 text-purple-300">{{ imageChatStore.file?.name }}</h3>
   </div>
 </template>
