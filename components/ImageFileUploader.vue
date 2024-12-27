@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useObjectUrl, useFileDialog } from "@vueuse/core"
 import { useImageChatStore } from "~/stores/imageChat"
-import { Jimp, JimpMime, ResizeStrategy } from "jimp"
+import { Jimp, JimpMime } from "jimp"
 
 const imageChatStore = useImageChatStore()
 const { files, open, reset, onChange } = useFileDialog({
@@ -16,12 +16,7 @@ watch(clearFile, () => {
 
 async function resizeImage(imageURL: string) {
   const image = await Jimp.read(imageURL)
-  const isHorizontal = image.width > image.height
-  const ratio = isHorizontal ? image.width / image.height
-          : image.height / image.width
-  const width = 300
-  const height = isHorizontal ? width / ratio : width * ratio
-  const resized = image.resize({ w: width, h: height, mode: ResizeStrategy.BICUBIC})
+  const resized = image.scaleToFit({w: 300, h:300})
   const outputBuffer = await resized.getBuffer(JimpMime.jpeg)
   const outputBlob = new Blob([outputBuffer], { type: JimpMime.jpeg})
   return new File([outputBlob], 'resized.jpeg')
