@@ -8,7 +8,12 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const imageDescriptionTokensUsed = ref<number>(0)
   const chatTokensUsed = ref<number>(0)
   const imageURL = computed(() => {
-    return file.value ? URL.createObjectURL(file.value) : ''
+    if (file.value) {
+      const objectURL = useObjectUrl(file)
+      return objectURL.value as string
+    } else {
+      return ''
+    }
   })
   const tokensUsed = computed(() => {
     return imageDescriptionTokensUsed.value + chatTokensUsed.value
