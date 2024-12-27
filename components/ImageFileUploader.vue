@@ -16,7 +16,7 @@ watch(clearFile, () => {
 
 async function resizeImage(imageURL: string, fileName: string) {
   const image = await Jimp.read(imageURL)
-  const resized = image.scaleToFit({w: 300, h:300})
+  const resized = image.scaleToFit({w: 200, h:200})
   const outputBuffer = await resized.getBuffer(JimpMime.jpeg)
   const outputBlob = new Blob([outputBuffer], { type: JimpMime.jpeg})
   return new File([outputBlob], fileName)

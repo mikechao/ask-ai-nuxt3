@@ -29,10 +29,11 @@ onMounted(() => {
       <section class="my-4">
         <ImageFileUploader/>
       </section>
-      <div v-if="imageChatStore.imageURL.length > 0" class="flex-1 flex items-center justify-center">
+      <div v-if="imageChatStore.imageURL.length > 0" class="flex-1 flex items-start justify-start">
         <img :src="imageChatStore.imageURL" alt="uploaded image" class="max-w-full max-h-full object-contain">
       </div>
-      <div v-if="imageChatStore.imageDescription.length > 0" class="mt-4 flex-1 flex">
+      <div v-if="imageChatStore.imageDescription.length > 0" class="mt-0 flex-1 flex flex-col">
+        <h3 class="my-2">What the AI sees</h3>
         <textarea 
           v-model="imageChatStore.imageDescription"
           readonly
