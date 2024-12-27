@@ -2,6 +2,8 @@
 import { register } from 'vue-advanced-chat'
 import useVueAdvancedChat from '~/composables/useVueAdvancedChat'
 import { useAudioChatStore } from '~/stores/audioChat'
+import { lightChatTheme } from './lightChatTheme'
+import { darkChatTheme } from './darkChatTheme'
 register()
 
 const props = defineProps({
@@ -17,6 +19,10 @@ const audioChatStore = useAudioChatStore()
 const messagesLoaded = ref(false)
 
 const { rooms, messages, messageActions, userId } = vueAdvancedChat
+
+const styles = computed(() => {
+  return colorMode.value === 'light' ? lightChatTheme : darkChatTheme
+})
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchMessages({ _room, _options = {} } : any) {
@@ -40,6 +46,7 @@ async function sendMessage({ content }: any) {
 <template>
   <vue-advanced-chat
     :height="props.height"
+    .styles="styles"
     :theme="colorMode.value"
     :message-actions="messageActions"
     :show-reaction-emojis="false"
