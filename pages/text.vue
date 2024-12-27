@@ -29,7 +29,7 @@ onMounted(() => {
       <section class="mt-1 flex-1 flex">
         <textarea
           v-model="textChatStore.text"
-          class="w-full h-full"
+          class="w-full h-full resize-none"
         />
       </section>
       <h1 v-if="textChatStore.tokensUsed > 0">Tokens used so far: {{ textChatStore.tokensUsed }}</h1>
