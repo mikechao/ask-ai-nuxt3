@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     // contents,
-    '@nuxt/content',
+    //'@nuxt/content',
 
     // todo: feat/localization
     // '@nuxtjs/i18n'
