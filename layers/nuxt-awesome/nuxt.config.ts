@@ -29,7 +29,8 @@ export default defineNuxtConfig({
     // styling & ui
     '@nuxtjs/tailwindcss',
     'nuxt-headlessui',
-    'nuxt-icon',
+    '@nuxt/icon',
+    // 'nuxt-icon',
     '@nuxtjs/color-mode',
     // management
     '@pinia/nuxt',

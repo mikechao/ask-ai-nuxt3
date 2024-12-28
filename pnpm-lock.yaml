@@ -99,9 +99,6 @@ importers:
       nuxt-headlessui:
         specifier: ^1.2.0
         version: 1.2.0(magicast@0.3.5)(rollup@4.29.1)(vue@3.5.13(typescript@5.7.2))
-      nuxt-icon:
-        specifier: 1.0.0-beta.7
-        version: 1.0.0-beta.7(magicast@0.3.5)(rollup@4.29.1)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))
       prettier:
         specifier: ^3.4.2
         version: 3.4.2
@@ -4670,9 +4667,6 @@ packages:
 
   nuxt-headlessui@1.2.0:
     resolution: {integrity: sha512-eidWwA4SFLWFk2KcGMHlrPTJb+ODEt5Bsj6cXjmhDtRYydqvgYXHU1U7563E6/qMuayThumbGUopF1IRqlYHwA==}
-
-  nuxt-icon@1.0.0-beta.7:
-    resolution: {integrity: sha512-HdEn1sZGmkIX44L5rZ8YUMdIdVCpeBXycO2DdrqZmFilixcHax0XYdehc1VD6Kl9Sxg8B7sKPMelmDXVTbDwIw==}
 
   nuxt-vuefire@1.0.4:
     resolution: {integrity: sha512-TomF7Dns77lp2vp223yGLqOMJoJg+RA51SfWXLhXiosiYw2Hro4+hi6ru10OosUaecxC95jIZwte4b5v35JrOQ==}
@@ -10542,7 +10536,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.7.4)
+      retry-axios: 2.6.0(axios@1.7.4(debug@4.4.0))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -11509,25 +11503,6 @@ snapshots:
       - supports-color
       - vue
 
-  nuxt-icon@1.0.0-beta.7(magicast@0.3.5)(rollup@4.29.1)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2)):
-    dependencies:
-      '@iconify/collections': 1.0.501
-      '@iconify/types': 2.0.0
-      '@iconify/utils': 2.2.1
-      '@iconify/vue': 4.2.0(vue@3.5.13(typescript@5.7.2))
-      '@nuxt/devtools-kit': 1.6.4(magicast@0.3.5)(rollup@4.29.1)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(yaml@2.6.1))
-      '@nuxt/kit': 3.15.0(magicast@0.3.5)(rollup@4.29.1)
-      consola: 3.3.1
-      fast-glob: 3.3.2
-      local-pkg: 0.5.1
-      pathe: 1.1.2
-    transitivePeerDependencies:
-      - magicast
-      - rollup
-      - supports-color
-      - vite
-      - vue
-
   nuxt-vuefire@1.0.4(@firebase/app-types@0.9.3)(firebase-admin@13.0.2)(firebase-functions@6.2.0(firebase-admin@13.0.2))(firebase@10.14.1)(magicast@0.3.5)(rollup@4.29.1)(vuefire@3.2.1(consola@3.3.1)(firebase@10.14.1)(vue@3.5.13(typescript@5.7.2))):
     dependencies:
       '@nuxt/kit': 3.15.0(magicast@0.3.5)(rollup@4.29.1)
@@ -12327,7 +12302,7 @@ snapshots:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
-  retry-axios@2.6.0(axios@1.7.4):
+  retry-axios@2.6.0(axios@1.7.4(debug@4.4.0)):
     dependencies:
       axios: 1.7.4(debug@4.4.0)
 
