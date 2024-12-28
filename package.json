@@ -32,7 +32,6 @@
     "nuxt": "^3.15.0",
     "nuxt-vuefire": "1.0.4",
     "pinia": "^2.3.0",
-    "uuid": "^11.0.3",
     "vue": "latest",
     "vue-advanced-chat": "^2.1.0",
     "vue-router": "latest",
