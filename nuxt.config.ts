@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const firebaseModules = ["firebase/app", "firebase/auth", "firebase/firestore", "firebase/database"]
 export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-11-01',
@@ -36,5 +37,17 @@ export default defineNuxtConfig({
       appId: process.env.FIREBASE_APP_ID,
       measurementId: process.env.FIREBASE_MEASUREMENT_ID,
     },
+  },
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            const seprateModule = firebaseModules.find(module => id.includes(module))
+            if (seprateModule) return seprateModule
+          }
+        }
+      }
+    }
   }
 })
