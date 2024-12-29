@@ -39,6 +39,10 @@ export const useAudioChatStore = defineStore('audioChat', () => {
           }
           isTranscribing.value = false
         })
+        .catch((error) => {
+          console.error('Failed to transcribe audio', error)
+          isTranscribing.value = false
+        })
     }
   }
 
