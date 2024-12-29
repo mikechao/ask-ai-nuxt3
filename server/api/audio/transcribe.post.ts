@@ -8,7 +8,7 @@ const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
 function parseFile(req: IncomingMessage) {
   console.log('parseFile called req', req)
-
+  console.log('Buffer.isBuffer(req.body)', Buffer.isBuffer(req.body))
   const form = formidable({ multiples: true })
   console.log('form created ', form !== null)
   return new Promise<{ files: formidable.Files }>((resolve, reject) => {
