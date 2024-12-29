@@ -7,7 +7,8 @@ const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
 function parseFile(req: IncomingMessage) {
-  console.log('parseFile called')
+  console.log('parseFile called req', req)
+
   const form = formidable({ multiples: true })
   console.log('form created ', form !== null)
   return new Promise<{ files: formidable.Files }>((resolve, reject) => {
