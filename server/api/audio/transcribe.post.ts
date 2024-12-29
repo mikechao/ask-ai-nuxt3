@@ -26,7 +26,11 @@ function parseFile(req: IncomingMessage) {
 
 export default defineEventHandler(async event => {
   console.log('transcribe post called')
-  console.log('event', event)
+  const body = await readBody(event)
+  console.log('body', body)
+  console.log('body type', Object.prototype.toString.call(body))
+  console.log('Buffer.isBuffer(body)', Buffer.isBuffer(body))
+
   // console.log('event type', Object.prototype.toString.call(event)) [object Object]
   // console.log('Buffer.isBuffer(event.node.req.body)', Buffer.isBuffer(event.node.req.body)) false
   let audioFiles = null
