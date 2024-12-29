@@ -7,6 +7,7 @@ const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
 function parseFile(req: IncomingMessage) {
+  console.log('parseFile called req', req)
   const form = formidable({ multiples: true })
   return new Promise<{ files: formidable.Files }>((resolve, reject) => {
     form.parse(req, (err, _fields, files) => {
@@ -24,6 +25,7 @@ export default defineEventHandler(async event => {
     audioFiles = files
     console.log('parsed audioFiles')
   } catch (error) {
+    console.log('error parsing event.node.req', error)
     return { error: error}
   }
 
