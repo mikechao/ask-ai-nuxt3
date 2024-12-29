@@ -9,10 +9,11 @@ const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 function parseFile(req: IncomingMessage) {
   console.log('parseFile called')
   const form = formidable({ multiples: true })
-  console.log('form created', form)
+  console.log('form created ', form !== null)
   return new Promise<{ files: formidable.Files }>((resolve, reject) => {
     console.log('inside promise before parse')
     form.parse(req, (err, _fields, files) => {
+      console.log('inside parse callback', err, _fields, files)
       if (err) {
         console.log('err', err)
         reject(err)
