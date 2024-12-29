@@ -90,6 +90,9 @@ importers:
       '@nuxt/kit':
         specifier: ^3.15.0
         version: 3.15.0(magicast@0.3.5)(rollup@4.29.1)
+      '@types/busboy':
+        specifier: ^1.5.4
+        version: 1.5.4
       '@types/formidable':
         specifier: ^3.4.5
         version: 3.4.5
@@ -2252,6 +2255,9 @@ packages:
 
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
+
+  '@types/busboy@1.5.4':
+    resolution: {integrity: sha512-kG7WrUuAKK0NoyxfQHsVE6j1m01s6kMma64E+OZenQABMQyTJop1DumUWcLwAQ2JzpefU7PDYoRDKl8uZosFjw==}
 
   '@types/caseless@0.12.5':
     resolution: {integrity: sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==}
@@ -8512,6 +8518,10 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
+      '@types/node': 22.10.2
+
+  '@types/busboy@1.5.4':
+    dependencies:
       '@types/node': 22.10.2
 
   '@types/caseless@0.12.5':

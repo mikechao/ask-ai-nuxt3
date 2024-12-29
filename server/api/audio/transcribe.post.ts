@@ -8,7 +8,6 @@ const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
 function parseFile(req: IncomingMessage) {
   console.log('parseFile called req', req)
-  console.log('Buffer.isBuffer(req.body)', Buffer.isBuffer(req.body))
   const form = formidable({ multiples: true })
   console.log('form created ', form !== null)
   return new Promise<{ files: formidable.Files }>((resolve, reject) => {
@@ -27,6 +26,8 @@ function parseFile(req: IncomingMessage) {
 
 export default defineEventHandler(async event => {
   console.log('transcribe post called')
+  console.log('event type', Object.prototype.toString.call(event))
+  console.log('Buffer.isBuffer(event.node.req.body)', Buffer.isBuffer(event.node.req.body))
   let audioFiles = null
   try {
     const { files } = await parseFile(event.node.req)
