@@ -21,6 +21,7 @@ export default defineEventHandler(async event => {
   try {
     const { files } = await parseFile(event.node.req)
     audioFiles = files
+    console.log('parsed audioFiles')
   } catch (error) {
     return { error: error}
   }
@@ -29,10 +30,13 @@ export default defineEventHandler(async event => {
     return { error: new Error('No file was uploaded')}
   }
 
+  console.log('start read file')
   const audioFile = audioFiles.file[0]
   const audioBuffer = await readFile(audioFile.filepath)
+  console.log('end read file')
 
   try {
+    console.log('Start deepgram call')
     const dgResponse = await deepgram.listen.prerecorded.transcribeFile(
       audioBuffer,
       {
@@ -40,6 +44,7 @@ export default defineEventHandler(async event => {
         punctuate: true
       }
     )
+    console.log('End deepgram call')
     // console.log('dgResponse\n', JSON.stringify(dgResponse))
     const transcript = dgResponse.result?.results?.channels[0]?.alternatives[0]?.transcript
     const confidence = dgResponse.result?.results?.channels[0]?.alternatives[0]?.confidence
