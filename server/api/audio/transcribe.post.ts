@@ -17,6 +17,7 @@ function parseFile(req: IncomingMessage) {
 }
 
 export default defineEventHandler(async event => {
+  console.log('transcribe post called')
   let audioFiles = null
   try {
     const { files } = await parseFile(event.node.req)
