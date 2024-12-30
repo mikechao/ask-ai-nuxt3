@@ -2,7 +2,7 @@ import type { FileSource } from '@deepgram/sdk'
 import { createClient } from '@deepgram/sdk'
 import multer from 'multer'
 import type { H3Event, EventHandlerRequest } from 'h3'
-import * as Busboy from "busboy"
+import busboy from "busboy"
 
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
@@ -62,7 +62,7 @@ async function parseForNetlify(event) {
     const fields = {};
 
     // let's instantiate our busboy instance!
-    const busboy = Busboy({
+    const bb = busboy({
       // it uses request headers
       // to extract the form boundary value (the ----WebKitFormBoundary thing)
       headers: event.headers
@@ -70,7 +70,7 @@ async function parseForNetlify(event) {
 
     // before parsing anything, we need to set up some handlers.
     // whenever busboy comes across a file ...
-    busboy.on(
+    bb.on(
       "file",
       (fieldname, filestream, filename, transferEncoding, mimeType) => {
         // ... we take a look at the file's data ...
@@ -86,18 +86,18 @@ async function parseForNetlify(event) {
     );
 
     // whenever busboy comes across a normal field ...
-    busboy.on("field", (fieldName, value) => {
+    bb.on("field", (fieldName, value) => {
       // ... we write its value into `fields`.
       fields[fieldName] = value;
     });
 
     // once busboy is finished, we resolve the promise with the resulted fields.
-    busboy.on("finish", () => {
+    bb.on("finish", () => {
       resolve(fields)
     });
 
     // now that all handlers are set up, we can finally start processing our request!
-    busboy.write(event.body);
+    bb.write(event.body);
   });
   console.log('results', results)
   console.log('results.file', results.file)
