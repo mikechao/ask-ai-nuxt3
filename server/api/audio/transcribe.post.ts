@@ -28,7 +28,7 @@ async function parseMultipartForm(req) {
   console.log('parseMultipartForm called')
   let bodyBuffer = null
   if (req?.body) {
-    console.log('req?body is true')
+    console.log('req?body is true', req.body)
     bodyBuffer = await streamToBuffer(req.body)
   }
   return new Promise((resolve) => {
