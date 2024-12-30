@@ -25,10 +25,11 @@ const streamToBuffer = (readableStream) => {
 };
 
 async function parseMultipartForm(req) {
+  console.log('parseMultipartForm called')
   let bodyBuffer = null
   if (req?.body) {
+    console.log('req?body is true')
     bodyBuffer = await streamToBuffer(req.body)
-    console.log('bodyBuffer', bodyBuffer)
   }
   return new Promise((resolve) => {
     const fields = {}
@@ -58,9 +59,11 @@ async function parseMultipartForm(req) {
     })
 
     if (req?.body) {
-      console.log('req?.body', req?.body)
+      console.log('req?.body is true')
+      console.log('bodyBuffer === null', bodyBuffer === null)
       bb.end(bodyBuffer);
     } else {
+      console.log('in else req.pipe(bb)')
       req.pipe(bb);
     }
   })
@@ -84,8 +87,6 @@ export default defineEventHandler(async event => {
   if (!audioFiles || !audioFiles.file) {
     return { error: new Error('No file was uploaded')}
   }
-  console.log('audioFiles', audioFiles)
-  console.log('audioFiles[file]', audioFiles['file'])
   console.log('start read file')
   const audioFile = audioFiles['file']
   // const audioBuffer = await readFile(audioFile.filepath)
