@@ -1,6 +1,8 @@
 import { createClient } from '@deepgram/sdk'
 import busboy from 'busboy'
+
 import { buffer } from "node:stream/consumers"
+import multer from 'multer'
 
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
@@ -68,31 +70,35 @@ async function parseMultipartForm(req) {
 
 export default defineEventHandler(async event => {
   console.log('transcribe post called')
-  let audioFiles = null
   try {
-    const parseResult = await parseMultipartForm(event.node.req)
-    console.log('parseResult', parseResult)
-    const files = parseResult[1]
-    audioFiles = files
-    console.log('parsed audioFiles')
+    const storage = multer.memoryStorage()
+    const upload = multer({ storage: storage}).single('file')
+    await new Promise((resolve, reject) => {
+      upload(event.node.req, event.node.res, (err) => {
+        if (err) {
+          console.log('multer error', err)
+          reject(err)
+        }
+        resolve()
+      })
+    })
+    const file = event.node.req.file
+    console.log('file === null', file === null)
   } catch (error) {
     console.log('error parsing event.node.req', error)
     return { error: error}
   }
 
-  if (!audioFiles || !audioFiles.file) {
-    return { error: new Error('No file was uploaded')}
-  }
   console.log('start read file')
-  const audioFile = audioFiles['file']
-  console.log('audioFile', audioFile)
+  const audioFile = event.node.req.file
+  console.log('audioFile === null', audioFile === null)
   // const audioBuffer = await readFile(audioFile.filepath)
   console.log('end read file')
 
   try {
     console.log('Start deepgram call')
     const dgResponse = await deepgram.listen.prerecorded.transcribeFile(
-      audioFile.content,
+      audioFile.buffer,
       {
         model: 'nova-2',
         punctuate: true
