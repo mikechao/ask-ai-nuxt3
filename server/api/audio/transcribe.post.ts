@@ -2,7 +2,6 @@ import type { FileSource } from '@deepgram/sdk'
 import { createClient } from '@deepgram/sdk'
 import multer from 'multer'
 import type { H3Event, EventHandlerRequest } from 'h3'
-import busboy from "busboy"
 
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
@@ -60,7 +59,7 @@ async function parseForNetlify(event) {
   const eventBody = await readBody(event)
   const uint8Array = Buffer.from(eventBody, 'base64')
   console.log('uint8Array', Object.prototype.toString.call(uint8Array))
-  const buffer = Buffer.from(uint8Array)
+  const buffer = uint8Array.buffer
   console.log('buffer', Object.prototype.toString.call(buffer))
   return buffer
 }
