@@ -46,6 +46,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   async function transcribeFile() {
     if (file.value) {
       const fileBase64 = await fileToBase64(file.value)
+      console.log('fileBase64.lenght', fileBase64.length)
       isTranscribing.value = true
       $fetch<AudioTranscribeResposne>('/api/audio/transcribe', {
         method: 'POST',

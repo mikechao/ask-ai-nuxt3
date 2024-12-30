@@ -110,7 +110,8 @@ async function parseForNetlify(event) {
 export default defineEventHandler(async event => {
   console.log('transcribe post called')
   const body = await readBody(event)
-
+  console.log('body ==== null' , body === null)
+  console.log('body.fileBase64.lenght', body?.fileBase64?.length)
   const { fileBase64 } = body
   if (!fileBase64 || fileBase64.length === 0) {
     throw createError({
