@@ -57,7 +57,8 @@ async function parseWithMulter(event: H3Event<EventHandlerRequest>) {
 
 async function parseForNetlify(event) {
   console.log('parseForNetlify called')
-
+  console.log('event?.body', event?.body)
+  console.log('event.node.req.body', event.node.req.body)
   console.log('using Reponse')
   const response = new Response(event.node.req.body)
   console.log('resposne.text')
