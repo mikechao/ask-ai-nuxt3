@@ -58,7 +58,12 @@ async function parseWithMulter(event: H3Event<EventHandlerRequest>) {
 async function parseForNetlify(event) {
   console.log('parseForNetlify called')
 
-  const uint8Array = Buffer.from(event.node.req.body, 'base64')
+  console.log('using Reponse')
+  const response = new Response(event.node.req.body)
+  console.log('resposne.text')
+  const text = await response.text()
+  console.log('Passing text into Buffer.from')
+  const uint8Array = Buffer.from(text, 'base64')
 
   const req = event.node.req
   const result = await new Promise((resolve) => {
