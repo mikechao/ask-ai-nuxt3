@@ -6,7 +6,7 @@ const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
 
-async function parseMultipartForm(req, event) {
+async function parseMultipartForm(req) {
   console.log('parseMultipartForm called')
   return new Promise((resolve) => {
     const fields = {}
@@ -35,18 +35,9 @@ async function parseMultipartForm(req, event) {
       resolve([fields, files]);
     })
 
-    if (req?.body) {
-      console.log('req?.body is true')
-      readBody(event)
-        .then((body) => {
-          console.log('inside readyBody then')
-          const encodedBuf = Buffer.from(body, 'base64')
-          bb.end(encodedBuf)
-        })
-    } else {
-      console.log('in else req.pipe(bb)')
-      req.pipe(bb);
-    }
+    console.log('req.pipe(bb)')
+    req.pipe(bb);
+
   })
 }
 
@@ -56,7 +47,7 @@ export default defineEventHandler(async event => {
 
   let audioFiles = null
   try {
-    const parseResult = await parseMultipartForm(event.node.req, event)
+    const parseResult = await parseMultipartForm(event.node.req)
     const files = parseResult[1]
     audioFiles = files
     console.log('parsed audioFiles')
