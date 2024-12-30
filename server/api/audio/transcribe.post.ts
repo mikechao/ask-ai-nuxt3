@@ -57,11 +57,9 @@ async function parseWithMulter(event: H3Event<EventHandlerRequest>) {
 
 async function parseForNetlify(event) {
   console.log('parseForNetlify called')
-  const eventBody = await readBody(event)
-  const uint8Array = Buffer.from(eventBody, 'base64')
-  console.log('uint8Array', Object.prototype.toString.call(uint8Array))
-  const buffer = Buffer.from(uint8Array.buffer)
-  console.log('buffer', Object.prototype.toString.call(buffer))
+
+  const uint8Array = Buffer.from(event.node.req.body, 'base64')
+
   const req = event.node.req
   const result = await new Promise((resolve) => {
     // we'll store all form fields inside of this
@@ -97,10 +95,10 @@ async function parseForNetlify(event) {
       resolve([fields, files]);
     });
 
-    bb.end(buffer)
+    bb.end(uint8Array)
   })
   console.log('result', result)
-  return buffer
+  return uint8Array
 }
 
 export default defineEventHandler(async event => {
