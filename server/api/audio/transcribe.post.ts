@@ -23,6 +23,9 @@ async function callDeepgram(file: FileSource) {
     const transcript = dgResponse.result?.results?.channels[0]?.alternatives[0]?.transcript
     const confidence = dgResponse.result?.results?.channels[0]?.alternatives[0]?.confidence
     const error = dgResponse.error
+    if (error) {
+      console.log('deepgram error', error)
+    }
     return { transcript: transcript, confidence: confidence, error: error }
   } catch (error) {
     console.log('deepgram error', error)
