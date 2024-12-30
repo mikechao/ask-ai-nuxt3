@@ -71,6 +71,7 @@ export default defineEventHandler(async event => {
   let audioFiles = null
   try {
     const parseResult = await parseMultipartForm(event.node.req)
+    console.log('parseResult', parseResult)
     const files = parseResult[1]
     audioFiles = files
     console.log('parsed audioFiles')
@@ -84,6 +85,7 @@ export default defineEventHandler(async event => {
   }
   console.log('start read file')
   const audioFile = audioFiles['file']
+  console.log('audioFile', audioFile)
   // const audioBuffer = await readFile(audioFile.filepath)
   console.log('end read file')
 
