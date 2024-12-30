@@ -56,21 +56,23 @@ async function parseWithMulter(event: H3Event<EventHandlerRequest>) {
 
 async function parseForNetlify(event) {
   console.log('parseForNetlify called')
-  const body = event.node.req.body
+  const body = event.node.req.body as ReadableStream
   // console.log('body', Object.prototype.toString.call(body)) [object ReadableStream]
-  const result = await new Promise((resolve, reject) => {
-    const chunks = []
-    
-    body.on('data', chunk => {
-        chunks.push(chunk);
-    });
+  const reader = body.getReader()
+  const chunks = []
+  let done, value
+  while ({done, value} = await reader.read(), !done) {
+    chunks.push(value)
+  }
+  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+  const buffer = new Uint8Array(totalLength);
+  let offset = 0;
 
-    body.on('end', () => {
-        resolve(Buffer.concat(chunks));
-    });
-
-    body.on('error', reject);
-  })
+  for (let chunk of chunks) {
+    buffer.set(chunk, offset);
+    offset += chunk.length;
+  }
+  const result = Buffer.from(buffer)
   console.log('result === null', result === null)
   console.log('result', Object.prototype.toString.call(result))
   return result
