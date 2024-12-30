@@ -28,3 +28,5 @@ service-account.json
 
 .vscode/
 .editorconfig
+# Local Netlify folder
+.netlify
