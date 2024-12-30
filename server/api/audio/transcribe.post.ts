@@ -2,8 +2,6 @@ import type { FileSource } from '@deepgram/sdk'
 import { createClient } from '@deepgram/sdk'
 import multer from 'multer'
 import type { H3Event, EventHandlerRequest } from 'h3'
-import { Readable } from "stream"
-
 
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
@@ -59,22 +57,23 @@ async function parseWithMulter(event: H3Event<EventHandlerRequest>) {
 async function parseForNetlify(event) {
   console.log('parseForNetlify called')
   const body = event.node.req.body
-  console.log('body', Object.prototype.toString.call(body))
-  return new Readable({
-    async read(size) {
-      const reader = body.getReader();
-      try {
-        const { done, value } = await reader.read();
-        if (done) {
-          this.push(null); // End the stream
-        } else {
-          this.push(value); // Push the chunk into the Node.js Readable stream
-        }
-      } catch (err) {
-        this.emit('error', err); // Propagate any errors
-      }
-    }
+  // console.log('body', Object.prototype.toString.call(body)) [object ReadableStream]
+  const result = await new Promise((resolve, reject) => {
+    const chunks = []
+    
+    body.on('data', chunk => {
+        chunks.push(chunk);
+    });
+
+    body.on('end', () => {
+        resolve(Buffer.concat(chunks));
+    });
+
+    body.on('error', reject);
   })
+  console.log('result === null', result === null)
+  console.log('result', Object.prototype.toString.call(result))
+  return result
 }
 
 export default defineEventHandler(async event => {
