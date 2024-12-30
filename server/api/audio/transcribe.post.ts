@@ -17,19 +17,8 @@ async function streamToArrayBuffer(stream: ReadableStream) {
       chunks.push(value)
     }
   }
-
-  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
-  const arrayBuffer = new ArrayBuffer(totalLength);
-  const view = new Uint8Array(arrayBuffer);
-  let offset = 0;
-
-  // Copy all chunks into the final ArrayBuffer
-  chunks.forEach(chunk => {
-    view.set(chunk, offset);
-    offset += chunk.length;
-  });
-
-  return arrayBuffer;
+  const buffer = Buffer.concat(chunks)
+  return buffer
 }
 
 async function parseMultipartForm(req) {
@@ -79,7 +68,6 @@ async function parseMultipartForm(req) {
 
 export default defineEventHandler(async event => {
   console.log('transcribe post called')
-
   let audioFiles = null
   try {
     const parseResult = await parseMultipartForm(event.node.req)
