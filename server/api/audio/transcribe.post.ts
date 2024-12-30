@@ -5,32 +5,9 @@ import { buffer } from "node:stream/consumers"
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
-const streamToBuffer = (readableStream) => {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    
-    readableStream.on('data', (chunk) => {
-      chunks.push(chunk); // Collect data chunks
-    });
-    
-    readableStream.on('end', () => {
-      const buffer = Buffer.concat(chunks); // Combine all chunks into a single Buffer
-      resolve(buffer); // Return the complete buffer
-    });
-    
-    readableStream.on('error', (err) => {
-      reject(err); // Handle any errors
-    });
-  });
-};
 
-async function parseMultipartForm(req) {
+async function parseMultipartForm(req, event) {
   console.log('parseMultipartForm called')
-  let bodyBuffer = null
-  if (req?.body) {
-    console.log('req?body is true', req.body)
-    bodyBuffer = await streamToBuffer(req.body)
-  }
   return new Promise((resolve) => {
     const fields = {}
     const files = {}
@@ -60,8 +37,12 @@ async function parseMultipartForm(req) {
 
     if (req?.body) {
       console.log('req?.body is true')
-      console.log('bodyBuffer === null', bodyBuffer === null)
-      bb.end(bodyBuffer);
+      readBody(event)
+        .then((body) => {
+          console.log('inside readyBody then')
+          const encodedBuf = Buffer.from(body, 'base64')
+          bb.end(encodedBuf)
+        })
     } else {
       console.log('in else req.pipe(bb)')
       req.pipe(bb);
@@ -75,7 +56,7 @@ export default defineEventHandler(async event => {
 
   let audioFiles = null
   try {
-    const parseResult = await parseMultipartForm(event.node.req)
+    const parseResult = await parseMultipartForm(event.node.req, event)
     const files = parseResult[1]
     audioFiles = files
     console.log('parsed audioFiles')
