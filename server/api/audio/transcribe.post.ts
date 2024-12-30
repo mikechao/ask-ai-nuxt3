@@ -34,6 +34,7 @@ function parseMultipartForm(req) {
     })
 
     if (req?.body) {
+      console.log('req?.body', req?.body)
       const encodedBuf = Buffer.from(req.body, "base64");
       bb.end(encodedBuf);
     } else {
