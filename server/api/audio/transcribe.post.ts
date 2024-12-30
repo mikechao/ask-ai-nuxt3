@@ -2,6 +2,7 @@ import type { FileSource } from '@deepgram/sdk'
 import { createClient } from '@deepgram/sdk'
 import multer from 'multer'
 import type { H3Event, EventHandlerRequest } from 'h3'
+import busboy from "busboy"
 
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
@@ -61,6 +62,44 @@ async function parseForNetlify(event) {
   console.log('uint8Array', Object.prototype.toString.call(uint8Array))
   const buffer = uint8Array.buffer
   console.log('buffer', Object.prototype.toString.call(buffer))
+  const req = event.node.req
+  const result = await new Promise((resolve) => {
+    // we'll store all form fields inside of this
+    const fields = {};
+    const files = {};
+
+    // let's instantiate our busboy instance!
+    const bb = busboy({
+      headers: req.headers,
+    });
+
+    // before parsing anything, we need to set up some handlers.
+    // whenever busboy comes across a file ...
+    bb.on("file", async (name, fileStream, info) => {
+      const { filename, encoding, mimeType } = info;
+
+      files[name] = {
+        originalFilename: Buffer.from(filename, "latin1").toString("utf8"),
+        encoding: encoding,
+        mimetype: mimeType,
+        content: await buffer(fileStream),
+      };
+    });
+
+    // whenever busboy comes across a normal field ...
+    bb.on("field", (fieldName, value) => {
+      // ... we write its value into `fields`.
+      fields[fieldName] = value;
+    });
+
+    // once busboy is finished, we resolve the promise with the resulted fields.
+    bb.on("finish", () => {
+      resolve([fields, files]);
+    });
+
+    bb.end(buffer)
+  })
+  console.log('result', result)
   return buffer
 }
 
