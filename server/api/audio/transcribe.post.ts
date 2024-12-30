@@ -101,7 +101,7 @@ async function parseForNetlify(event) {
       resolve([fields, files]);
     });
 
-    bb.end(uint8Array)
+    bb.write(uint8Array)
   })
   console.log('result', result)
   return uint8Array
