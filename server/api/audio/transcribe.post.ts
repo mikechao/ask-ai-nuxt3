@@ -5,7 +5,31 @@ import { buffer } from "node:stream/consumers"
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
-function parseMultipartForm(req) {
+const streamToBuffer = (readableStream) => {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    
+    readableStream.on('data', (chunk) => {
+      chunks.push(chunk); // Collect data chunks
+    });
+    
+    readableStream.on('end', () => {
+      const buffer = Buffer.concat(chunks); // Combine all chunks into a single Buffer
+      resolve(buffer); // Return the complete buffer
+    });
+    
+    readableStream.on('error', (err) => {
+      reject(err); // Handle any errors
+    });
+  });
+};
+
+async function parseMultipartForm(req) {
+  let bodyBuffer = null
+  if (req?.body) {
+    bodyBuffer = await streamToBuffer(req.body)
+    console.log('bodyBuffer', bodyBuffer)
+  }
   return new Promise((resolve) => {
     const fields = {}
     const files = {}
@@ -35,13 +59,14 @@ function parseMultipartForm(req) {
 
     if (req?.body) {
       console.log('req?.body', req?.body)
-      const encodedBuf = Buffer.from(req.body, "base64");
-      bb.end(encodedBuf);
+      bb.end(bodyBuffer);
     } else {
       req.pipe(bb);
     }
   })
 }
+
+
 export default defineEventHandler(async event => {
   console.log('transcribe post called')
 
