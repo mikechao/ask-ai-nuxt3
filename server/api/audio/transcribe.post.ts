@@ -59,6 +59,7 @@ async function parseWithMulter(event: H3Event<EventHandlerRequest>) {
 async function parseForNetlify(event) {
   console.log('parseForNetlify called')
   const body = event.node.req.body
+  console.log('body', Object.prototype.toString.call(body))
   return new Readable({
     async read(size) {
       const reader = body.getReader();
