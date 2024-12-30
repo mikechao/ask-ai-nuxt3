@@ -35,8 +35,13 @@ async function parseMultipartForm(req) {
       resolve([fields, files]);
     })
 
-    console.log('req.pipe(bb)')
-    req.pipe(bb);
+    if (req?.body) {
+      console.log('req.body.toString(base64)', req.body.toString('base64'))
+      const encodedBuf = Buffer.from(req.body, "base64");
+      bb.end(encodedBuf);
+    } else {
+      req.pipe(bb);
+    }
 
   })
 }
