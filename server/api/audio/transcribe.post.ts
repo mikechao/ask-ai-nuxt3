@@ -5,28 +5,40 @@ import { buffer } from "node:stream/consumers"
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
-function doSomethingWithNodeRequest(req) {
-  return new Promise((resolve, reject) => {
-    /** @type {any[]} */
-    const chunks = [];
-    req.on('data', (data) => {
-      chunks.push(data);
-    });
-    req.on('end', () => {
-      const payload = Buffer.concat(chunks)
-      resolve(payload);
-    });
-    req.on('error', reject);
+async function streamToArrayBuffer(stream: ReadableStream) {
+  const reader = stream.getReader()
+  const chunks = []
+  let done = false
+
+  while (!done) {
+    const { value, done: readerDone } = await reader.read()
+    done = readerDone
+    if (value) {
+      chunks.push(value)
+    }
+  }
+
+  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+  const arrayBuffer = new ArrayBuffer(totalLength);
+  const view = new Uint8Array(arrayBuffer);
+  let offset = 0;
+
+  // Copy all chunks into the final ArrayBuffer
+  chunks.forEach(chunk => {
+    view.set(chunk, offset);
+    offset += chunk.length;
   });
+
+  return arrayBuffer;
 }
 
 async function parseMultipartForm(req) {
   console.log('parseMultipartForm called')
   if (req?.body) {
-    console.log('req.body is true')
-    const encodedBody = await doSomethingWithNodeRequest(req)
-    console.log('encodedBody === null', encodedBody === null)
-    console.log('encodedBody type', Object.prototype.toString.call(encodedBody))
+    console.log('req.body is true calling streamToArrayBuffer')
+    const result = await streamToArrayBuffer(req.body)
+    console.log('after function call result === null', result === null)
+    console.log('result type', Object.prototype.toString.call(result))
   }
   return new Promise((resolve) => {
     const fields = {}
@@ -56,7 +68,6 @@ async function parseMultipartForm(req) {
     })
 
     if (req?.body) {
-      console.log('req.body.toString(base64)', req.body.toString('base64'))
       const encodedBuf = Buffer.from(req.body, "base64");
       bb.end(encodedBuf);
     } else {
