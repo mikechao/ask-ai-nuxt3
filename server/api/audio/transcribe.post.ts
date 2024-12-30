@@ -1,104 +1,18 @@
+import type { FileSource } from '@deepgram/sdk'
 import { createClient } from '@deepgram/sdk'
-import busboy from 'busboy'
-
-import { buffer } from "node:stream/consumers"
 import multer from 'multer'
+import type { H3Event, EventHandlerRequest } from 'h3'
+import { Readable } from "stream"
+
 
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
-async function streamToArrayBuffer(stream: ReadableStream) {
-  const reader = stream.getReader()
-  const chunks = []
-  let done = false
-
-  while (!done) {
-    const { value, done: readerDone } = await reader.read()
-    done = readerDone
-    if (value) {
-      chunks.push(value)
-    }
-  }
-  const buffer = Buffer.concat(chunks)
-  return buffer
-}
-
-async function parseMultipartForm(req) {
-  console.log('parseMultipartForm called')
-  let bodyArrayBuffer = null
-  if (req?.body) {
-    console.log('req.body is true calling streamToArrayBuffer')
-    bodyArrayBuffer = await streamToArrayBuffer(req.body)
-  }
-  return new Promise((resolve) => {
-    const fields = {}
-    const files = {}
-
-    const bb = busboy({
-      headers: req.headers,
-    })
-
-    bb.on("file", async (name, fileStream, info) => {
-      const { filename, encoding, mimeType } = info
-
-      files[name] = {
-        originalFilename: Buffer.from(filename, "latin1").toString("utf8"),
-        encoding: encoding,
-        mimetype: mimeType,
-        content: await buffer(fileStream),
-      }
-    })
-
-    bb.on("field", (fieldName, value) => {
-      fields[fieldName] = value;
-    })
-
-    bb.on("finish", () => {
-      resolve([fields, files]);
-    })
-
-    if (req?.body) {
-      console.log('passing bodyArrayBuffer to bb')
-      bb.end(bodyArrayBuffer);
-    } else {
-      req.pipe(bb);
-    }
-
-  })
-}
-
-
-export default defineEventHandler(async event => {
-  console.log('transcribe post called')
-  try {
-    const storage = multer.memoryStorage()
-    const upload = multer({ storage: storage}).single('file')
-    await new Promise((resolve, reject) => {
-      upload(event.node.req, event.node.res, (err) => {
-        if (err) {
-          console.log('multer error', err)
-          reject(err)
-        }
-        resolve()
-      })
-    })
-    const file = event.node.req.file
-    console.log('file === null', file === null)
-  } catch (error) {
-    console.log('error parsing event.node.req', error)
-    return { error: error}
-  }
-
-  console.log('start read file')
-  const audioFile = event.node.req.file
-  console.log('audioFile === null', audioFile === null)
-  // const audioBuffer = await readFile(audioFile.filepath)
-  console.log('end read file')
-
+async function callDeepgram(file: FileSource) {
   try {
     console.log('Start deepgram call')
     const dgResponse = await deepgram.listen.prerecorded.transcribeFile(
-      audioFile.buffer,
+      file,
       {
         model: 'nova-2',
         punctuate: true
@@ -114,4 +28,59 @@ export default defineEventHandler(async event => {
     console.log('deepgram error', error)
     return { errror: error }
   }
+}
+
+async function parseWithMulter(event: H3Event<EventHandlerRequest>) {
+  console.log('parseWithMulter called')
+  try {
+    const storage = multer.memoryStorage()
+    const upload = multer({ storage: storage}).single('file')
+    await new Promise((resolve, reject) => {
+      upload(event.node.req, event.node.res, (err) => {
+        if (err) {
+          console.log('multer error', err)
+          reject(err)
+        }
+        resolve()
+      })
+    })
+    const file = event.node.req.file
+    console.log('parseWithMulter finished')
+    return file.buffer
+  } catch (error) {
+    console.log('error parsing event.node.req', error)
+    throw new Error('Error parsing with multer', error)
+  }
+}
+
+async function parseForNetlify(event) {
+  console.log('parseForNetlify called')
+  const body = event.node.req.body
+  return new Readable({
+    async read(size) {
+      const reader = body.getReader();
+      try {
+        const { done, value } = await reader.read();
+        if (done) {
+          this.push(null); // End the stream
+        } else {
+          this.push(value); // Push the chunk into the Node.js Readable stream
+        }
+      } catch (err) {
+        this.emit('error', err); // Propagate any errors
+      }
+    }
+  })
+}
+
+export default defineEventHandler(async event => {
+  console.log('transcribe post called')
+  let audioFile = null
+  if (!event.node.req?.body) {
+    audioFile = await parseWithMulter(event)
+  } else {
+    audioFile = await parseForNetlify(event)
+  }
+  const results = await callDeepgram(audioFile.buffer)
+  return results
 })
