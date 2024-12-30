@@ -62,7 +62,7 @@ async function parseForNetlify(event) {
     const fields = {};
 
     // let's instantiate our busboy instance!
-    const busboy = new Busboy({
+    const busboy = Busboy({
       // it uses request headers
       // to extract the form boundary value (the ----WebKitFormBoundary thing)
       headers: event.headers
