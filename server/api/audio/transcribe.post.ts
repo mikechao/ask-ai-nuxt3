@@ -110,7 +110,7 @@ export default defineEventHandler(async event => {
   if (!event.node.req?.body) {
     audioFile = await parseWithMulter(event)
   } else {
-    audioFile = await parseForNetlify(event)
+    audioFile = await parseForNetlify(event.node.req)
   }
   const results = await callDeepgram(audioFile.buffer)
   return results
