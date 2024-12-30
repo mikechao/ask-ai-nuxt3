@@ -60,7 +60,7 @@ async function parseForNetlify(event) {
   const eventBody = await readBody(event)
   const uint8Array = Buffer.from(eventBody, 'base64')
   console.log('uint8Array', Object.prototype.toString.call(uint8Array))
-  const buffer = uint8Array.buffer
+  const buffer = Buffer.from(uint8Array.buffer)
   console.log('buffer', Object.prototype.toString.call(buffer))
   const req = event.node.req
   const result = await new Promise((resolve) => {
