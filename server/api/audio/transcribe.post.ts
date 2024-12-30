@@ -34,11 +34,10 @@ async function streamToArrayBuffer(stream: ReadableStream) {
 
 async function parseMultipartForm(req) {
   console.log('parseMultipartForm called')
+  let bodyArrayBuffer = null
   if (req?.body) {
     console.log('req.body is true calling streamToArrayBuffer')
-    const result = await streamToArrayBuffer(req.body)
-    console.log('after function call result === null', result === null)
-    console.log('result type', Object.prototype.toString.call(result))
+    bodyArrayBuffer = await streamToArrayBuffer(req.body)
   }
   return new Promise((resolve) => {
     const fields = {}
@@ -68,8 +67,8 @@ async function parseMultipartForm(req) {
     })
 
     if (req?.body) {
-      const encodedBuf = Buffer.from(req.body, "base64");
-      bb.end(encodedBuf);
+      console.log('passing bodyArrayBuffer to bb')
+      bb.end(bodyArrayBuffer);
     } else {
       req.pipe(bb);
     }
