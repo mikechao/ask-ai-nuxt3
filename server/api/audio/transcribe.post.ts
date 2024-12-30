@@ -5,9 +5,29 @@ import { buffer } from "node:stream/consumers"
 const runtimeConfig = useRuntimeConfig()
 const deepgram = createClient(runtimeConfig.deepgramAPIKey)
 
+function doSomethingWithNodeRequest(req) {
+  return new Promise((resolve, reject) => {
+    /** @type {any[]} */
+    const chunks = [];
+    req.on('data', (data) => {
+      chunks.push(data);
+    });
+    req.on('end', () => {
+      const payload = Buffer.concat(chunks)
+      resolve(payload);
+    });
+    req.on('error', reject);
+  });
+}
 
 async function parseMultipartForm(req) {
   console.log('parseMultipartForm called')
+  if (req?.body) {
+    console.log('req.body is true')
+    const encodedBody = await doSomethingWithNodeRequest(req)
+    console.log('encodedBody === null', encodedBody === null)
+    console.log('encodedBody type', Object.prototype.toString.call(encodedBody))
+  }
   return new Promise((resolve) => {
     const fields = {}
     const files = {}
