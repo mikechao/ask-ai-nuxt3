@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useObjectUrl, useFileDialog } from "@vueuse/core"
 import { useImageChatStore } from "~/stores/imageChat"
-import { Jimp, JimpMime } from "jimp"
 
 const imageChatStore = useImageChatStore()
 const { open, reset, onChange } = useFileDialog({
@@ -15,11 +14,17 @@ watch(clearFile, () => {
 })
 
 async function resizeImage(imageURL: string, fileName: string) {
-  const image = await Jimp.read(imageURL)
+  const {jimp:j, jimpMime } = await getJimp()
+  const image = await j.read(imageURL)
   const resized = image.scaleToFit({w: 200, h:200})
-  const outputBuffer = await resized.getBuffer(JimpMime.jpeg)
-  const outputBlob = new Blob([outputBuffer], { type: JimpMime.jpeg})
+  const outputBuffer = await resized.getBuffer(jimpMime.jpeg)
+  const outputBlob = new Blob([outputBuffer], { type: jimpMime.jpeg})
   return new File([outputBlob], fileName)
+}
+
+async function getJimp() {
+  const jimp = await import('jimp')
+  return {jimp: jimp.Jimp, jimpMime: jimp.JimpMime}
 }
 
 onChange( async (file) => {
