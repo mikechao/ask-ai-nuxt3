@@ -23,14 +23,36 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   })
 
-  function transcribeFile() {
+  async function fileToBase64(file: File) {
+    const arrayBuffer = await fileToArrayBuffer(file) as ArrayBuffer
+    const base64 = btoa(
+      new Uint8Array(arrayBuffer).reduce(
+        (data, byte) => data + String.fromCharCode(byte),
+        ""
+      )
+    )
+    return base64
+  }
+
+  function fileToArrayBuffer(file: File) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file)
+    })
+  }
+
+  async function transcribeFile() {
     if (file.value) {
-      const formData = new FormData()
-      formData.append("file", file.value)
+      const fileBase64 = await fileToBase64(file.value)
       isTranscribing.value = true
       $fetch<AudioTranscribeResposne>('/api/audio/transcribe', {
         method: 'POST',
-        body: formData
+        body: JSON.stringify({ fileBase64: fileBase64}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
         .then((response) => {
           if (!response.error) {

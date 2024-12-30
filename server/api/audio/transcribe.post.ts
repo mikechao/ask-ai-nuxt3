@@ -109,12 +109,18 @@ async function parseForNetlify(event) {
 
 export default defineEventHandler(async event => {
   console.log('transcribe post called')
-  let audioFile = null
-  if (!event.node.req?.body) {
-    audioFile = await parseWithMulter(event)
-  } else {
-    audioFile = await parseForNetlify(event)
+  const body = await readBody(event)
+
+  const { fileBase64 } = body
+  if (!fileBase64 || fileBase64.length === 0) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Request body is missing fileBase64'
+    })
   }
-  const results = await callDeepgram(audioFile.buffer)
+
+  const audioFile = Buffer.from(fileBase64, 'base64')
+
+  const results = await callDeepgram(audioFile)
   return results
 })
