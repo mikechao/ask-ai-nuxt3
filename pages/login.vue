@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/userStore'
 
+const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
+
 const { awesome } = useAppConfig()
 
 const userStore = useUserStore()

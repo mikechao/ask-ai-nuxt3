@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
+
+const LayoutPageSection = defineAsyncComponent(() => import('./layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
+
 useUserStore()
 
 defineProps({

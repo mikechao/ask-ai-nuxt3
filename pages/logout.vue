@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const userStore = useUserStore()
+const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
 
 onMounted(async () => {
     await userStore.logout()

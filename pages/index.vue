@@ -1,4 +1,5 @@
 <script setup>
+const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
 </script>
 
 <template>
