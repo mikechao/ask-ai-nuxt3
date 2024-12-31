@@ -1,4 +1,5 @@
 import useFileToBase64 from "~/composables/useFileToBase64"
+import type { Message } from 'vue-advanced-chat'
 
 export const useAudioChatStore = defineStore('audioChat', () => {
   const file = ref<File>()
@@ -11,6 +12,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const confidence = ref<number>(0)
   const tokensUsed = ref<number>(0)
   let includeTranscriptToAnalyze = true
+  const messages: Ref<Message[]> = ref([])
 
   watch(transcript, (newTranscript, oldTranscript) => {
     if (newTranscript !== oldTranscript) {
@@ -88,6 +90,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     clearFile.value = false
     isTranscribing.value = false
     confidence.value = 0
+    messages.value = []
   }
 
   return {
@@ -103,6 +106,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     clearFile,
     isTranscribing,
     confidence,
-    tokensUsed
+    tokensUsed,
+    messages
   }
 })
