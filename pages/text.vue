@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const textChatComponent = defineAsyncComponent(() => import('~/components/TextChatWindow.vue'))
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
+const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
 
 const textChatStore = useTextChatStore()
 const textAreaHeight = ref(0)
@@ -21,8 +21,16 @@ function observeHeight() {
 onMounted(() => {
   observeHeight()
 })
-</script>
 
+function getContent() {
+  return textChatStore.text
+}
+
+async function sendPrompt() {
+  textChatStore.createPrompt()
+  await textChatStore.sendPrompt()
+}
+</script>
 <template>
   <LayoutPageWrapper class="flex-1 flex">
     <div id="textArea" class="flex-1 flex flex-col mr-2 h-full">
@@ -36,7 +44,15 @@ onMounted(() => {
       <h1 v-if="textChatStore.tokensUsed > 0">Tokens used so far: {{ textChatStore.tokensUsed }}</h1>
     </div>
     <div class="flex-1 flex h-full">
-        <textChatComponent :height="textChatWindowHeight" class="block w-full h-full"/>
+      <ChatWindow 
+        :height="textChatWindowHeight"
+        :store="textChatStore"
+        initial-message="Hello add some text to the left and ask questions below and I will answer to the best of my ability"
+        empty-message="You did not give me any text to analyze"
+        :get-content="getContent"
+        :send-prompt="sendPrompt"
+        class="block w-full h-full"
+      />
     </div>
   </LayoutPageWrapper>
 </template>
