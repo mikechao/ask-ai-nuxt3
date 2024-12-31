@@ -20,13 +20,25 @@ const messagesLoaded = ref(false)
 
 const { rooms, messages, messageActions, userId } = vueAdvancedChat
 
+watch(messages, (newValue) => {
+  imageChatStore.messages = [...newValue]
+})
+
 const styles = computed(() => {
   return colorMode.value === 'light' ? lightChatTheme : darkChatTheme
 })
 
+onUnmounted(() => {
+  messagesLoaded.value = false
+})
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchMessages({ _room, _options = {} } : any) {
-  vueAdvancedChat.addAIMessage('Hello click the Choose File button to select an image file and ask your question below.')
+  if (imageChatStore.messages.length > 0) {
+    messages.value = [...imageChatStore.messages]
+  } else {
+    vueAdvancedChat.addAIMessage('Hello click the Choose File button to select an image file and ask your question below.')
+  }
   messagesLoaded.value = true
 }
 

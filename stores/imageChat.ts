@@ -1,4 +1,5 @@
 import useFileToBase64 from "~/composables/useFileToBase64"
+import type { Message } from 'vue-advanced-chat'
 
 export const useImageChatStore = defineStore('imageChat', () => {
   const file = ref<File>()
@@ -20,6 +21,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const tokensUsed = computed(() => {
     return imageDescriptionTokensUsed.value + chatTokensUsed.value
   })
+  const messages: Ref<Message[]> = ref([])
 
   watch(imageURL, (newImageURL, oldImageURL) => {
     if (newImageURL !== oldImageURL) {
@@ -73,6 +75,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
     imageDescription.value = ''
     imageDescriptionTokensUsed.value = 0
     chatTokensUsed.value = 0
+    messages.value = []
   }
 
   return {
@@ -85,5 +88,6 @@ export const useImageChatStore = defineStore('imageChat', () => {
     sendPrompt,
     tokensUsed,
     imageDescription,
+    messages
   }
 })
