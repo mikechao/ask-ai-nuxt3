@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const audioChatComponent = defineAsyncComponent(() => import('~/components/AudioChatWindow.vue'))
 const audioAreaHeight = ref(0)
 const audioChatWindowHeight = computed(() => {
   return `${audioAreaHeight.value}px`
@@ -31,7 +32,7 @@ onMounted(() => {
         <h3 v-if="audioChatStore.tokensUsed > 0">Tokens used: {{ audioChatStore.tokensUsed }}</h3>
       </div>
       <div class="flex-1 flex h-full">
-        <AudioChatWindow :height="audioChatWindowHeight" class="block w-full"/>
+        <audioChatComponent :height="audioChatWindowHeight" class="block w-full"/>
       </div>
     </LayoutPageWrapper>
 </template>

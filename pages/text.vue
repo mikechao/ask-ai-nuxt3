@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import TextChatWindow from '~/components/TextChatWindow.vue'
-
+const textChatComponent = defineAsyncComponent(() => import('~/components/TextChatWindow.vue'))
 const textChatStore = useTextChatStore()
 const textAreaHeight = ref(0)
 const textChatWindowHeight = computed(() => {
@@ -35,7 +34,7 @@ onMounted(() => {
       <h1 v-if="textChatStore.tokensUsed > 0">Tokens used so far: {{ textChatStore.tokensUsed }}</h1>
     </div>
     <div class="flex-1 flex h-full">
-        <TextChatWindow :height="textChatWindowHeight" class="block w-full h-full"/>
+        <textChatComponent :height="textChatWindowHeight" class="block w-full h-full"/>
     </div>
   </LayoutPageWrapper>
 </template>

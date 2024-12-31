@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ImageFileUploader from '~/components/ImageFileUploader.vue';
 
+const imageChatComponent = defineAsyncComponent(() => import('~/components/ImageChatWindow.vue'))
 const imageChatStore = useImageChatStore()
 const imageAreaHeight = ref(0)
 const imageChatWindowHeight = computed(() => {
@@ -43,7 +44,7 @@ onMounted(() => {
       <h3 v-if="imageChatStore.tokensUsed > 0">Tokens used so far: {{ imageChatStore.tokensUsed }}</h3>
     </div>
     <div class="flex-1 flex h-full">
-      <ImageChatWindow :height="imageChatWindowHeight" class="block w-full"/>
+      <imageChatComponent :height="imageChatWindowHeight" class="block w-full"/>
     </div>
   </LayoutPageWrapper>
 </template>
