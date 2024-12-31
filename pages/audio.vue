@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const audioChatComponent = defineAsyncComponent(() => import('~/components/AudioChatWindow.vue'))
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
+const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
 const audioAreaHeight = ref(0)
 const audioChatWindowHeight = computed(() => {
   return `${audioAreaHeight.value}px`
@@ -21,6 +21,15 @@ function observeHeight() {
 onMounted(() => {
   observeHeight()
 })
+
+function getContent() {
+  return audioChatStore.transcript
+}
+
+async function sendPrompt() {
+  audioChatStore.createPrompt()
+  await audioChatStore.sendPrompt()
+}
 </script>
 <template>
     <LayoutPageWrapper class="flex-1 flex">
@@ -33,7 +42,15 @@ onMounted(() => {
         <h3 v-if="audioChatStore.tokensUsed > 0">Tokens used: {{ audioChatStore.tokensUsed }}</h3>
       </div>
       <div class="flex-1 flex h-full">
-        <audioChatComponent :height="audioChatWindowHeight" class="block w-full"/>
+        <ChatWindow 
+          :height="audioChatWindowHeight"
+          :store="audioChatStore"
+          initial-message="Hello click the Choose File button to select an audio file, then hit the Transcribe button and ask your question below."
+          empty-message="You did not give me any audio to analyze"
+          :get-content="getContent"
+          :send-prompt="sendPrompt"
+          class="block w-full"
+        />
       </div>
     </LayoutPageWrapper>
 </template>
