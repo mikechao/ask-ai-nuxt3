@@ -21,13 +21,25 @@ const messagesLoaded = ref(false)
 
 const { rooms, messages, messageActions, userId } = vueAdvancedChat
 
+watch(messages, (newValue) => {
+  textChatStore.messages = [...newValue]
+})
+
 const styles = computed(() => {
   return colorMode.value === 'light' ? lightChatTheme : darkChatTheme
 })
 
+onUnmounted(() => {
+  messagesLoaded.value = false
+})
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchMessages({ _room, _options = {} } : any) {
-  vueAdvancedChat.addAIMessage("Hello add some text to the left and ask questions below and I will answer to the best of my ability")
+  if (textChatStore.messages.length > 0) {
+    messages.value = [...textChatStore.messages]
+  } else {
+    vueAdvancedChat.addAIMessage("Hello add some text to the left and ask questions below and I will answer to the best of my ability")
+  }
   messagesLoaded.value = true
 }
 
