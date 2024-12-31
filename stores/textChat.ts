@@ -26,6 +26,14 @@ export const useTextChatStore = defineStore('textChat', () => {
     }
   })
 
+  function setMessages(newMessages: Message[]) {
+    messages.value = [...newMessages]
+  }
+
+  function setQuestion(newQuestion: string) {
+    question.value = newQuestion
+  }
+
   // generate prompt for AI request
   function createPrompt() {
     const textToAnalyze = 'Text to analyze\n' + text.value
@@ -69,5 +77,17 @@ export const useTextChatStore = defineStore('textChat', () => {
     messages.value = []
   }
 
-  return { text, question, prompt, gptResponse, tokensUsed, createPrompt, sendPrompt, clearChat, messages }
+  return { 
+    text, 
+    question, 
+    prompt, 
+    gptResponse, 
+    tokensUsed, 
+    createPrompt, 
+    sendPrompt, 
+    clearChat, 
+    messages, 
+    setMessages, 
+    setQuestion 
+  }
 })

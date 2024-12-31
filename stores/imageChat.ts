@@ -29,6 +29,14 @@ export const useImageChatStore = defineStore('imageChat', () => {
     }
   })
 
+  function setMessages(newMessages: Message[]) {
+    messages.value = [...newMessages]
+  }
+
+  function setQuestion(newQuestion: string) {
+    question.value = newQuestion
+  }
+
   async function describeImage() {
     if (file.value) {
       const imageBase64 = await useFileToBase64().toBase64(file.value)
@@ -88,6 +96,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
     sendPrompt,
     tokensUsed,
     imageDescription,
-    messages
+    messages,
+    setMessages,
+    setQuestion
   }
 })

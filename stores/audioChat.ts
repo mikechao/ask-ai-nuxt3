@@ -27,6 +27,14 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   })
 
+  function setMessages(newMessages: Message[]) {
+    messages.value = [...newMessages]
+  }
+
+  function setQuestion(newQuestion: string) {
+    question.value = newQuestion
+  }
+
   async function transcribeFile() {
     if (file.value) {
       const fileBase64 = await useFileToBase64().toBase64(file.value)
@@ -107,6 +115,8 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     isTranscribing,
     confidence,
     tokensUsed,
-    messages
+    messages,
+    setMessages,
+    setQuestion
   }
 })
