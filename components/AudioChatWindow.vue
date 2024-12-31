@@ -70,6 +70,7 @@ async function sendMessage({ content }: any) {
     :show-files="false"
     :show-audio="false"
     :show-emojis="false"
+    :show-new-messages-divider="false"
     .rooms="rooms"
     .messages="messages"
     :current-user-id="userId"
