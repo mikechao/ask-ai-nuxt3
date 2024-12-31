@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const imageChatComponent = defineAsyncComponent(() => import('~/components/ImageChatWindow.vue'))
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
+const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
 const imageChatStore = useImageChatStore()
 const imageAreaHeight = ref(0)
 const imageChatWindowHeight = computed(() => {
@@ -20,6 +20,14 @@ function observeHeight() {
 onMounted(() => {
   observeHeight()
 })
+
+function getContent() {
+  return imageChatStore.imageURL
+}
+
+async function sendPrompt() {
+  await imageChatStore.sendPrompt()
+}
 </script>
 
 <template>
@@ -43,7 +51,15 @@ onMounted(() => {
       <h3 v-if="imageChatStore.tokensUsed > 0">Tokens used so far: {{ imageChatStore.tokensUsed }}</h3>
     </div>
     <div class="flex-1 flex h-full">
-      <imageChatComponent :height="imageChatWindowHeight" class="block w-full"/>
+      <ChatWindow 
+        :height="imageChatWindowHeight"
+        :store="imageChatStore"
+        initial-message="Hello add an image to the left and ask questions below and I will answer to the best of my ability"
+        empty-message="You did not give me any image to analyze"
+        :get-content="getContent"
+        :send-prompt="sendPrompt"
+        class="block w-full"
+      />
     </div>
   </LayoutPageWrapper>
 </template>
