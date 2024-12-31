@@ -67,11 +67,11 @@ const leadingsText = computed(() => [
         </div>
         <div class="flex space-x-4 ml-2 mt-8 justify-center md:justify-start">
           <AwesomeButton @click="userStore.loginAsGuest">
-            <Icon name="fluent:guest-24-regular" class="w-5 h5"/>
+            <Icon name="mdi:shield-account" class="w-5 h5"/>
             Login as Guest
           </AwesomeButton>
           <AwesomeButton @click="userStore.loginWithGoogle">
-            <Icon name="simple-line-icons:social-google" class="w-5 h-5 mr-1"/>
+            <Icon name="mdi:google" class="w-5 h-5 mr-1"/>
             Login with Google
           </AwesomeButton>
           <AwesomeButton @click="userStore.loginWithGitHub">
