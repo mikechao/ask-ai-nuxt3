@@ -10,7 +10,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxtjs/color-mode',
     'nuxt-vuefire',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxtjs/google-fonts'
   ],
   runtimeConfig: {
     openaiAPIKey: '',
@@ -47,6 +48,15 @@ export default defineNuxtConfig({
             if (seprateModule) return seprateModule
           }
         }
+      }
+    }
+  },
+  googleFonts: {
+    display: 'swap',
+    families: {
+      Nunito: {
+        wght: [200, 300, 400, 600, 700, 800, 900],
+        ital: [200, 300, 400, 600, 700, 800, 900],
       }
     }
   }
