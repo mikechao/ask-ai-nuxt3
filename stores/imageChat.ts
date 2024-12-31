@@ -1,3 +1,5 @@
+import useFileToBase64 from "~/composables/useFileToBase64"
+
 export const useImageChatStore = defineStore('imageChat', () => {
   const file = ref<File>()
   const prompt = ref<string[]>([])
@@ -25,29 +27,9 @@ export const useImageChatStore = defineStore('imageChat', () => {
     }
   })
 
-  async function imageFileToBase64(file: File) {
-    const arrayBuffer = await imageFileToArrayBuffer(file) as ArrayBuffer
-    const base64 = btoa(
-      new Uint8Array(arrayBuffer).reduce(
-        (data, byte) => data + String.fromCharCode(byte),
-        ""
-      )
-    )
-    return base64
-  }
-
-  function imageFileToArrayBuffer(file: File) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file)
-    })
-  }
-
   async function describeImage() {
     if (file.value) {
-      const imageBase64 = await imageFileToBase64(file.value)
+      const imageBase64 = await useFileToBase64().toBase64(file.value)
       const res = await $fetch<ImageDescribeResponse>('/api/image/describe', {
         method: 'POST',
         body: JSON.stringify({ imageBase64: imageBase64 }),

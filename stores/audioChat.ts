@@ -1,3 +1,5 @@
+import useFileToBase64 from "~/composables/useFileToBase64"
+
 export const useAudioChatStore = defineStore('audioChat', () => {
   const file = ref<File>()
   const prompt = ref<string[]>([])
@@ -23,29 +25,9 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   })
 
-  async function fileToBase64(file: File) {
-    const arrayBuffer = await fileToArrayBuffer(file) as ArrayBuffer
-    const base64 = btoa(
-      new Uint8Array(arrayBuffer).reduce(
-        (data, byte) => data + String.fromCharCode(byte),
-        ""
-      )
-    )
-    return base64
-  }
-
-  function fileToArrayBuffer(file: File) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file)
-    })
-  }
-
   async function transcribeFile() {
     if (file.value) {
-      const fileBase64 = await fileToBase64(file.value)
+      const fileBase64 = await useFileToBase64().toBase64(file.value)
       isTranscribing.value = true
       $fetch<AudioTranscribeResposne>('/api/audio/transcribe', {
         method: 'POST',
