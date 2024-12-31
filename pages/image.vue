@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ImageFileUploader from '~/components/ImageFileUploader.vue';
-
 const imageChatComponent = defineAsyncComponent(() => import('~/components/ImageChatWindow.vue'))
 const imageChatStore = useImageChatStore()
 const imageAreaHeight = ref(0)
@@ -28,7 +26,7 @@ onMounted(() => {
     <div id="imageArea" class="flex-1 flex flex-col mr-2 h-full w-full">
       <h3>Choose an image that you would like to ask questions about.</h3>
       <section class="my-4">
-        <ImageFileUploader/>
+        <LazyImageFileUploader/>
       </section>
       <div v-if="imageChatStore.imageURL.length > 0" class="flex-1 flex items-start justify-start">
         <img :src="imageChatStore.imageURL" alt="uploaded image" class="max-w-full max-h-full object-contain">

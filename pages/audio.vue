@@ -26,9 +26,9 @@ onMounted(() => {
       <div id="audioArea" class="flex-1 flex flex-col mr-2 h-full">
         <h3>Choose audio that has some speech that you would like to ask questions about.</h3>
         <section class="mt-4">
-          <AudioFileUploader file-type="audio/*"/>
+          <LazyAudioFileUploader file-type="audio/*"/>
         </section>
-        <AudioTranscribe class="h-full"/>
+        <LazyAudioTranscribe class="h-full"/>
         <h3 v-if="audioChatStore.tokensUsed > 0">Tokens used: {{ audioChatStore.tokensUsed }}</h3>
       </div>
       <div class="flex-1 flex h-full">
