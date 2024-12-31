@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const audioChatComponent = defineAsyncComponent(() => import('~/components/AudioChatWindow.vue'))
+const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
 const audioAreaHeight = ref(0)
 const audioChatWindowHeight = computed(() => {
   return `${audioAreaHeight.value}px`

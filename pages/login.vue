@@ -2,6 +2,7 @@
 import { useUserStore } from '~/stores/userStore'
 
 const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
+const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
 
 const { awesome } = useAppConfig()
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const imageChatComponent = defineAsyncComponent(() => import('~/components/ImageChatWindow.vue'))
+const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
 const imageChatStore = useImageChatStore()
 const imageAreaHeight = ref(0)
 const imageChatWindowHeight = computed(() => {

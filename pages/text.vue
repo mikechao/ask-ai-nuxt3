@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const textChatComponent = defineAsyncComponent(() => import('~/components/TextChatWindow.vue'))
+const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
+
 const textChatStore = useTextChatStore()
 const textAreaHeight = ref(0)
 const textChatWindowHeight = computed(() => {
