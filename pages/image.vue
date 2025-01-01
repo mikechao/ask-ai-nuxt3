@@ -2,6 +2,7 @@
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
 const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
 const imageChatStore = useImageChatStore()
+const tokenStore = useTokenStore()
 const imageAreaHeight = ref(0)
 const imageChatWindowHeight = computed(() => {
   return `${imageAreaHeight.value}px`
@@ -48,7 +49,10 @@ async function sendPrompt() {
           class="w-full flex-1 resize-none overflow-y-auto"
         />
       </div>
-      <h3 v-if="imageChatStore.tokensUsed > 0">Tokens used so far: {{ imageChatStore.tokensUsed }}</h3>
+      <div class="flex space-x-4">
+        <h3 v-if="tokenStore.imageTokens> 0">Tokens used for image: {{ tokenStore.imageTokens }}</h3>
+        <h3 v-if="tokenStore.totalTokens > 0">Total tokens used: {{ tokenStore.totalTokens }}</h3>
+      </div>
     </div>
     <div class="flex-1 flex h-full">
       <ChatWindow 

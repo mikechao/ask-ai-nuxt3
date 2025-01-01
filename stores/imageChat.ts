@@ -8,8 +8,6 @@ export const useImageChatStore = defineStore('imageChat', () => {
   const question = ref<string>('')
   const clearFile = ref<boolean>(false)
   const imageDescription = ref<string>('')
-  const imageDescriptionTokensUsed = ref<number>(0)
-  const chatTokensUsed = ref<number>(0)
   const imageURL = computed(() => {
     if (file.value) {
       const objectURL = useObjectUrl(file)
@@ -18,10 +16,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
       return ''
     }
   })
-  const tokensUsed = computed(() => {
-    return imageDescriptionTokensUsed.value + chatTokensUsed.value
-  })
   const messages: Ref<Message[]> = ref([])
+  const tokenStore = useTokenStore()
 
   watch(imageURL, (newImageURL, oldImageURL) => {
     if (newImageURL !== oldImageURL) {
@@ -48,7 +44,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
         }
       })
       imageDescription.value = res.imageDescription
-      imageDescriptionTokensUsed.value = res.tokensUsed
+      tokenStore.addImageDescriptionTokensUsed(res.tokensUsed)
     } else {
       console.log('No file to describe')
     }
@@ -68,7 +64,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
         }
       })
       gptResponse.value = res.gptResponse
-      chatTokensUsed.value = res.tokensUsed
+      tokenStore.addImageChatTokensUsed(res.tokensUsed)
     } else {
       console.log('No file to send')
     }
@@ -81,8 +77,6 @@ export const useImageChatStore = defineStore('imageChat', () => {
     question.value = ''
     clearFile.value = false
     imageDescription.value = ''
-    imageDescriptionTokensUsed.value = 0
-    chatTokensUsed.value = 0
     messages.value = []
   }
 
@@ -94,7 +88,6 @@ export const useImageChatStore = defineStore('imageChat', () => {
     clearFile,
     clearChat,
     sendPrompt,
-    tokensUsed,
     imageDescription,
     messages,
     setMessages,
