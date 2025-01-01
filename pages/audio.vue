@@ -7,6 +7,7 @@ const audioChatWindowHeight = computed(() => {
 })
 
 const audioChatStore = useAudioChatStore()
+const tokenStore = useTokenStore()
 
 function observeHeight() {
   const resizeObserver = new ResizeObserver(function(entries: ResizeObserverEntry[]) {
@@ -39,7 +40,10 @@ async function sendPrompt() {
           <LazyAudioFileUploader file-type="audio/*"/>
         </section>
         <LazyAudioTranscribe class="h-full"/>
-        <h3 v-if="audioChatStore.tokensUsed > 0">Tokens used: {{ audioChatStore.tokensUsed }}</h3>
+        <div class="flex space-x-4">
+          <h3 v-if="tokenStore.state.audioTokens > 0">Tokens used for audio: {{ tokenStore.state.audioTokens}}</h3>
+          <h1 v-if="tokenStore.totalTokens > 0">Total tokens used: {{ tokenStore.totalTokens }}</h1>
+        </div>
       </div>
       <div class="flex-1 flex h-full">
         <ChatWindow 

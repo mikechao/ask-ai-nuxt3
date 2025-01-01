@@ -10,9 +10,9 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   const clearFile = ref<boolean>(false)
   const isTranscribing = ref(false)
   const confidence = ref<number>(0)
-  const tokensUsed = ref<number>(0)
   let includeTranscriptToAnalyze = true
   const messages: Ref<Message[]> = ref([])
+  const tokenStore = useTokenStore()
 
   watch(transcript, (newTranscript, oldTranscript) => {
     if (newTranscript !== oldTranscript) {
@@ -86,7 +86,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
       }
     })
     gptResponse.value = res.gptResponse
-    tokensUsed.value = res.tokensUsed
+    tokenStore.addAudioTokens(res.tokensUsed)
   }
   
   function clearChat() {
@@ -114,7 +114,6 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     clearFile,
     isTranscribing,
     confidence,
-    tokensUsed,
     messages,
     setMessages,
     setQuestion
