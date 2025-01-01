@@ -1,6 +1,7 @@
 <template>
     <div class="overflow-x-hidden">
       <LayoutPageNavbar class="h-[52px] max-h-[52px]" />
+      <slot name="leftSide" />
       <LayoutPageContent class="max-w-[68rem] m-auto h-full">
         <slot />
       </LayoutPageContent>
