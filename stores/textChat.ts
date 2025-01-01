@@ -1,4 +1,5 @@
 import type { Message } from 'vue-advanced-chat'
+import { useTokenStore } from './tokenStore'
 
 export const useTextChatStore = defineStore('textChat', () => {
   // text we want openai to analyze
@@ -13,10 +14,9 @@ export const useTextChatStore = defineStore('textChat', () => {
   // reponse from open ai
   const gptResponse = ref<string>('')
 
-  // the number of tokens used so far
-  const tokensUsed = ref(0)
-
   const messages: Ref<Message[]> = ref([])
+
+  const tokenStore = useTokenStore()
 
   let includeTextToAnalyze = true
 
@@ -63,7 +63,7 @@ export const useTextChatStore = defineStore('textChat', () => {
       }
     })
     gptResponse.value = res.gptResponse
-    tokensUsed.value = res.tokensUsed
+    tokenStore.addTextTokens(res.tokensUsed)
   }
 
   // Resets the chat data
@@ -73,7 +73,6 @@ export const useTextChatStore = defineStore('textChat', () => {
     prompt.value = []
     gptResponse.value = ''
     includeTextToAnalyze = true
-    tokensUsed.value = 0
     messages.value = []
   }
 
@@ -81,8 +80,7 @@ export const useTextChatStore = defineStore('textChat', () => {
     text, 
     question, 
     prompt, 
-    gptResponse, 
-    tokensUsed, 
+    gptResponse,
     createPrompt, 
     sendPrompt, 
     clearChat, 

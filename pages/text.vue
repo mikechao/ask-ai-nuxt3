@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useTokenStore } from '~/stores/tokenStore'
+
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
 const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
 const textChatStore = useTextChatStore()
+const tokenStore = useTokenStore()
 const textAreaHeight = ref(0)
 const textChatWindowHeight = computed(() => {
   return `${textAreaHeight.value}px`
@@ -40,7 +43,10 @@ async function sendPrompt() {
           class="w-full h-full resize-none"
         />
       </section>
-      <h1 v-if="textChatStore.tokensUsed > 0">Tokens used so far: {{ textChatStore.tokensUsed }}</h1>
+      <div class="flex space-x-4">
+        <h1 v-if="tokenStore.state.textTokens > 0">Tokens used for text: {{ tokenStore.state.textTokens }}</h1>
+        <h1 v-if="tokenStore.totalTokens > 0">Total tokens used: {{ tokenStore.totalTokens }}</h1>
+      </div>
     </div>
     <div class="flex-1 flex h-full">
       <ChatWindow 

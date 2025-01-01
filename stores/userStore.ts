@@ -8,6 +8,7 @@ export const useUserStore = defineStore('userStore', () => {
   const textChatStore = useTextChatStore()
   const audioChatStore = useAudioChatStore()
   const imageChatStore = useImageChatStore()
+  const tokenStore = useTokenStore()
   const appUser = ref<User>()
   const isLoading = ref(false)
 
@@ -24,6 +25,7 @@ export const useUserStore = defineStore('userStore', () => {
     textChatStore.clearChat()
     audioChatStore.clearChat()
     imageChatStore.clearChat()
+    tokenStore.reset()
     await auth.signOut()
     isLoading.value = false
     token.value = null
