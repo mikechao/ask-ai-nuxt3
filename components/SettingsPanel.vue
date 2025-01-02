@@ -3,6 +3,9 @@ import { VueSidePanel } from 'vue3-side-panel'
 import 'vue3-side-panel/dist/vue3-side-panel.css'
 
 const isOpen = ref(false)
+const pirateMode = ref(false)
+const aiMode = ref(false)
+const yodaMode = ref(false)
 
 const openPanel = () => {
   isOpen.value = true
@@ -18,6 +21,7 @@ const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
   />
   <VueSidePanel 
     v-model="isOpen"
+    width="300px"
     side="left"
     :header-class="sidePanelClass"
     :body-class="sidePanelClass"
@@ -31,7 +35,33 @@ const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
     </template>
     <template #default>
       <div class="h-full">
-        <h2> This is scrolled body! </h2>
+        <AwesomeCard>
+          <AwesomeCardTitle text="Chat Mode"/>
+            <AwesomeCardFooter>
+              <p>Talk like AI Assistant</p>
+              <AwesomeFormSwitch v-model="aiMode">
+                <span class="capitalize">
+                  {{ aiMode ? 'enabled' : 'disabled' }}
+                </span>
+              </AwesomeFormSwitch>
+            </AwesomeCardFooter>
+            <AwesomeCardFooter>
+              <p>Talk like a pirate</p>
+              <AwesomeFormSwitch v-model="pirateMode">
+                <span class="capitalize">
+                  {{ pirateMode ? 'enabled' : 'disabled' }}
+                </span>
+              </AwesomeFormSwitch>
+            </AwesomeCardFooter>
+            <AwesomeCardFooter>
+              <p>Talk like a Yoda</p>
+              <AwesomeFormSwitch v-model="yodaMode">
+                <span class="capitalize">
+                  {{ yodaMode ? 'enabled' : 'disabled' }}
+                </span>
+              </AwesomeFormSwitch>
+            </AwesomeCardFooter>
+        </AwesomeCard>
       </div>    
     </template>
   </VueSidePanel>
