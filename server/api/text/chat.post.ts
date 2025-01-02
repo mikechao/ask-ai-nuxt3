@@ -23,8 +23,7 @@ export default defineEventHandler(async event => {
     const textChatRequest = body as TextChatRequest
 
     const input = textChatRequest.messages
-    const aiChatModeEnum = textChatRequest.aiChatMode
-    const aiChatModeString: string = aiChatModeEnum
+    const aiChatMode = textChatRequest.aiChatMode
 
     if (input === null) {
         throw createError({
@@ -32,6 +31,6 @@ export default defineEventHandler(async event => {
             statusMessage: 'Request body is missing messages'
         })
     }
-    const response = await textAnalysis(input, token, prompt, aiChatModeString)
+    const response = await textAnalysis(input, token, prompt, aiChatMode)
     return response
 })
