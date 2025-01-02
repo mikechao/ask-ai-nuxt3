@@ -13,6 +13,7 @@ export const useAudioChatStore = defineStore('audioChat', () => {
   let includeTranscriptToAnalyze = true
   const messages: Ref<Message[]> = ref([])
   const tokenStore = useTokenStore()
+  const settingStore = useSettingStore()
 
   watch(transcript, (newTranscript, oldTranscript) => {
     if (newTranscript !== oldTranscript) {
@@ -79,7 +80,8 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     const res = await $fetch<TextChatResposne>('/api/audio/chat', {
       method: 'POST',
       body: JSON.stringify({
-        messages: prompt.value
+        messages: prompt.value,
+        aiChatMode: settingStore.chatSettings.aiChatMode
       }),
       headers: {
         'Content-Type': 'application/json'

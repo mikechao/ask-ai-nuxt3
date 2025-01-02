@@ -1,23 +1,30 @@
-import { AIChatMode } from "~/types/enums"
 import { textAnalysis } from "../../utils/textAnalysisChat"
 import { PromptTemplate } from "@langchain/core/prompts"
+
+const template = `You are a helpful AI assiatant.
+You will answer questions about the following text that has been transcribed from an audio file.
+You will keep responses short as if you are replying
+in an online chat. Do not include "AI:" in your responses.
+You will respond as if you are {aiChatMode}
+The transcribed text is under "Transcript to analyze"
+The human question is under "Question to answer".
+Current conversation: {chat_history}
+{input}
+`
+
+const prompt = new PromptTemplate({
+  inputVariables: ["input", "aiChatMode", "chat_history"],
+  template: template
+})
 
 export default defineEventHandler(async event => {
   const body = await readBody(event)
   const token = getCookie(event, 'token') as string
 
-  const input = body.messages
+  const textChatRequest = body as TextChatRequest
 
-  const prompt = PromptTemplate.fromTemplate(`You are a helpful AI assiatant.
-    You will answer questions about the following text that has been transcribed from an audio file.
-    You will keep responses short as if you are replying
-    in an online chat. Do not include "AI:" in your responses.
-    You will respond as if you are {aiChatMode}
-    The transcribed text is under "Transcript to analyze"
-    The human question is under "Question to answer".
-    Current conversation: {chat_history}
-    {input}
-    `)
+  const input = textChatRequest.messages
+  const aiChatMode = textChatRequest.aiChatMode
 
   if (input === null) {
       throw createError({
@@ -25,7 +32,7 @@ export default defineEventHandler(async event => {
           statusMessage: 'Request body is missing messages'
       })
   }
-  const aiChatModeString: string = AIChatMode.AI
-  const response = await textAnalysis(input, token, prompt, aiChatModeString)
+
+  const response = await textAnalysis(input, token, prompt, aiChatMode)
   return response
 })
