@@ -10,10 +10,9 @@ export default function() {
 
   const status: UserStatus = { state: 'online', lastChanged: "Never"}
 
-  const aiAvatar = "./aiAvatar.webp"
   const aiSenderId = "1"
   const users: RoomUser[] = [
-    { _id: aiSenderId, username: "AI Bot", avatar: aiAvatar, status: status },
+    { _id: aiSenderId, username: "AI Bot", avatar: settingStore.chatSettings.aiAvatarURL, status: status },
     { _id: userId, username: userStore.getUserName(), avatar: userAvatar, status: status }
   ]
   const rooms: Ref<Room[]> = ref([
@@ -29,7 +28,7 @@ export default function() {
 
   function addAIMessage(content: string) {
     messageId++
-    const aiMessage = { _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: aiAvatar, date: formattedDate}
+    const aiMessage = { _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: settingStore.chatSettings.aiAvatarURL, date: formattedDate}
     messages.value = [...messages.value, aiMessage]
   }
   
