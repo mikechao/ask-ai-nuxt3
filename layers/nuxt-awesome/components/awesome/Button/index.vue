@@ -23,6 +23,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  vertical: {
+    type: Boolean,
+    default: false
   }
 })
 // state:styles
@@ -57,7 +61,12 @@ const sizes = reactive<{
 const selectedStyle = computed(() =>
   props.type in styles ? styles[props.type] : styles.primary,
 )
-const selectedSize = computed(() => sizes[props.size] || sizes.lg)
+const selectedSize = computed(() => props.vertical ? 'text-sm rounded' : sizes[props.size] || sizes.lg)
+
+const verticalStyle = computed(() => {
+  return props.vertical ? 'writing-mode: vertical-rl; padding-top: 10px; padding-bottom: 10px' : ''
+})
+
 // methods
 const onClick = (event: MouseEvent) => {
   const router = useRouter()
@@ -76,6 +85,7 @@ const onClick = (event: MouseEvent) => {
     tag="a"
     :to="to"
     :class="`${defaultStyle} ${selectedStyle} ${selectedSize}`"
+    :style="verticalStyle"
   >
     <slot>{{ text }}</slot>
   </NuxtLink>
@@ -83,6 +93,7 @@ const onClick = (event: MouseEvent) => {
     v-else
     :class="`${defaultStyle} ${selectedStyle} ${selectedSize}`"
     :href="href"
+    :style="verticalStyle"
     @click="onClick"
   >
     <slot>{{ text }}</slot>

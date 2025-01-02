@@ -36,7 +36,7 @@ async function sendPrompt() {
 <template>
   <LayoutPageWrapper class="flex-1 flex">
     <template #leftSide>
-      <AwesomeButton text="Settings" size="sm" class="absolute left-0 top-1/2 transform -translate-y-1/2 ml-2"/>
+      <SettingsPanel />
     </template>
     <div id="textArea" class="flex-1 flex flex-col mr-2 h-full">
       <h1>Enter the text you would like to ask questions about.</h1>
