@@ -33,6 +33,9 @@ async function sendPrompt() {
 
 <template>
   <LayoutPageWrapper class="flex-1 flex">
+    <template #leftSide>
+      <SettingsPanel />
+    </template>
     <div id="imageArea" class="flex-1 flex flex-col mr-2 h-full w-full">
       <h3>Choose an image that you would like to ask questions about.</h3>
       <section class="my-4">
