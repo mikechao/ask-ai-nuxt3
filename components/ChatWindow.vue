@@ -44,9 +44,10 @@ watch(messages, (newValue) => {
 })
 
 watch(settingsStore.chatSettings, (newValue) => {
-  if (newValue.avatarURL) {
-    rooms.value[0].avatar = newValue.avatarURL
-    // generate a new key to force a re-render to update the avatar
+  if (newValue.aiAvatarURL) {
+    rooms.value[0].avatar = newValue.aiAvatarURL
+    // generate a new key to force a re-render 
+    // to update the avatar for the room
     key.value = Math.random() * 10000
   }
 })

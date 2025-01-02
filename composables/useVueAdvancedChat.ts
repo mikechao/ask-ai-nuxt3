@@ -17,7 +17,7 @@ export default function() {
     { _id: userId, username: userStore.getUserName(), avatar: userAvatar, status: status }
   ]
   const rooms: Ref<Room[]> = ref([
-    { roomId: '1', roomName: 'Ask AI', users: users, avatar: settingStore.chatSettings.avatarURL, }
+    { roomId: '1', roomName: 'Ask AI', users: users, avatar: settingStore.chatSettings.aiAvatarURL, }
   ])
   const messageActions: string[] = []
 
