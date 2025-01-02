@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { VueSidePanel } from 'vue3-side-panel'
 import 'vue3-side-panel/dist/vue3-side-panel.css'
+import { useSettingStore } from '~/stores/settingsStore'
 
 const isOpen = ref(false)
-const pirateMode = ref(false)
-const aiMode = ref(false)
-const yodaMode = ref(false)
+const settingsStore = useSettingStore()
 
 const openPanel = () => {
   isOpen.value = true
@@ -39,25 +38,25 @@ const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
           <AwesomeCardTitle text="Chat Mode"/>
             <AwesomeCardFooter>
               <p>Talk like AI Assistant</p>
-              <AwesomeFormSwitch v-model="aiMode">
+              <AwesomeFormSwitch v-model="settingsStore.aiMode">
                 <span class="capitalize">
-                  {{ aiMode ? 'enabled' : 'disabled' }}
+                  {{ settingsStore.aiMode ? 'enabled' : 'disabled' }}
                 </span>
               </AwesomeFormSwitch>
             </AwesomeCardFooter>
             <AwesomeCardFooter>
               <p>Talk like a pirate</p>
-              <AwesomeFormSwitch v-model="pirateMode">
+              <AwesomeFormSwitch v-model="settingsStore.pirateMode">
                 <span class="capitalize">
-                  {{ pirateMode ? 'enabled' : 'disabled' }}
+                  {{ settingsStore.pirateMode ? 'enabled' : 'disabled' }}
                 </span>
               </AwesomeFormSwitch>
             </AwesomeCardFooter>
             <AwesomeCardFooter>
               <p>Talk like a Yoda</p>
-              <AwesomeFormSwitch v-model="yodaMode">
+              <AwesomeFormSwitch v-model="settingsStore.yodaMode">
                 <span class="capitalize">
-                  {{ yodaMode ? 'enabled' : 'disabled' }}
+                  {{ settingsStore.yodaMode ? 'enabled' : 'disabled' }}
                 </span>
               </AwesomeFormSwitch>
             </AwesomeCardFooter>
