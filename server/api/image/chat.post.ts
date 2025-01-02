@@ -13,27 +13,34 @@ const llm = new ChatOpenAI({
   apiKey: runtimeConfig.openaiAPIKey
 })
 
-const prompt = PromptTemplate.fromTemplate(`
+const template = `
   You are a helpful AI assistant. 
   You will answer questions about the following text that is a description of
   an user uploaded image. You will keep reponses short as if you are replying in a online chat.
   Do not include "AI:" in your responses.
+  You will respond as if you are {aiChatMode}
   The image description is under "Image Description:"
   The question to answer is under "Question to answer:"
   Current conversation: {chat_history}
   {input}
-  `)
+  `
+
+const prompt = new PromptTemplate({
+    inputVariables: ["input", "aiChatMode", "chat_history"],
+    template: template
+})
 
 export default defineEventHandler(async event => {
   const body = await readBody(event)
   const token = getCookie(event, 'token') as string
 
-  const { imageDescription, question } = body as ImageChatRequest
+  const { imageDescription, question, aiChatMode } = body as ImageChatRequest
 
   const chatHistory = getFirestoreChatMessageHistory(token)
   const memory = new BufferMemory({
       chatHistory: chatHistory,
-      memoryKey: "chat_history"
+      memoryKey: "chat_history",
+      inputKey: "input"
   });
 
   let totalTokens = 0
@@ -50,7 +57,7 @@ export default defineEventHandler(async event => {
 
   const input = "Image Description:\n" + imageDescription + "\nQuestion to answer:\n" + question
 
-  const res = await chain.call({ input: input }, { callbacks: [llmEndHandler] })
+  const res = await chain.call({ input: input, aiChatMode: aiChatMode }, { callbacks: [llmEndHandler] })
 
   // console.log('res', res)
 

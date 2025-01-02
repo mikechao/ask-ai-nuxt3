@@ -31,7 +31,9 @@ declare global {
 
     imageDescription: string,
 
-    question: string
+    question: string,
+
+    aiChatMode: AIChatMode
   }
 
   interface ImageDescribeRequest {

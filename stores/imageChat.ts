@@ -18,6 +18,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
   })
   const messages: Ref<Message[]> = ref([])
   const tokenStore = useTokenStore()
+  const settingStore = useSettingStore()
 
   watch(imageURL, (newImageURL, oldImageURL) => {
     if (newImageURL !== oldImageURL) {
@@ -58,7 +59,9 @@ export const useImageChatStore = defineStore('imageChat', () => {
 
       const res = await $fetch<TextChatResposne>('/api/image/chat', {
         method: 'POST',
-        body: JSON.stringify({ imageDescription: imageDescription.value, question: question.value}),
+        body: JSON.stringify({ imageDescription: imageDescription.value, 
+          question: question.value,
+          aiChatMode: settingStore.chatSettings.aiChatMode}),
         headers: {
           'Content-Type': 'application/json'
         }
