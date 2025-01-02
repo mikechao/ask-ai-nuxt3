@@ -53,7 +53,7 @@ const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
               </AwesomeFormSwitch>
             </AwesomeCardFooter>
             <AwesomeCardFooter>
-              <p>Talk like a Yoda</p>
+              <p>Talk like Yoda</p>
               <AwesomeFormSwitch v-model="settingsStore.yodaMode">
                 <span class="capitalize">
                   {{ settingsStore.yodaMode ? 'enabled' : 'disabled' }}
