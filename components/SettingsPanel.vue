@@ -5,10 +5,6 @@ import { useSettingStore } from '~/stores/settingsStore'
 
 const isOpen = ref(false)
 const settingsStore = useSettingStore()
-
-const openPanel = () => {
-  isOpen.value = true
-}
 const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
 </script>
 <template>
@@ -16,7 +12,7 @@ const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
     text="Settings" 
     :vertical=true 
     class="absolute left-0 top-1/2 transform -translate-y-1/2 ml-2"
-    @click="openPanel"
+    @click="isOpen = true"
   />
   <VueSidePanel 
     v-model="isOpen"
