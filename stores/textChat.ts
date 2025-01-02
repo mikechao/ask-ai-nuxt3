@@ -18,6 +18,8 @@ export const useTextChatStore = defineStore('textChat', () => {
 
   const tokenStore = useTokenStore()
 
+  const settingStore = useSettingStore()
+
   let includeTextToAnalyze = true
 
   watch(text, (newText, oldText) => {
@@ -56,7 +58,8 @@ export const useTextChatStore = defineStore('textChat', () => {
     const res = await $fetch<TextChatResposne>('/api/text/chat', {
       method: 'POST',
       body: JSON.stringify({
-        messages: prompt.value
+        messages: prompt.value,
+        aiChatMode: settingStore.chatSettings.aiChatMode
       }),
       headers: {
         'Content-Type': 'application/json'

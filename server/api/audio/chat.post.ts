@@ -1,3 +1,4 @@
+import { AIChatMode } from "~/types/enums"
 import { textAnalysis } from "../../utils/textAnalysisChat"
 import { PromptTemplate } from "@langchain/core/prompts"
 
@@ -11,6 +12,7 @@ export default defineEventHandler(async event => {
     You will answer questions about the following text that has been transcribed from an audio file.
     You will keep responses short as if you are replying
     in an online chat. Do not include "AI:" in your responses.
+    You will respond as if you are {aiChatMode}
     The transcribed text is under "Transcript to analyze"
     The human question is under "Question to answer".
     Current conversation: {chat_history}
@@ -23,6 +25,7 @@ export default defineEventHandler(async event => {
           statusMessage: 'Request body is missing messages'
       })
   }
-  const response = await textAnalysis(input, token, prompt)
+  const aiChatModeString: string = AIChatMode.AI
+  const response = await textAnalysis(input, token, prompt, aiChatModeString)
   return response
 })

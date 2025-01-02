@@ -2,6 +2,11 @@ export { TextChatResposne }
 
 declare global {
 
+  interface TextChatRequest {
+    messages: string[]
+    aiChatMode: AIChatMode
+  }
+
   interface TextChatResposne {
     /** The text response from the LLM */
     gptResponse: string,
@@ -37,4 +42,5 @@ declare global {
     imageDescription: string,
     tokensUsed: number
   }
+
 }
