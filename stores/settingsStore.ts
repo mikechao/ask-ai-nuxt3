@@ -7,6 +7,8 @@ export const useSettingStore = defineStore('settingStore', () => {
     if (newValue) {
       pirateMode.value = false
       yodaMode.value = false
+    } else if (!pirateMode.value && !yodaMode.value) {
+      aiMode.value = true
     }
   })
 
@@ -14,6 +16,8 @@ export const useSettingStore = defineStore('settingStore', () => {
     if (newValue) {
       aiMode.value = false
       yodaMode.value = false
+    } else if (!aiMode.value && !yodaMode.value) {
+      aiMode.value = true
     }
   })
 
@@ -21,6 +25,8 @@ export const useSettingStore = defineStore('settingStore', () => {
     if (newValue) {
       aiMode.value = false
       pirateMode.value = false
+    } else if (!aiMode.value && !pirateMode.value) {
+      aiMode.value = true
     }
   })
 

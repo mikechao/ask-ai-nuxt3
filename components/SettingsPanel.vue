@@ -6,6 +6,14 @@ import { useSettingStore } from '~/stores/settingsStore'
 const isOpen = ref(false)
 const settingsStore = useSettingStore()
 const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
+
+async function aiModeHanlder({checked, target}: {checked: boolean, target: HTMLInputElement}) {
+  console.log('checked', checked)
+  console.log('target.checked', target.checked)
+  if (checked && !target.checked) {
+    target.checked = true
+  } 
+}
 </script>
 <template>
   <AwesomeButton 
@@ -34,7 +42,7 @@ const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
           <AwesomeCardTitle text="Chat Mode"/>
             <AwesomeCardFooter>
               <p>Talk like AI Assistant</p>
-              <AwesomeFormSwitch v-model="settingsStore.aiMode">
+              <AwesomeFormSwitch v-model="settingsStore.aiMode" @update:checked="aiModeHanlder">
                 <span class="capitalize">
                   {{ settingsStore.aiMode ? 'enabled' : 'disabled' }}
                 </span>

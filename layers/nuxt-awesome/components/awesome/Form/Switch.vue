@@ -14,7 +14,7 @@ const props = defineProps({
     default: undefined,
   },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'update:checked'])
 
 // random
 const randomId = () =>
@@ -31,6 +31,7 @@ const onInputChange = (e: Event) => {
   const target = e.target as HTMLInputElement
   checked.value = target.checked
   emit('update:modelValue', target.checked)
+  emit('update:checked', { checked, target})
 }
 
 // lifecycle
