@@ -13,7 +13,7 @@ const llm = new ChatOpenAI({
   apiKey: runtimeConfig.openaiAPIKey,
 })
 
-export async function textAnalysis(inputs: string[], uid: string, prompt: PromptTemplate, aiChatMode: string): Promise<TextChatResposne> {
+export async function textAnalysis(textChatRequest: TextChatRequest, uid: string, prompt: PromptTemplate): Promise<TextChatResposne> {
   const chatHistory = getFirestoreChatMessageHistory(uid)
   
   const memory = new BufferMemory({
@@ -33,8 +33,9 @@ export async function textAnalysis(inputs: string[], uid: string, prompt: Prompt
   }
 
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, })
+  const inputs = textChatRequest.messages
   const joined = inputs.join('\n')
-  const res = await chain.call({ input: joined, aiChatMode: aiChatMode }, { callbacks: [llmEndHandler]})
+  const res = await chain.call({ input: joined, aiChatMode: textChatRequest.aiChatMode }, { callbacks: [llmEndHandler]})
 
   return new Promise<TextChatResposne>((resolve) => {
     resolve({

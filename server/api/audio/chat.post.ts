@@ -24,7 +24,6 @@ export default defineEventHandler(async event => {
   const textChatRequest = body as TextChatRequest
 
   const input = textChatRequest.messages
-  const aiChatMode = textChatRequest.aiChatMode
 
   if (input === null) {
       throw createError({
@@ -33,6 +32,6 @@ export default defineEventHandler(async event => {
       })
   }
 
-  const response = await textAnalysis(input, token, prompt, aiChatMode)
+  const response = await textAnalysis(textChatRequest, token, prompt)
   return response
 })
