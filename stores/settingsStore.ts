@@ -3,10 +3,15 @@ export const useSettingStore = defineStore('settingStore', () => {
   const pirateMode = ref(false)
   const yodaMode = ref(false)
 
+  const chatSettings = reactive({
+    avatarURL: './aiAvatar.webp'
+  })
+
   watch(aiMode, (newValue) => {
     if (newValue) {
       pirateMode.value = false
       yodaMode.value = false
+      chatSettings.avatarURL = './aiAvatar.webp'
     } else if (!pirateMode.value && !yodaMode.value) {
       aiMode.value = true
     }
@@ -16,6 +21,7 @@ export const useSettingStore = defineStore('settingStore', () => {
     if (newValue) {
       aiMode.value = false
       yodaMode.value = false
+      chatSettings.avatarURL = './pirateAvatar.webp'
     } else if (!aiMode.value && !yodaMode.value) {
       aiMode.value = true
     }
@@ -25,6 +31,7 @@ export const useSettingStore = defineStore('settingStore', () => {
     if (newValue) {
       aiMode.value = false
       pirateMode.value = false
+      chatSettings.avatarURL = './yoda.webp'
     } else if (!aiMode.value && !pirateMode.value) {
       aiMode.value = true
     }
@@ -33,6 +40,7 @@ export const useSettingStore = defineStore('settingStore', () => {
   return {
     aiMode,
     pirateMode,
-    yodaMode
+    yodaMode,
+    chatSettings
   }
 })

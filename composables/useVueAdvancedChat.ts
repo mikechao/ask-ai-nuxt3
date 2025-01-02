@@ -3,6 +3,7 @@ import type {Room, Message, RoomUser, UserStatus, } from 'vue-advanced-chat'
 
 export default function() {
   const userStore = useUserStore()
+  const settingStore = useSettingStore()
 
   const userId = '1234'
   const userAvatar = userStore.getUserPhotoURL()
@@ -16,7 +17,7 @@ export default function() {
     { _id: userId, username: userStore.getUserName(), avatar: userAvatar, status: status }
   ]
   const rooms: Ref<Room[]> = ref([
-    { roomId: '1', roomName: 'Ask AI', users: users, avatar: aiAvatar, }
+    { roomId: '1', roomName: 'Ask AI', users: users, avatar: settingStore.chatSettings.avatarURL, }
   ])
   const messageActions: string[] = []
 

@@ -34,12 +34,21 @@ const props = defineProps({
 
 const colorMode = useColorMode()
 const vueAdvancedChat = useVueAdvancedChat()
+const settingsStore = useSettingStore()
 const messagesLoaded = ref(false)
-
+const key = ref(Math.random() * 10000)
 const { rooms, messages, messageActions, userId } = vueAdvancedChat
 
 watch(messages, (newValue) => {
   props.store.setMessages(newValue)
+})
+
+watch(settingsStore.chatSettings, (newValue) => {
+  if (newValue.avatarURL) {
+    rooms.value[0].avatar = newValue.avatarURL
+    // generate a new key to force a re-render to update the avatar
+    key.value = Math.random() * 10000
+  }
 })
 
 const styles = computed(() => {
@@ -71,9 +80,11 @@ async function sendMessage({ content }: any) {
     vueAdvancedChat.addAIMessage(props.store.gptResponse)
   }
 }
+console.log('key', key.value)
 </script>
 <template>
   <vue-advanced-chat
+    :key="key"
     :height="props.height"
     .styles="styles"
     :theme="colorMode.value"
