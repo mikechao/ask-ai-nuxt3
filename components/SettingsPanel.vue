@@ -8,8 +8,6 @@ const settingsStore = useSettingStore()
 const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
 
 async function aiModeHanlder({checked, target}: {checked: boolean, target: HTMLInputElement}) {
-  console.log('checked', checked)
-  console.log('target.checked', target.checked)
   if (checked && !target.checked) {
     target.checked = true
   } 
