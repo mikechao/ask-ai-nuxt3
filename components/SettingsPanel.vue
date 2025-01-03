@@ -65,6 +65,25 @@ async function aiModeHanlder({checked, target}: {checked: boolean, target: HTMLI
               </AwesomeFormSwitch>
             </AwesomeCardFooter>
         </AwesomeCard>
+        <AwesomeCard>
+          <AwesomeCardTitle text="AI Model"/>
+            <AwesomeCardFooter>
+              <p>Open AI GPT-4o mini</p>
+              <AwesomeFormSwitch v-model="settingsStore.gpt4oMini">
+                <span class="capitalize">
+                  {{ settingsStore.gpt4oMini ? 'In use' : 'not in use' }}
+                </span>
+              </AwesomeFormSwitch>
+            </AwesomeCardFooter>
+            <AwesomeCardFooter>
+              <p>Google Gemini 1.5 Pro</p>
+              <AwesomeFormSwitch v-model="settingsStore.geminiPro">
+                <span class="capitalize">
+                  {{  settingsStore.geminiPro ? 'In use' : 'not in use' }}
+                </span>
+              </AwesomeFormSwitch>
+            </AwesomeCardFooter>
+        </AwesomeCard>
       </div>    
     </template>
   </VueSidePanel>
