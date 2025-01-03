@@ -31,7 +31,7 @@ export async function textAnalysis(textChatRequest: TextChatRequest, uid: string
       totalTokens = output.llmOutput?.tokenUsage.totalTokens
     },
   }
-
+  console.log('Using AI Model', textChatRequest.aiModel)
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, })
   const inputs = textChatRequest.messages
   const joined = inputs.join('\n')
