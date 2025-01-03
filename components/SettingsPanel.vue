@@ -7,7 +7,7 @@ const isOpen = ref(false)
 const settingsStore = useSettingStore()
 const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
 
-async function aiModeHanlder({checked, target}: {checked: boolean, target: HTMLInputElement}) {
+async function aiModeHandler({checked, target}: {checked: boolean, target: HTMLInputElement}) {
   if (checked && !target.checked) {
     target.checked = true
   } 
@@ -42,7 +42,7 @@ async function aiModeHanlder({checked, target}: {checked: boolean, target: HTMLI
           <AwesomeCardTitle text="Chat Mode"/>
             <AwesomeCardFooter>
               <p>Talk like AI Assistant</p>
-              <AwesomeFormSwitch v-model="settingsStore.aiMode" @update:checked="aiModeHanlder">
+              <AwesomeFormSwitch v-model="settingsStore.aiMode" @update:checked="aiModeHandler">
                 <span class="capitalize">
                   {{ settingsStore.aiMode ? 'enabled' : 'disabled' }}
                 </span>
