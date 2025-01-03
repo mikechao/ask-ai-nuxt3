@@ -4,7 +4,7 @@ export enum AIChatMode {
   Yoda = 'Yoda from Star Wars'
 }
 
-export enum AIMode {
+export enum AIModel {
   GPT_4o_mini = 'gpt-4o-mini',
   GEMINI_PRO = 'gemini-1.5-pro'
 }

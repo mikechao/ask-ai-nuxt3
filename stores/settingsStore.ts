@@ -1,4 +1,4 @@
-import { AIChatMode, AIMode } from "~/types/enums"
+import { AIChatMode, AIModel } from "~/types/enums"
 
 export const useSettingStore = defineStore('settingStore', () => {
   const aiMode = ref(true)
@@ -11,12 +11,12 @@ export const useSettingStore = defineStore('settingStore', () => {
   const chatSettings = reactive({
     aiAvatarURL: './aiAvatar.webp',
     aiChatMode: AIChatMode.AI,
-    aiModel: AIMode.GPT_4o_mini
+    aiModel: AIModel.GPT_4o_mini
   })
 
   watch(gpt4oMini, (newValue) => {
     if (newValue) {
-      chatSettings.aiModel = AIMode.GPT_4o_mini
+      chatSettings.aiModel = AIModel.GPT_4o_mini
       geminiPro.value = false
     } else if (!geminiPro.value){
       geminiPro.value = true
@@ -25,7 +25,7 @@ export const useSettingStore = defineStore('settingStore', () => {
 
   watch(geminiPro, (newValue) => {
     if (newValue) {
-      chatSettings.aiModel = AIMode.GEMINI_PRO
+      chatSettings.aiModel = AIModel.GEMINI_PRO
       gpt4oMini.value = false
     } else if (!gpt4oMini.value){
       gpt4oMini.value = true

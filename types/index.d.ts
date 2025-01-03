@@ -3,8 +3,8 @@ export { TextChatResposne }
 declare global {
 
   interface TextChatRequest {
-    messages: string[]
-    aiChatMode: AIChatMode
+    messages: string[],
+    aiChatMode: AIChatMode,
   }
 
   interface TextChatResposne {
