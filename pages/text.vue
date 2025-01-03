@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useTokenStore } from '~/stores/tokenStore'
-
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
 const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
 const textChatStore = useTextChatStore()
@@ -35,9 +33,6 @@ async function sendPrompt() {
 </script>
 <template>
   <LayoutPageWrapper class="flex-1 flex">
-    <template #leftSide>
-      <SettingsPanel />
-    </template>
     <div id="textArea" class="flex-1 flex flex-col mr-2 h-full">
       <h1>Enter the text you would like to ask questions about.</h1>
       <section class="mt-1 flex-1 flex">
