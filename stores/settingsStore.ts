@@ -18,6 +18,8 @@ export const useSettingStore = defineStore('settingStore', () => {
     if (newValue) {
       chatSettings.aiModel = AIMode.GPT_4o_mini
       geminiPro.value = false
+    } else if (!geminiPro.value){
+      geminiPro.value = true
     }
   })
 
@@ -25,6 +27,8 @@ export const useSettingStore = defineStore('settingStore', () => {
     if (newValue) {
       chatSettings.aiModel = AIMode.GEMINI_PRO
       gpt4oMini.value = false
+    } else if (!gpt4oMini.value){
+      gpt4oMini.value = true
     }
   })
 
