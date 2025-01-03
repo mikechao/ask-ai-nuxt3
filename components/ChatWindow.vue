@@ -81,7 +81,7 @@ async function sendMessage({ content }: any) {
     vueAdvancedChat.addAIMessage(props.store.gptResponse)
   }
 }
-console.log('key', key.value)
+
 </script>
 <template>
   <vue-advanced-chat
