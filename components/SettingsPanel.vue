@@ -29,10 +29,12 @@ async function aiModeHanlder({checked, target}: {checked: boolean, target: HTMLI
     hide-close-btn
   >
     <template #header>
-      <div class="flex justify-between items-center h-[52px]">
-        <h1>Settings</h1>
-        <AwesomeButton text="X" size="sm" @click="isOpen = false"/>
-      </div>
+      <AwesomeCard>
+        <div class="flex justify-between items-center h-[52px]">
+          <AwesomeCardTitle text="Settings"/>
+          <AwesomeButton text="X" size="sm" @click="isOpen = false"/>
+        </div>
+      </AwesomeCard>
     </template>
     <template #default>
       <div class="h-full">
