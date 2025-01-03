@@ -50,17 +50,21 @@ export const useTextChatStore = defineStore('textChat', () => {
       prompt.value.length = 0
       prompt.value.push(chatQuestion)
     }
+  }
 
+  function createPostBody(): TextChatRequest {
+    return {
+      messages: prompt.value,
+      aiChatMode: settingStore.chatSettings.aiChatMode,
+      aiModel: settingStore.chatSettings.aiModel
+    }
   }
 
   // sends prompt and recevies the AI-generated response
   async function sendPrompt() {
     const res = await $fetch<TextChatResposne>('/api/text/chat', {
       method: 'POST',
-      body: JSON.stringify({
-        messages: prompt.value,
-        aiChatMode: settingStore.chatSettings.aiChatMode
-      }),
+      body: JSON.stringify(createPostBody()),
       headers: {
         'Content-Type': 'application/json'
       }

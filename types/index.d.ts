@@ -1,3 +1,5 @@
+import type { AIModel } from "./enums"
+
 export { TextChatResposne }
 
 declare global {
@@ -5,6 +7,7 @@ declare global {
   interface TextChatRequest {
     messages: string[],
     aiChatMode: AIChatMode,
+    aiModel: AIModel
   }
 
   interface TextChatResposne {

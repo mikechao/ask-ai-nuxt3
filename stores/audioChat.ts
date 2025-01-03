@@ -76,13 +76,18 @@ export const useAudioChatStore = defineStore('audioChat', () => {
     }
   }
 
+  function createChatPostBody(): TextChatRequest {
+    return {
+      messages: prompt.value,
+      aiChatMode: settingStore.chatSettings.aiChatMode,
+      aiModel: settingStore.chatSettings.aiModel
+    }
+  }
+
   async function sendPrompt() {
     const res = await $fetch<TextChatResposne>('/api/audio/chat', {
       method: 'POST',
-      body: JSON.stringify({
-        messages: prompt.value,
-        aiChatMode: settingStore.chatSettings.aiChatMode
-      }),
+      body: JSON.stringify(createChatPostBody()),
       headers: {
         'Content-Type': 'application/json'
       }
