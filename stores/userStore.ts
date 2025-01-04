@@ -1,3 +1,4 @@
+import { FirebaseError } from "firebase/app"
 import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged, type Auth, type User, GithubAuthProvider, type AuthProvider } from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
@@ -53,13 +54,16 @@ export const useUserStore = defineStore('userStore', () => {
     signInWithPopup(auth, provider)
       .catch((error) => {
         console.log('Fail to login')
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        if (errorCode === 'auth/account-exists-with-different-credential') {
-          handleAccountExistsWithDifferentCred(provider, error)
-        } else {
+        if (error instanceof FirebaseError) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
           console.log('errorCode', errorCode)
           console.log('errorMessage', errorMessage)
+          if (errorCode === 'auth/account-exists-with-different-credential') {
+            handleAccountExistsWithDifferentCred(provider, error)
+          }
+        } else {
+          console.error('Unknown sign in error', error)
         }
       })
       .finally(() => {
@@ -67,7 +71,7 @@ export const useUserStore = defineStore('userStore', () => {
       })
   }
 
-  function handleAccountExistsWithDifferentCred(provider: AuthProvider, error) {
+  function handleAccountExistsWithDifferentCred(provider: AuthProvider, error: FirebaseError) {
     console.log('error', Object.prototype.toString.call(error))
   }
 
