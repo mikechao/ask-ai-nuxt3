@@ -32,11 +32,16 @@ const props = defineProps({
   }
 })
 
+function newKeyValue() {
+  return Math.random() * 10000
+}
+
 const colorMode = useColorMode()
 const vueAdvancedChat = useVueAdvancedChat()
 const settingsStore = useSettingStore()
 const messagesLoaded = ref(false)
-const { rooms, messages, messageActions, userId, key, aiSenderId } = vueAdvancedChat
+const { rooms, messages, messageActions, userId, aiSenderId } = vueAdvancedChat
+const key = ref(newKeyValue())
 
 watch(messages, (newValue) => {
   props.store.setMessages(newValue)
@@ -47,7 +52,7 @@ watch(settingsStore.chatSettings, (newValue) => {
     rooms.value[0].avatar = newValue.aiAvatarURL
     // generate a new key to force a re-render 
     // to update the avatar for the room
-    key.value = Math.random() * 10000
+    key.value = newKeyValue()
   }
 })
 
@@ -76,12 +81,12 @@ async function sendMessage({ content }: any) {
     vueAdvancedChat.addAIMessage(props.emptyMessage)
   } else {
     rooms.value[0].typingUsers = [aiSenderId]
-    key.value = Math.random() * 10000
+    key.value = newKeyValue()
     props.store.setQuestion(content)
     await props.sendPrompt()
     vueAdvancedChat.addAIMessage(props.store.gptResponse)
     rooms.value[0].typingUsers = []
-    key.value = Math.random() * 10000
+    key.value = newKeyValue()
   }
 }
 
