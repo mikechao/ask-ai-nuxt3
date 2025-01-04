@@ -1,17 +1,11 @@
 import { BufferMemory } from "langchain/memory";
 import { getFirestoreChatMessageHistory } from "../../utils/firestoreChatHistory";
-import { ChatOpenAI } from "@langchain/openai"
 import { PromptTemplate } from "@langchain/core/prompts";
 import { ConversationChain } from "langchain/chains"
 import type { LLMResult } from "@langchain/core/outputs";
+import { AIModel } from "~/types/enums";
+import type { AIMessage } from "@langchain/core/messages";
 
-const runtimeConfig = useRuntimeConfig()
-
-const llm = new ChatOpenAI({
-  model: 'gpt-4o-mini',
-  temperature: 0,
-  apiKey: runtimeConfig.openaiAPIKey
-})
 
 const template = `
   You are a helpful AI assistant. 
@@ -34,7 +28,7 @@ export default defineEventHandler(async event => {
   const body = await readBody(event)
   const token = getCookie(event, 'token') as string
 
-  const { imageDescription, question, aiChatMode } = body as ImageChatRequest
+  const { imageDescription, question, aiChatMode, aiModel } = body as ImageChatRequest
 
   const chatHistory = getFirestoreChatMessageHistory(token)
   const memory = new BufferMemory({
@@ -44,14 +38,26 @@ export default defineEventHandler(async event => {
   });
 
   let totalTokens = 0
-
+  console.log('using aiModel', aiModel)
   const llmEndHandler = {
     handleLLMEnd(output: LLMResult) {
-      // console.log(JSON.stringify(output, null, 2))
-      // tokenUsage.totalTokens is specific to the model gpt-4o-mini
-      totalTokens = output.llmOutput?.tokenUsage.totalTokens
+      // console.log('output', JSON.stringify(output, null, 2))
+      if (aiModel === AIModel.GPT_4o_mini) {
+        // tokenUsage.totalTokens is specific to the model gpt-4o-mini
+        totalTokens = output.llmOutput?.tokenUsage.totalTokens
+      } else {
+        const generation = output.generations[0][0]
+        if ('message' in generation) {
+          const message = generation.message as AIMessage
+          if (message.usage_metadata?.total_tokens) {
+            totalTokens = message.usage_metadata?.total_tokens
+          }
+        }
+      }
     },
   }
+
+  const llm = getLanguageModel(aiModel)
 
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, verbose: false})
 
