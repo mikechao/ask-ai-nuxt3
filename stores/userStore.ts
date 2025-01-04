@@ -55,12 +55,20 @@ export const useUserStore = defineStore('userStore', () => {
         console.log('Fail to login')
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log('errorCode', errorCode)
-        console.log('errorMessage', errorMessage)
+        if (errorCode === 'auth/account-exists-with-different-credential') {
+          handleAccountExistsWithDifferentCred(provider, error)
+        } else {
+          console.log('errorCode', errorCode)
+          console.log('errorMessage', errorMessage)
+        }
       })
       .finally(() => {
         isLoading.value = false
       })
+  }
+
+  function handleAccountExistsWithDifferentCred(provider: AuthProvider, error) {
+    console.log('error', Object.prototype.toString.call(error))
   }
 
   function loginWithGoogle() {
