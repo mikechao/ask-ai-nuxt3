@@ -1,9 +1,10 @@
 import type { PromptTemplate, } from "@langchain/core/prompts"
+import type { LLMResult } from "@langchain/core/outputs";
+import type { AIMessage } from "@langchain/core/messages";
 import { ChatOpenAI } from "@langchain/openai"
 import { BufferMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains"
 import { getFirestoreChatMessageHistory } from "./firestoreChatHistory";
-import type { LLMResult } from "@langchain/core/outputs";
 import { AIModel } from "~/types/enums";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
 
@@ -29,17 +30,27 @@ export async function textAnalysis(textChatRequest: TextChatRequest, uid: string
       memoryKey: "chat_history",
       inputKey: "input"
   });
-
   let totalTokens = 0
 
   const llmEndHandler = {
     handleLLMEnd(output: LLMResult) {
-      // console.log(JSON.stringify(output, null, 2))
-      // tokenUsage.totalTokens is specific to the model gpt-4o-mini
-      totalTokens = output.llmOutput?.tokenUsage.totalTokens
+      // console.log('output', JSON.stringify(output, null, 2))
+      if (textChatRequest.aiModel === AIModel.GPT_4o_mini) {
+        // tokenUsage.totalTokens is specific to the model gpt-4o-mini
+        totalTokens = output.llmOutput?.tokenUsage.totalTokens
+      } else {
+        const generation = output.generations[0][0]
+        if ('message' in generation) {
+          const message = generation.message as AIMessage
+          console.log('message', message)
+          if (message.usage_metadata?.total_tokens) {
+            totalTokens = message.usage_metadata?.total_tokens
+          }
+        }
+      }
     },
   }
-  console.log('Using AI Model', textChatRequest.aiModel)
+
   const llm = textChatRequest.aiModel === AIModel.GPT_4o_mini ? gpt4oMini : geminiPro;
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, })
   const inputs = textChatRequest.messages
