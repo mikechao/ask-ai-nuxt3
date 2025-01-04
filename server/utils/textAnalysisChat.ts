@@ -27,7 +27,6 @@ export async function textAnalysis(textChatRequest: TextChatRequest, uid: string
         const generation = output.generations[0][0]
         if ('message' in generation) {
           const message = generation.message as AIMessage
-          console.log('message', message)
           if (message.usage_metadata?.total_tokens) {
             totalTokens = message.usage_metadata?.total_tokens
           }

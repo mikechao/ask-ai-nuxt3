@@ -38,7 +38,7 @@ export default defineEventHandler(async event => {
   });
 
   let totalTokens = 0
-  console.log('using aiModel', aiModel)
+
   const llmEndHandler = {
     handleLLMEnd(output: LLMResult) {
       // console.log('output', JSON.stringify(output, null, 2))
