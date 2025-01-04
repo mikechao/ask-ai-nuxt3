@@ -40,7 +40,8 @@ declare global {
   }
 
   interface ImageDescribeRequest {
-    imageBase64: string
+    imageBase64: string,
+    aiModel: AIModel
   }
 
   interface ImageDescribeResponse {
