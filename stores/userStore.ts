@@ -1,6 +1,5 @@
 import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged,
-  type Auth, type User, GithubAuthProvider, type AuthProvider, type AuthError, 
-  fetchSignInMethodsForEmail} from "firebase/auth"
+  type Auth, type User, GithubAuthProvider, type AuthProvider, } from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
   const auth = useFirebaseAuth() as Auth
@@ -54,34 +53,16 @@ export const useUserStore = defineStore('userStore', () => {
     isLoading.value = true
     signInWithPopup(auth, provider)
       .catch((error) => {
-        console.log('Fail to login\n', error.message)
-        if (error.code) {
-          const errorCode = error.code
-          // check the errorCode against the string instead of AuthErrorCodes.NEED_CONFIRMATION
-          // can't tree shake the map according the remark in AuthErrorCodes
-          if (errorCode === 'auth/account-exists-with-different-credential') {
-            handleAccountExistsWithDifferentCred(provider, error)
-          } else {
-            console.error('Unknown error code', errorCode)
-          }
-        } else {
-          console.error('Unknown sign in error', error)
+        const errorCode = error.code
+        if (errorCode === 'auth/account-exists-with-different-credential') {
+          // notify the user somehow
         }
+        console.log('Fail to login\nError code:\nError message:\n', errorCode, error.message)
+
       })
       .finally(() => {
         isLoading.value = false
       })
-  }
-
-  function handleAccountExistsWithDifferentCred(provider: AuthProvider, error: AuthError) {
-    console.log('error', JSON.stringify(error))
-    const email = error.customData.email as string
-    console.log('email', email)
-    fetchSignInMethodsForEmail(auth, email).then(
-      (providers) => {
-        console.log('providers', providers)
-      }
-    )
   }
 
   function loginWithGoogle() {
