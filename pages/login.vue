@@ -3,7 +3,7 @@ import { useUserStore } from '~/stores/userStore'
 
 const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
-
+const AwesomeAlertBanner = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/awesome/AlertBanner.vue'))
 const { awesome } = useAppConfig()
 
 const userStore = useUserStore()
@@ -32,13 +32,33 @@ const leadingsText = computed(() => [
     endColor: '#FF0080',
     delay: 2,
   },
-]) 
+])
+
+const alertTilte = computed(() => {
+  if (userStore.accountExists) {
+    return 'Could not login with ' + userStore.accountExists.providerUsed
+  } 
+  return undefined
+})
+
+const alertText = computed(() => {
+  if (userStore.accountExists) {
+    return 'Account with email ' + userStore.accountExists.conflictEmail + ' already exists.\nLogin with Google'
+  }
+  return undefined
+})
 </script>
 
 <template>
   <LayoutPageWrapper class="flex-1 flex">
     <LayoutPageSection class="flex-1 flex">
       <div class="flex-1 flex flex-col items-center justify-center">
+        <AwesomeAlertBanner 
+          v-if="userStore.accountExists"
+          type="primary"
+          :title="alertTilte"
+          :text="alertText"
+        />
         <h1 class="text-center mt-4">
           <span
             v-for="(item, i) in leadingsText"

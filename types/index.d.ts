@@ -51,4 +51,8 @@ declare global {
     tokensUsed: number
   }
 
+  interface AccountExists {
+    conflictEmail: string,
+    providerUsed: string,
+  }
 }

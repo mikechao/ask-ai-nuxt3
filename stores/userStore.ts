@@ -1,5 +1,6 @@
 import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged,
-  type Auth, type User, GithubAuthProvider, type AuthProvider, } from "firebase/auth"
+  type Auth, type User, GithubAuthProvider, type AuthProvider,
+  type AuthError, } from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
   const auth = useFirebaseAuth() as Auth
@@ -12,6 +13,7 @@ export const useUserStore = defineStore('userStore', () => {
   const tokenStore = useTokenStore()
   const appUser = ref<User>()
   const isLoading = ref(false)
+  const accountExists = ref<AccountExists>()
 
   async function deleteChat() {
     if (appUser.value) {
@@ -30,6 +32,7 @@ export const useUserStore = defineStore('userStore', () => {
     await auth.signOut()
     isLoading.value = false
     token.value = null
+    accountExists.value = undefined
     changeToLogin()
     router.push('/')
   }
@@ -56,6 +59,12 @@ export const useUserStore = defineStore('userStore', () => {
         const errorCode = error.code
         if (errorCode === 'auth/account-exists-with-different-credential') {
           // notify the user somehow
+          const conflictEmail = getEmailFromError(error)
+          const loginProvider = getProvider(provider)
+          accountExists.value = {
+            conflictEmail: conflictEmail,
+            providerUsed: loginProvider
+          }
         }
         console.log('Fail to login\nError code:\nError message:\n', errorCode, error.message)
 
@@ -63,6 +72,19 @@ export const useUserStore = defineStore('userStore', () => {
       .finally(() => {
         isLoading.value = false
       })
+  }
+
+  function getEmailFromError(error: AuthError) {
+    return (error.customData.email) ? error.customData.email as string : 'No Email'
+  }
+
+  function getProvider(provider: AuthProvider) {
+    if (GoogleAuthProvider.PROVIDER_ID === provider.providerId) {
+      return "Google"
+    } else if (GithubAuthProvider.PROVIDER_ID === provider.providerId) {
+      return "GitHub"
+    }
+    return "Unknown"
   }
 
   function loginWithGoogle() {
@@ -120,5 +142,15 @@ export const useUserStore = defineStore('userStore', () => {
     }
   })
 
-  return { loginAsGuest, loginWithGoogle, loginWithGitHub, logout, getUserName, getUserPhotoURL, deleteChat, isLoading }
+  return { 
+    loginAsGuest, 
+    loginWithGoogle, 
+    loginWithGitHub, 
+    logout, 
+    getUserName, 
+    getUserPhotoURL, 
+    deleteChat, 
+    isLoading,
+    accountExists 
+  }
 })
