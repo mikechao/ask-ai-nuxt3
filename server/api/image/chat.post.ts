@@ -68,7 +68,7 @@ export default defineEventHandler(async event => {
   // console.log('res', res)
 
   return {
-    gptResponse: res.response,
+    gptResponse: res.response.replace(/\n$/, ''),
     tokensUsed: totalTokens
   }
 })
