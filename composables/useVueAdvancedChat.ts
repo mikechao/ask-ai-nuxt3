@@ -9,7 +9,7 @@ export default function() {
   const userAvatar = userStore.getUserPhotoURL()
 
   const status: UserStatus = { state: 'online', lastChanged: "Never"}
-
+  
   const aiSenderId = "1"
   const users: RoomUser[] = [
     { _id: aiSenderId, username: "AI Bot", avatar: settingStore.chatSettings.aiAvatarURL, status: status },
@@ -18,6 +18,7 @@ export default function() {
   const rooms: Ref<Room[]> = ref([
     { roomId: '1', roomName: 'Ask AI', users: users, avatar: settingStore.chatSettings.aiAvatarURL, }
   ])
+
   const messageActions: string[] = []
 
   let messageId = 1
@@ -25,6 +26,8 @@ export default function() {
   const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric'})
 
   const messages: Ref<Message[]> = ref([])
+
+  const key = ref(Math.random() * 10000)
 
   function addAIMessage(content: string) {
     messageId++
@@ -38,5 +41,5 @@ export default function() {
     messages.value = [...messages.value, userMessage]
   }
 
-  return { rooms, messages, messageActions, addAIMessage, addUserMessage, userId}
+  return { rooms, messages, messageActions, addAIMessage, addUserMessage, userId, key, aiSenderId}
 }

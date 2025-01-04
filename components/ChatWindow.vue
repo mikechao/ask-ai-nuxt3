@@ -36,8 +36,7 @@ const colorMode = useColorMode()
 const vueAdvancedChat = useVueAdvancedChat()
 const settingsStore = useSettingStore()
 const messagesLoaded = ref(false)
-const key = ref(Math.random() * 10000)
-const { rooms, messages, messageActions, userId } = vueAdvancedChat
+const { rooms, messages, messageActions, userId, key, aiSenderId } = vueAdvancedChat
 
 watch(messages, (newValue) => {
   props.store.setMessages(newValue)
@@ -76,9 +75,13 @@ async function sendMessage({ content }: any) {
   if (props.getContent().length === 0) {
     vueAdvancedChat.addAIMessage(props.emptyMessage)
   } else {
+    rooms.value[0].typingUsers = [aiSenderId]
+    key.value = Math.random() * 10000
     props.store.setQuestion(content)
     await props.sendPrompt()
     vueAdvancedChat.addAIMessage(props.store.gptResponse)
+    rooms.value[0].typingUsers = []
+    key.value = Math.random() * 10000
   }
 }
 
