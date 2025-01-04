@@ -1,26 +1,11 @@
 import type { PromptTemplate, } from "@langchain/core/prompts"
 import type { LLMResult } from "@langchain/core/outputs";
 import type { AIMessage } from "@langchain/core/messages";
-import { ChatOpenAI } from "@langchain/openai"
 import { BufferMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains"
 import { getFirestoreChatMessageHistory } from "./firestoreChatHistory";
 import { AIModel } from "~/types/enums";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
-
-const runtimeConfig = useRuntimeConfig()
-
-const gpt4oMini = new ChatOpenAI({
-  model: 'gpt-4o-mini',
-  temperature: 0,
-  apiKey: runtimeConfig.openaiAPIKey,
-})
-
-const geminiPro = new ChatGoogleGenerativeAI({
-  model: 'gemini-1.5-pro',
-  temperature: 0,
-  apiKey: runtimeConfig.googleAPIKey,
-})
+import { getChatModel } from "./getChatModel";
 
 export async function textAnalysis(textChatRequest: TextChatRequest, uid: string, prompt: PromptTemplate): Promise<TextChatResposne> {
   const chatHistory = getFirestoreChatMessageHistory(uid)
@@ -51,7 +36,7 @@ export async function textAnalysis(textChatRequest: TextChatRequest, uid: string
     },
   }
 
-  const llm = textChatRequest.aiModel === AIModel.GPT_4o_mini ? gpt4oMini : geminiPro;
+  const llm = getChatModel(textChatRequest.aiModel)
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, })
   const inputs = textChatRequest.messages
   const joined = inputs.join('\n')
