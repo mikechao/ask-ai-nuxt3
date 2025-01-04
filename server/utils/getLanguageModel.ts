@@ -16,7 +16,7 @@ const geminiPro = new ChatGoogleGenerativeAI({
   apiKey: runtimeConfig.googleAPIKey,
 })
 
-export function getChatModel(aiModel: AIModel) {
+export function getLanguageModel(aiModel: AIModel) {
   if (AIModel.GPT_4o_mini === aiModel) {
     return gpt4oMini
   }

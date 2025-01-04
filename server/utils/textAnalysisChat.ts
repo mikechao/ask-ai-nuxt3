@@ -5,7 +5,7 @@ import { BufferMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains"
 import { getFirestoreChatMessageHistory } from "./firestoreChatHistory";
 import { AIModel } from "~/types/enums";
-import { getChatModel } from "./getChatModel";
+import { getLanguageModel } from "./getLanguageModel";
 
 export async function textAnalysis(textChatRequest: TextChatRequest, uid: string, prompt: PromptTemplate): Promise<TextChatResposne> {
   const chatHistory = getFirestoreChatMessageHistory(uid)
@@ -36,7 +36,7 @@ export async function textAnalysis(textChatRequest: TextChatRequest, uid: string
     },
   }
 
-  const llm = getChatModel(textChatRequest.aiModel)
+  const llm = getLanguageModel(textChatRequest.aiModel)
   const chain = new ConversationChain({ llm: llm, prompt: prompt, memory: memory, })
   const inputs = textChatRequest.messages
   const joined = inputs.join('\n')
