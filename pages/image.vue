@@ -38,21 +38,21 @@ async function sendPrompt() {
       <section class="my-4">
         <LazyImageFileUploader/>
       </section>
-      <div class="h-full">
+      <div class="flex-1 flex flex-col h-full">
         <div v-if="imageChatStore.imageURL.length > 0" class="flex-1 flex items-start justify-start">
           <img :src="imageChatStore.imageURL" alt="uploaded image" class="max-w-full max-h-full object-contain">
         </div>
         <div v-if="imageChatStore.imageDescription.length > 0" class="mt-0 flex-1 flex flex-col">
           <h3 class="my-2">What the AI sees</h3>
           <textarea 
-          v-model="imageChatStore.imageDescription"
-          readonly
-          class="w-full flex-1 resize-none overflow-y-auto"
+            v-model="imageChatStore.imageDescription"
+            readonly
+            class="w-full flex-1 resize-none overflow-auto"
           />
         </div>
       </div>
       <div class="flex space-x-4">
-        <h3 v-if="tokenStore.imageTokens> 0">Tokens used for image: {{ tokenStore.imageTokens }}</h3>
+        <h3 v-if="tokenStore.imageTokens > 0">Tokens used for image: {{ tokenStore.imageTokens }}</h3>
         <h3 v-if="tokenStore.totalTokens > 0">Total tokens used: {{ tokenStore.totalTokens }}</h3>
       </div>
     </div>
