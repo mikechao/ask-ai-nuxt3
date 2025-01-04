@@ -36,7 +36,9 @@ declare global {
 
     question: string,
 
-    aiChatMode: AIChatMode
+    aiChatMode: AIChatMode,
+
+    aiModel: AIModel
   }
 
   interface ImageDescribeRequest {

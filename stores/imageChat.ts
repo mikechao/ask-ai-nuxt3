@@ -41,6 +41,15 @@ export const useImageChatStore = defineStore('imageChat', () => {
     }
   }
 
+  function getImageChatRequest(imageDescription: string, question: string) : ImageChatRequest {
+    return {
+      imageDescription: imageDescription,
+      question: question,
+      aiChatMode: settingStore.chatSettings.aiChatMode,
+      aiModel: settingStore.chatSettings.aiModel
+    }
+  }
+
   async function describeImage() {
     if (file.value) {
       const imageBase64 = await useFileToBase64().toBase64(file.value)
@@ -66,9 +75,7 @@ export const useImageChatStore = defineStore('imageChat', () => {
 
       const res = await $fetch<TextChatResposne>('/api/image/chat', {
         method: 'POST',
-        body: JSON.stringify({ imageDescription: imageDescription.value, 
-          question: question.value,
-          aiChatMode: settingStore.chatSettings.aiChatMode}),
+        body: JSON.stringify(getImageChatRequest(imageDescription.value, question.value)),
         headers: {
           'Content-Type': 'application/json'
         }
