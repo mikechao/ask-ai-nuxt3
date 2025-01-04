@@ -1,5 +1,6 @@
-import { FirebaseError } from "firebase/app"
-import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged, type Auth, type User, GithubAuthProvider, type AuthProvider } from "firebase/auth"
+import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged,
+  type Auth, type User, GithubAuthProvider, type AuthProvider, type AuthError, 
+  fetchSignInMethodsForEmail} from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
   const auth = useFirebaseAuth() as Auth
@@ -53,14 +54,15 @@ export const useUserStore = defineStore('userStore', () => {
     isLoading.value = true
     signInWithPopup(auth, provider)
       .catch((error) => {
-        console.log('Fail to login')
-        if (error instanceof FirebaseError) {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log('errorCode', errorCode)
-          console.log('errorMessage', errorMessage)
+        console.log('Fail to login\n', error.message)
+        if (error.code) {
+          const errorCode = error.code
+          // check the errorCode against the string instead of AuthErrorCodes.NEED_CONFIRMATION
+          // can't tree shake the map according the remark in AuthErrorCodes
           if (errorCode === 'auth/account-exists-with-different-credential') {
             handleAccountExistsWithDifferentCred(provider, error)
+          } else {
+            console.error('Unknown error code', errorCode)
           }
         } else {
           console.error('Unknown sign in error', error)
@@ -71,10 +73,15 @@ export const useUserStore = defineStore('userStore', () => {
       })
   }
 
-  function handleAccountExistsWithDifferentCred(provider: AuthProvider, error: FirebaseError) {
+  function handleAccountExistsWithDifferentCred(provider: AuthProvider, error: AuthError) {
     console.log('error', JSON.stringify(error))
-    const email = ('email' in error) ? error.email : ''
+    const email = error.customData.email as string
     console.log('email', email)
+    fetchSignInMethodsForEmail(auth, email).then(
+      (providers) => {
+        console.log('providers', providers)
+      }
+    )
   }
 
   function loginWithGoogle() {
