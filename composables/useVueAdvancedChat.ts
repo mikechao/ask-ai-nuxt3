@@ -27,8 +27,6 @@ export default function() {
 
   const messages: Ref<Message[]> = ref([])
 
-  const key = ref(Math.random() * 10000)
-
   function addAIMessage(content: string) {
     messageId++
     const aiMessage = { _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: settingStore.chatSettings.aiAvatarURL, date: formattedDate}
@@ -41,5 +39,5 @@ export default function() {
     messages.value = [...messages.value, userMessage]
   }
 
-  return { rooms, messages, messageActions, addAIMessage, addUserMessage, userId, key, aiSenderId}
+  return { rooms, messages, messageActions, addAIMessage, addUserMessage, userId, aiSenderId}
 }
