@@ -43,7 +43,7 @@ export async function textAnalysis(textChatRequest: TextChatRequest, uid: string
 
   return new Promise<TextChatResposne>((resolve) => {
     resolve({
-      gptResponse: res.response,
+      gptResponse: res.response.replace(/\n$/, ''),
       tokensUsed: totalTokens
     })
   })
