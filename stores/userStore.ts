@@ -72,7 +72,9 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   function handleAccountExistsWithDifferentCred(provider: AuthProvider, error: FirebaseError) {
-    console.log('error', Object.prototype.toString.call(error))
+    console.log('error', JSON.stringify(error))
+    const email = ('email' in error) ? error.email : ''
+    console.log('email', email)
   }
 
   function loginWithGoogle() {
