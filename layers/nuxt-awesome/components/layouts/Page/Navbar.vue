@@ -70,7 +70,6 @@ const showDrawer = ref(false)
       >
         <div class="pl-4 flex space-x-3 text-xl">
           <AwesomeLink
-            v-if="awesome?.project?.links?.github"
             class="text-gray-400 hover:text-gray-100"
             @click.prevent="() => (showDrawer = !showDrawer)"
           >
