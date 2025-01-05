@@ -4,7 +4,10 @@
 useUserStore()
 const { awesome } = useAppConfig()
 useHead({
-  title: awesome.name
+  title: awesome.name,
+  htmlAttrs: {
+    lang: 'en'
+  }
 })
 </script>
 
