@@ -15,11 +15,14 @@ async function aiModeHandler({checked, target}: {checked: boolean, target: HTMLI
 </script>
 <template>
   <AwesomeButton 
-    text="Settings" 
     :vertical=true 
     class="absolute left-0 top-1/2 transform -translate-y-1/2 ml-2"
     @click="isOpen = true"
-  />
+  >
+    <Icon name="mdi:arrow-expand-right" class="mb-2"/>
+    Settings
+    <Icon name="mdi:arrow-expand-right" class="mt-2"/>
+  </AwesomeButton>
   <VueSidePanel 
     v-model="isOpen"
     width="300px"
