@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     },
   },
   colorMode: { 
-    preference: 'dark'
+    preference: 'light'
   },
   vuefire: {
     auth: {
