@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const SettingsPanel = defineAsyncComponent(() => import('~/components/SettingsPanel.vue'))
 const route = useRoute()
 const showSettings = computed(() => {
   const path = route.path
