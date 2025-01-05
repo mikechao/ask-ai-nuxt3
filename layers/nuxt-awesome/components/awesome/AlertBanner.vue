@@ -48,10 +48,11 @@ const selectedType = computed<IStyles>((): IStyles => {
 })
 const selectedStyle = computed(() => styles[selectedType.value])
 const selectedTextStyle = computed(() => textStyles[selectedType.value])
-
+const emit = defineEmits(['banner:closed'])
 // actions
 const close = () => {
   isDestroyed.value = true
+  emit('banner:closed')
 }
 </script>
 

@@ -47,6 +47,10 @@ const alertText = computed(() => {
   }
   return undefined
 })
+
+function alertBannerClosed() {
+  userStore.clearAccountExists()
+}
 </script>
 
 <template>
@@ -58,6 +62,7 @@ const alertText = computed(() => {
           type="primary"
           :title="alertTilte"
           :text="alertText"
+          @banner:closed="alertBannerClosed"
         />
         <h1 class="text-center mt-4">
           <span

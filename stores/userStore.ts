@@ -23,6 +23,10 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  async function clearAccountExists() {
+    accountExists.value = undefined
+  }
+
   async function logout() {
     deleteChat()
     textChatStore.clearChat()
@@ -32,7 +36,7 @@ export const useUserStore = defineStore('userStore', () => {
     await auth.signOut()
     isLoading.value = false
     token.value = null
-    accountExists.value = undefined
+    clearAccountExists()
     changeToLogin()
     router.push('/')
   }
@@ -151,6 +155,7 @@ export const useUserStore = defineStore('userStore', () => {
     getUserPhotoURL, 
     deleteChat, 
     isLoading,
-    accountExists 
+    accountExists,
+    clearAccountExists
   }
 })
