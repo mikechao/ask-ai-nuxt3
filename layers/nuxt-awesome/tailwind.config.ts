@@ -5,13 +5,15 @@ import colors from 'tailwindcss/colors'
 const MyTheme = {
   colors: {
     green: {
-      DEFAULT: '#3BA676',
+      DEFAULT: '#0F2A1E',
+      // DEFAULT: '#3BA676',
       '50': '#B4E4CF',
       '100': '#A5DFC5',
       '200': '#87D4B2',
       '300': '#69CA9E',
       '400': '#4BBF8B',
-      '500': '#3BA676',
+      // '500': '#3BA676',
+      '500': '#216449',
       '600': '#2C7D59',
       '700': '#1E533B',
       '800': '#0F2A1E',
