@@ -51,6 +51,10 @@ const alertText = computed(() => {
 function alertBannerClosed() {
   userStore.clearAccountExists()
 }
+
+onUnmounted(() => {
+  userStore.clearAccountExists()
+})
 </script>
 
 <template>
