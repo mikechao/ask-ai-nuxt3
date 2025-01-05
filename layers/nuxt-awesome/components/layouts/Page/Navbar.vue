@@ -189,14 +189,6 @@ const showDrawer = ref(false)
           </div>
         </AwesomeActionSheetItem>
       </AwesomeActionSheetGroup>
-      <AwesomeActionSheetGroup>
-        <AwesomeActionSheetItemButton
-          class="flex justify-center items-center text-base space-x-2"
-        >
-          <Icon name="mdi:github-face" class="text-lg font-bold" />
-          <span class="text-sm">Github</span>
-        </AwesomeActionSheetItemButton>
-      </AwesomeActionSheetGroup>
     </AwesomeActionSheet>
   </header>
 </template>
