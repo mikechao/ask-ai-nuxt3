@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { register } from 'vue-advanced-chat'
-import useVueAdvancedChat from '~/composables/useVueAdvancedChat'
+import type {Room, Message, RoomUser, UserStatus, } from 'vue-advanced-chat'
 import { lightChatTheme } from './lightChatTheme'
 import { darkChatTheme } from './darkChatTheme'
 register()
@@ -32,16 +32,44 @@ const props = defineProps({
   }
 })
 
+const colorMode = useColorMode()
+const settingsStore = useSettingStore()
+const messagesLoaded = ref(false)
+const userStore = useUserStore()
+const settingStore = useSettingStore()
+const userId = '1234'
+const userAvatar = userStore.getUserPhotoURL()
+const status: UserStatus = { state: 'online', lastChanged: "Never"}
+const aiSenderId = "1"
+const users: RoomUser[] = [
+  { _id: aiSenderId, username: "AI Bot", avatar: settingStore.chatSettings.aiAvatarURL, status: status },
+  { _id: userId, username: userStore.getUserName(), avatar: userAvatar, status: status }
+]
+const rooms: Ref<Room[]> = ref([
+  { roomId: '1', roomName: 'Ask AI', users: users, avatar: settingStore.chatSettings.aiAvatarURL, }
+])
+const messageActions: string[] = []
+const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric'})
+const messages: Ref<Message[]> = ref([])
+const key = ref(newKeyValue())
+
+let messageId = 1
+
+function addAIMessage(content: string) {
+  messageId++
+  const aiMessage = { _id: messageId.toString(), senderId: aiSenderId, content: content, avatar: settingStore.chatSettings.aiAvatarURL, date: formattedDate}
+  messages.value = [...messages.value, aiMessage]
+}
+
+function addUserMessage(content: string) {
+  messageId++
+  const userMessage = { _id: messageId.toString(), senderId: userId, content: content, avatar: userAvatar, date: formattedDate}
+  messages.value = [...messages.value, userMessage]
+}
+
 function newKeyValue() {
   return Math.random() * 10000
 }
-
-const colorMode = useColorMode()
-const vueAdvancedChat = useVueAdvancedChat()
-const settingsStore = useSettingStore()
-const messagesLoaded = ref(false)
-const { rooms, messages, messageActions, userId, aiSenderId } = vueAdvancedChat
-const key = ref(newKeyValue())
 
 watch(messages, (newValue) => {
   props.store.setMessages(newValue)
@@ -69,22 +97,22 @@ async function fetchMessages({ _room, _options = {} } : any) {
   if (props.store.messages.length > 0) {
     messages.value = [...props.store.messages]
   } else {
-    vueAdvancedChat.addAIMessage(props.initialMessage)
+    addAIMessage(props.initialMessage)
   }
   messagesLoaded.value = true
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function sendMessage({ content }: any) {
-  vueAdvancedChat.addUserMessage(content)
+  addUserMessage(content)
   if (props.getContent().length === 0) {
-    vueAdvancedChat.addAIMessage(props.emptyMessage)
+    addAIMessage(props.emptyMessage)
   } else {
     rooms.value[0].typingUsers = [aiSenderId]
     key.value = newKeyValue()
     props.store.setQuestion(content)
     await props.sendPrompt()
-    vueAdvancedChat.addAIMessage(props.store.gptResponse)
+    addAIMessage(props.store.gptResponse)
     rooms.value[0].typingUsers = []
     key.value = newKeyValue()
   }
