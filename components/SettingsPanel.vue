@@ -22,6 +22,11 @@ const firstArrowStyle = ref(firstArrowVerticalStyle)
 const secondArrowVerticalStyle = 'mt-2'
 const secondArrowHorizontalStyle = 'ml-2'
 const secondArrowStyle = ref(secondArrowVerticalStyle)
+
+const buttonVerticalSize = 'md'
+const buttonHorizontalSize = 'xs'
+const buttonSize = ref(buttonVerticalSize)
+
 watch(isMaxSm, (value) => {
   if (value) {
     isVertical.value = false
@@ -29,12 +34,14 @@ watch(isMaxSm, (value) => {
     arrowIcon.value = arrowDown
     firstArrowStyle.value = firstArrowHorizontalStyle
     secondArrowStyle.value = secondArrowHorizontalStyle
+    buttonSize.value = buttonHorizontalSize
   } else {
     isVertical.value = true
     buttonStyle.value = verticalStyle
     arrowIcon.value = arrowRight
     firstArrowStyle.value = firstArrowVerticalStyle
     secondArrowStyle.value = secondArrowVerticalStyle
+    buttonSize.value = buttonVerticalSize
   }
 })
 
@@ -60,7 +67,8 @@ async function aiModeHandler({checked, target}: {checked: boolean, target: HTMLI
 }
 </script>
 <template>
-  <AwesomeButton 
+  <AwesomeButton
+    :size="buttonSize"
     :vertical="isVertical" 
     :class="buttonStyle"
     @click="isOpen = true"
