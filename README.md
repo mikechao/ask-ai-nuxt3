@@ -7,7 +7,9 @@
   Ask an AI Chatbot about text, images or audio.
 </p>
 
+<p align="center">
 Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netlify.app/</a>
+</p>
 
 ## 🛠️ Installation Steps
 
@@ -24,3 +26,5 @@ Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netl
    ```bash
    pnpm dev
    ```
+## 👷 Built with
+[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://skillicons.dev)
