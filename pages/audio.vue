@@ -33,8 +33,8 @@ async function sendPrompt() {
 }
 </script>
 <template>
-    <LayoutPageWrapper class="flex-1 flex">
-      <div id="audioArea" class="flex-1 flex flex-col mr-2 h-full">
+    <LayoutPageWrapper class="flex-1 flex max-sm:flex-col">
+      <div id="audioArea" class="flex-1 flex flex-col mr-2 h-full max-sm:mb-1">
         <h3>Choose audio that has some speech that you would like to ask questions about.</h3>
         <section class="mt-4">
           <LazyAudioFileUploader file-type="audio/*"/>
