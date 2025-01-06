@@ -48,7 +48,6 @@ watch(isMaxSm, (value) => {
 const checkMaxSmBreakpoint = () => {
   const mediaQuery = window.matchMedia('(max-width: 639px)')
   isMaxSm.value = mediaQuery.matches
-  console.log('checkMaxSmBreakpoint called isMaxSm.value', isMaxSm.value)
 }
 
 onMounted(() => {
