@@ -93,16 +93,16 @@ onUnmounted(() => {
         <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
             Google/GitHub User's AI Chatbot memory will be retained after logging out
         </div>
-        <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center">
-          <AwesomeButton class="max-sm:mb-1" @click="userStore.loginAsGuest">
+        <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-2 max-sm:w-full">
+          <AwesomeButton class="max-sm:w-full" @click="userStore.loginAsGuest">
             <Icon name="mdi:shield-account" class="w-5 h5"/>
             Login as Guest
           </AwesomeButton>
-          <AwesomeButton class="max-sm:mb-1" @click="userStore.loginWithGoogle">
+          <AwesomeButton class="max-sm:w-full" @click="userStore.loginWithGoogle">
             <Icon name="mdi:google" class="w-5 h-5 mr-1"/>
             Login with Google
           </AwesomeButton>
-          <AwesomeButton @click="userStore.loginWithGitHub">
+          <AwesomeButton class="max-sm:w-full" @click="userStore.loginWithGitHub">
             <Icon name="mdi:github-face" class="w-5 h-5 mr-1"/>
             Login with GitHub
           </AwesomeButton>
