@@ -41,9 +41,6 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    esbuild: {
-      drop: ['console', 'debugger']
-    },
     build: {
       rollupOptions: {
         output: {

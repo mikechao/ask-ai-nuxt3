@@ -117,6 +117,7 @@ const showDrawer = ref(false)
                   size="sm"
                   :to="parseMenuRoute(item.to)"
                   class="w-full mb-1"
+                  @click="showDrawer = !showDrawer"
                 />
               </template>
               <template v-if="item?.type === 'dropdown'">
