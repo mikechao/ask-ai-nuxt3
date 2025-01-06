@@ -57,9 +57,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <LayoutPageWrapper class="flex-1 flex">
-    <LayoutPageSection class="flex-1 flex">
-      <div class="flex-1 flex flex-col items-center justify-center">
+  <LayoutPageWrapper class="flex-1 flex max-sm:py-0">
+    <LayoutPageSection class="flex-1 flex max-sm:mb-1">
+      <div class="flex-1 flex flex-col items-center justify-center max-sm:h-min">
         <AwesomeAlertBanner 
           v-if="userStore.accountExists"
           type="primary"
@@ -67,7 +67,7 @@ onUnmounted(() => {
           :text="alertText"
           @banner:closed="alertBannerClosed"
         />
-        <h1 class="text-center mt-4">
+        <h1 class="text-center mt-4 max-sm:mt-1">
           <span
             v-for="(item, i) in leadingsText"
             :key="i"
@@ -93,7 +93,7 @@ onUnmounted(() => {
         <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
             Google/GitHub User's AI Chatbot memory will be retained after logging out
         </div>
-        <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-3 max-sm:w-full">
+        <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-1 max-sm:w-full max-sm:h-min">
           <AwesomeButton class="max-sm:w-4/5" @click="userStore.loginAsGuest">
             <Icon name="mdi:shield-account" class="w-5 h5"/>
             Login as Guest
