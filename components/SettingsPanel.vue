@@ -6,6 +6,52 @@ import { useSettingStore } from '~/stores/settingsStore'
 const isOpen = ref(false)
 const settingsStore = useSettingStore()
 const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
+const isMaxSm = ref(false)
+const isVertical = ref(true)
+const verticalStyle = 'absolute left-0 top-1/2 transform -translate-y-1/2 ml-2'
+const horizontalStyle = 'absolute top-0 left-1/2 transform -translate-x-1/2 mt-8'
+const buttonStyle = ref(verticalStyle)
+const arrowRight = 'mdi:arrow-expand-right'
+const arrowDown = 'mdi:arrow-expand-down'
+const arrowIcon = ref(arrowRight)
+
+const firstArrowVerticalStyle = 'mb-2'
+const firstArrowHorizontalStyle = 'mr-2'
+const firstArrowStyle = ref(firstArrowVerticalStyle)
+
+const secondArrowVerticalStyle = 'mt-2'
+const secondArrowHorizontalStyle = 'ml-2'
+const secondArrowStyle = ref(secondArrowVerticalStyle)
+watch(isMaxSm, (value) => {
+  if (value) {
+    isVertical.value = false
+    buttonStyle.value = horizontalStyle
+    arrowIcon.value = arrowDown
+    firstArrowStyle.value = firstArrowHorizontalStyle
+    secondArrowStyle.value = secondArrowHorizontalStyle
+  } else {
+    isVertical.value = true
+    buttonStyle.value = verticalStyle
+    arrowIcon.value = arrowRight
+    firstArrowStyle.value = firstArrowVerticalStyle
+    secondArrowStyle.value = secondArrowVerticalStyle
+  }
+})
+
+const checkMaxSmBreakpoint = () => {
+  const mediaQuery = window.matchMedia('(max-width: 639px)')
+  isMaxSm.value = mediaQuery.matches
+  console.log('checkMaxSmBreakpoint called isMaxSm.value', isMaxSm.value)
+}
+
+onMounted(() => {
+  checkMaxSmBreakpoint()
+  window.addEventListener('resize', checkMaxSmBreakpoint)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkMaxSmBreakpoint)
+})
 
 async function aiModeHandler({checked, target}: {checked: boolean, target: HTMLInputElement}) {
   if (checked && !target.checked) {
@@ -15,13 +61,13 @@ async function aiModeHandler({checked, target}: {checked: boolean, target: HTMLI
 </script>
 <template>
   <AwesomeButton 
-    :vertical=true 
-    class="absolute left-0 top-1/2 transform -translate-y-1/2 ml-2"
+    :vertical="isVertical" 
+    :class="buttonStyle"
     @click="isOpen = true"
   >
-    <Icon name="mdi:arrow-expand-right" class="mb-2"/>
+    <Icon :name="arrowIcon" :class="firstArrowStyle"/>
     Settings
-    <Icon name="mdi:arrow-expand-right" class="mt-2"/>
+    <Icon :name="arrowIcon" :class="secondArrowStyle"/>
   </AwesomeButton>
   <VueSidePanel 
     v-model="isOpen"
