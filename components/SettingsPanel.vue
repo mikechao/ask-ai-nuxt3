@@ -2,10 +2,11 @@
 import { VueSidePanel } from 'vue3-side-panel'
 import 'vue3-side-panel/dist/vue3-side-panel.css'
 import { useSettingStore } from '~/stores/settingsStore'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+
 const isOpen = ref(false)
 const settingsStore = useSettingStore()
 const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
-const isMaxSm = ref(false)
 const isVertical = ref(true)
 
 // button styles
@@ -36,7 +37,10 @@ const buttonSize = ref(buttonVerticalSize)
 // a key for the button to trigger redraw
 const buttonKey = ref(newKeyValue())
 
-watch(isMaxSm, (value) => {
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isSmaller = breakpoints.smallerOrEqual("sm")
+
+watch(isSmaller, (value) => {
   if (value) {
     isVertical.value = false
     buttonStyle.value = horizontalStyle
@@ -56,23 +60,9 @@ watch(isMaxSm, (value) => {
   }
 })
 
-const checkMaxSmBreakpoint = () => {
-  const mediaQuery = window.matchMedia('(max-width: 639px)')
-  isMaxSm.value = mediaQuery.matches
-}
-
 function newKeyValue() {
   return Math.random() * 10000
 }
-
-onMounted(() => {
-  checkMaxSmBreakpoint()
-  window.addEventListener('resize', checkMaxSmBreakpoint)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', checkMaxSmBreakpoint)
-})
 
 async function aiModeHandler({checked, target}: {checked: boolean, target: HTMLInputElement}) {
   if (checked && !target.checked) {
