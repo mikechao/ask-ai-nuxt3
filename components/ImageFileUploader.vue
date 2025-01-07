@@ -12,7 +12,11 @@ const buttonSize = ref('md')
 const fileButtonKey = ref(newKeyValue())
 const resetButtonKey = ref(newKeyValue())
 const breakpoints = useBreakpoints(breakpointsTailwind)
-const isSmaller = breakpoints.smallerOrEqual("sm")
+const isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
+
+onMounted(() => {
+  isSmaller.value = breakpoints.smallerOrEqual('sm').value
+})
 
 watch(isSmaller, (value) => {
   if (value) {
@@ -24,7 +28,7 @@ watch(isSmaller, (value) => {
     fileButtonKey.value = newKeyValue()
     resetButtonKey.value = newKeyValue()
   }
-})
+}, {immediate: true})
 
 watch(clearFile, () => {
   resetFile()
