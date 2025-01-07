@@ -33,8 +33,10 @@ oof has to be in 1 line to avoid _ showing up
   <a href="https://nuxt.com/"><img src="https://skillicons.dev/icons?i=nuxtjs"/></a> <a href="https://pinia.vuejs.org/"><img src="https://skillicons.dev/icons?i=pinia"/></a>
 </p>
 -->
-[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://nuxt.com/) 
-[![My Skills](https://skillicons.dev/icons?i=pinia)](https://pinia.vuejs.org/) 
-[![My Skills](https://skillicons.dev/icons?i=pnpm)](https://pnpm.io/)
-[![My Skills](https://skillicons.dev/icons?i=firebase)](https://firebase.google.com/)
-<a href="https://js.langchain.com/docs/introduction/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/langchain.svg" width="50"></a>
+|Icon and Link | Usage |
+|:--- | :---: |
+|[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://nuxt.com/) | NuxtJS | 
+|[![My Skills](https://skillicons.dev/icons?i=pinia)](https://pinia.vuejs.org/) | State management |
+|[![My Skills](https://skillicons.dev/icons?i=pnpm)](https://pnpm.io/) | Manage JavaScript packages |
+|[![My Skills](https://skillicons.dev/icons?i=firebase)](https://firebase.google.com/) | User authentication & AI Chat storage |
+|<a href="https://js.langchain.com/docs/introduction/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/langchain.svg" width="50"></a> | Integration with various LLM models, managing chat message history and prompts |
