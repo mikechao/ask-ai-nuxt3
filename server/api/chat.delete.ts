@@ -10,4 +10,7 @@ export default defineEventHandler(async event => {
   }
     const chatHistory = getFirestoreChatMessageHistory(uid.toString())
     chatHistory.clear()
+      .catch((error) => {
+        console.log('Error clearing chat history', error)
+      })
 })
