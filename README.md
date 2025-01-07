@@ -27,4 +27,13 @@ Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netl
    pnpm dev
    ```
 ## 👷 Built with
-[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://skillicons.dev)
+<!--
+oof has to be in 1 line to avoid _ showing up
+<p>
+  <a href="https://nuxt.com/"><img src="https://skillicons.dev/icons?i=nuxtjs"/></a> <a href="https://pinia.vuejs.org/"><img src="https://skillicons.dev/icons?i=pinia"/></a>
+</p>
+-->
+[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://nuxt.com/) 
+[![My Skills](https://skillicons.dev/icons?i=pinia)](https://pinia.vuejs.org/) 
+[![My Skills](https://skillicons.dev/icons?i=pnpm)](https://pnpm.io/)
+[![My Skills](https://skillicons.dev/icons?i=firebase)](https://firebase.google.com/)
