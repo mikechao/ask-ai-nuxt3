@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  3 Modes of response for the AI Chat is available AI Assistant, pirate or Yoda
+  3 Modes of response for the AI Chatbot is available AI Assistant, pirate or Yoda
 </p>
 
 <p align="center">
