@@ -42,3 +42,4 @@ Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netl
 |Vite|[![My Skills](https://skillicons.dev/icons?i=vite)](https://vite.dev)| Build tool |
 |Netlify|[![My Skills](https://skillicons.dev/icons?i=netlify)](https://www.netlify.com/)| Hosting the app |
 |Visual Studio Code|[![My Skills](https://skillicons.dev/icons?i=vscode)](https://code.visualstudio.com/)| Code Editor |
+|vue-advanced-chat|<a href="https://github.com/advanced-chat/vue-advanced-chat"><img src="https://avatars.githubusercontent.com/u/147264223?s=48&v=4"/></a>| Chat component for interaction between user and AI bot |
