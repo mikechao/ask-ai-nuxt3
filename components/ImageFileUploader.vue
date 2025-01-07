@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useObjectUrl, useFileDialog } from "@vueuse/core"
+import { useObjectUrl, useFileDialog, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { useImageChatStore } from "~/stores/imageChat"
 
 const imageChatStore = useImageChatStore()
@@ -8,6 +8,23 @@ const { open, reset, onChange } = useFileDialog({
   multiple: false
 })
 const { clearFile } = storeToRefs(imageChatStore)
+const buttonSize = ref('md')
+const fileButtonKey = ref(newKeyValue())
+const resetButtonKey = ref(newKeyValue())
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isSmaller = breakpoints.smallerOrEqual("sm")
+
+watch(isSmaller, (value) => {
+  if (value) {
+    buttonSize.value = 'xs'
+    fileButtonKey.value = newKeyValue()
+    resetButtonKey.value = newKeyValue()
+  } else {
+    buttonSize.value = 'md'
+    fileButtonKey.value = newKeyValue()
+    resetButtonKey.value = newKeyValue()
+  }
+})
 
 watch(clearFile, () => {
   resetFile()
@@ -42,13 +59,24 @@ function resetFile() {
   imageChatStore.clearChat()
   imageChatStore.clearFile = false
 }
+
+function newKeyValue() {
+  return Math.random() * 10000
+}
 </script>
 <template>
   <div class="flex flex-col">
-    <div class="flex space-x-4 justify-center md:justify-start">
-      <AwesomeButton name="file" size="md" text="Choose File" @click="open()"/>
+    <div class="flex space-x-4 justify-center md:justify-start max-sm:justify-start">
+      <AwesomeButton 
+        :key="fileButtonKey"
+        name="file"
+        :size="buttonSize" 
+        text="Choose File" 
+        @click="open()"
+      />
       <AwesomeButton
-        size="md"
+        :key="resetButtonKey"
+        :size="buttonSize"
         :disabled="!imageChatStore.file"
         text="Reset"
         @click="resetFile()"
