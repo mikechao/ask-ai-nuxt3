@@ -8,6 +8,14 @@
 </p>
 
 <p align="center">
+  The AI Chatbot is backed by GPT-4o mini or Gemini Pro 1.5 with the ability to switch back and forth.
+</p>
+
+<p align="center">
+  3 Modes of response for the AI Chat is available AI Assistant, pirate or Yoda
+</p>
+
+<p align="center">
 Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netlify.app/</a>
 </p>
 
