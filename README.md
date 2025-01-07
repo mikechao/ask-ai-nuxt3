@@ -38,7 +38,8 @@ Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netl
 
 | Name | Link | Usage |
 | :--- | :---: | :--- |
-|NuxtJS|[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://nuxt.com/) | Building pages, interactions and server apis | 
+|NuxtJS|[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://nuxt.com/) | Building pages, interactions and server apis |
+|TypeScript|[![My Skills](https://skillicons.dev/icons?i=ts)](https://www.typescriptlang.org/)| Static typing, better autocompletion | 
 |Pinia|[![My Skills](https://skillicons.dev/icons?i=pinia)](https://pinia.vuejs.org/) | Management of various states like settings, chat messages |
 |Pnpm|[![My Skills](https://skillicons.dev/icons?i=pnpm)](https://pnpm.io/) | Manage JavaScript packages |
 |Firebase|[![My Skills](https://skillicons.dev/icons?i=firebase)](https://firebase.google.com/) | User authentication & AI Chat storage |
