@@ -38,7 +38,11 @@ const buttonSize = ref(buttonVerticalSize)
 const buttonKey = ref(newKeyValue())
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
-const isSmaller = breakpoints.smallerOrEqual("sm")
+let isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
+
+onMounted(() => {
+  isSmaller = breakpoints.smallerOrEqual('sm')
+})
 
 watch(isSmaller, (value) => {
   if (value) {
@@ -58,7 +62,7 @@ watch(isSmaller, (value) => {
     buttonSize.value = buttonVerticalSize
     buttonKey.value = newKeyValue()
   }
-})
+}, {immediate: true})
 
 function newKeyValue() {
   return Math.random() * 10000
