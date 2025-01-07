@@ -40,3 +40,5 @@ oof has to be in 1 line to avoid _ showing up
 |Pnpm|[![My Skills](https://skillicons.dev/icons?i=pnpm)](https://pnpm.io/) | Manage JavaScript packages |
 |Firebase|[![My Skills](https://skillicons.dev/icons?i=firebase)](https://firebase.google.com/) | User authentication & AI Chat storage |
 |Langchain|<a href="https://js.langchain.com/docs/introduction/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/langchain.svg" width="50"></a> | Integration with various LLM models, managing chat message history, memory and prompts |
+|Tailwindcss|[![My Skills](https://skillicons.dev/icons?i=tailwind)](https://tailwindcss.com/)| CSS Styling and Responsive design |
+|OpenAI|<a href="https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/openai-dark.svg" width="50"></a>| Providing GPT-4o mini model|
