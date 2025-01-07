@@ -37,7 +37,8 @@ Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netl
 |Langchain|<a href="https://js.langchain.com/docs/introduction/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/langchain.svg" width="50"></a> | Integration with various LLM models, managing chat message history, memory and prompts |
 |Tailwindcss|[![My Skills](https://skillicons.dev/icons?i=tailwind)](https://tailwindcss.com/)| CSS Styling and Responsive design |
 |OpenAI|<a href="https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/openai-dark.svg" width="50"></a>| Providing GPT-4o mini model|
-|Google Deepmind|<a href="https://deepmind.google/technologies/gemini/pro/"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/DeepMind_new_logo.svg" width="50" height="50"></a>| Providing Gemini 1.5 Pro|
+|Google Deepmind|<a href="https://deepmind.google/technologies/gemini/pro/"><img src="https://deepmind.google/static/icons/google_deepmind_48dp.5b470587fe7d.svg"></a>| Providing Gemini 1.5 Pro|
+|Deepgram|<a href="https://deepgram.com"><img src="https://deepgram.com/favicon.ico"></a>| Voice to text transcription |
 |Vite|[![My Skills](https://skillicons.dev/icons?i=vite)](https://vite.dev)| Build tool |
 |Netlify|[![My Skills](https://skillicons.dev/icons?i=netlify)](https://www.netlify.com/)| Hosting the app |
 |Visual Studio Code|[![My Skills](https://skillicons.dev/icons?i=vscode)](https://code.visualstudio.com/)| Code Editor |
