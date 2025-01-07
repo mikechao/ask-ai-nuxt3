@@ -12,7 +12,7 @@ const showSettings = computed(() => {
 </script>
 <template>
     <div class="overflow-x-hidden">
-      <LayoutPageNavbar class="h-[52px] max-h-[52px] max-sm:h-min" />
+      <LayoutPageNavbar class="h-[52px] max-h-[52px] max-sm:h-min max-sm:fixed"/>
         <SettingsPanel v-if=showSettings />
       <LayoutPageContent class="max-w-[68rem] m-auto h-full">
         <slot />
