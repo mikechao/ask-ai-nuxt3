@@ -27,12 +27,7 @@ Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netl
    pnpm dev
    ```
 ## 👷 Built with
-<!--
-oof has to be in 1 line to avoid _ showing up
-<p>
-  <a href="https://nuxt.com/"><img src="https://skillicons.dev/icons?i=nuxtjs"/></a> <a href="https://pinia.vuejs.org/"><img src="https://skillicons.dev/icons?i=pinia"/></a>
-</p>
--->
+
 | Name | Link | Usage |
 | :--- | :---: | :---: |
 |NuxtJS|[![My Skills](https://skillicons.dev/icons?i=nuxtjs)](https://nuxt.com/) | NuxtJS | 
@@ -42,3 +37,4 @@ oof has to be in 1 line to avoid _ showing up
 |Langchain|<a href="https://js.langchain.com/docs/introduction/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/langchain.svg" width="50"></a> | Integration with various LLM models, managing chat message history, memory and prompts |
 |Tailwindcss|[![My Skills](https://skillicons.dev/icons?i=tailwind)](https://tailwindcss.com/)| CSS Styling and Responsive design |
 |OpenAI|<a href="https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"><img src="https://github.com/onemarc/tech-icons/blob/main/icons/openai-dark.svg" width="50"></a>| Providing GPT-4o mini model|
+|Google Deepmind|<a href="https://deepmind.google/technologies/gemini/pro/"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/DeepMind_new_logo.svg" width="50"></a>| Providing Gemini 1.5 Pro|
