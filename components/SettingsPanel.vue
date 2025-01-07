@@ -38,10 +38,10 @@ const buttonSize = ref(buttonVerticalSize)
 const buttonKey = ref(newKeyValue())
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
-let isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
+const isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
 
 onMounted(() => {
-  isSmaller = breakpoints.smallerOrEqual('sm')
+  isSmaller.value = breakpoints.smallerOrEqual('sm').value
 })
 
 watch(isSmaller, (value) => {
