@@ -52,3 +52,4 @@ Currently live at <a href="https://ask-ai-n3.netlify.app">https://ask-ai-n3.netl
 |Visual Studio Code|[![My Skills](https://skillicons.dev/icons?i=vscode)](https://code.visualstudio.com/)| Code Editor |
 |vue-advanced-chat|<a href="https://github.com/advanced-chat/vue-advanced-chat"><img src="https://avatars.githubusercontent.com/u/147264223?s=48&v=4"/></a>| Chat component for interaction between user and AI bot |
 |iconify|<a href="https://iconify.design/"/><img src="https://iconify.design/favicon.svg"></a>| Various icons through out the app |
+|VueUse|<a href="https://vueuse.org/"/><img src="https://vueuse.org/favicon.svg"></a>| Helpful Collection of Vue Composition Utilities |
