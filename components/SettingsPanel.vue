@@ -11,7 +11,7 @@ const isVertical = ref(true)
 
 // button styles
 const verticalStyle = 'absolute left-0 top-1/2 transform -translate-y-1/2 ml-2'
-const horizontalStyle = 'absolute top-0 left-1/2 transform -translate-x-1/2 mt-8 fixed'
+const horizontalStyle = 'fixed top-0 left-1/2 transform -translate-x-1/2 mt-8'
 const buttonStyle = ref(verticalStyle)
 
 // the arrow icons to use
