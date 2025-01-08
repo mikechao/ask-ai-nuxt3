@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const firebaseModules = ["firebase/app", "firebase/auth", "firebase/firestore", "firebase/database", "firebase/storage"]
+const firebaseModules = ["firebase/app", "firebase/auth", "firebase/firestore", "firebase/storage"]
 export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-11-01',
