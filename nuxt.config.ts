@@ -46,8 +46,8 @@ export default defineNuxtConfig({
         output: {
           manualChunks(id) {
             if (id.includes('node_modules/vue-advanced-chat')) return 'vueAdvancedChat'
-            const seprateModule = firebaseModules.find(module => id.includes(module))
-            if (seprateModule) return seprateModule
+            // const seprateModule = firebaseModules.find(module => id.includes(module))
+            // if (seprateModule) return seprateModule
           }
         }
       }
