@@ -41,12 +41,8 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    optimizeDeps: {
-      exclude: ['@firebase/database']
-    },
     build: {
       rollupOptions: {
-        external: ['@firebase/database'],
         output: {
           manualChunks(id) {
             if (id.includes('node_modules/vue-advanced-chat')) return 'vueAdvancedChat'
