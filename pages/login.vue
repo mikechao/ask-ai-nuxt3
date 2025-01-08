@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/userStore'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
@@ -7,9 +8,27 @@ const AwesomeAlertBanner = defineAsyncComponent(() => import('~/layers/nuxt-awes
 const { awesome } = useAppConfig()
 const userStore = useUserStore()
 
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
+const leadingsTextStyleDefault = "font-weight: 900; display: block; font-size: 6rem; line-height: 1;"
+const leadingTextStyleSM = "font-weight: 900; display: block; font-size: 3.75rem; line-height: 1;"
+const leadingTextStyle = ref(leadingsTextStyleDefault)
+
+onMounted(() => {
+  isSmaller.value = breakpoints.smallerOrEqual('sm').value
+})
+
+watch(isSmaller, (value) => {
+  if (value) {
+    leadingTextStyle.value = leadingTextStyleSM
+  } else {
+    leadingTextStyle.value = leadingsTextStyleDefault
+  }
+}, {immediate: true})
+
 const leadingsText = [
   {
-    text: 'Ask',
+    text: 'ASK',
     startColor: '#007CF0',
     endColor: '#00DFD8',
     delay: 0,
@@ -60,7 +79,7 @@ onUnmounted(() => {
           <span
             v-for="(item, i) in leadingsText"
             :key="i"
-            class="drop-shadow-xl text-6xl sm:text-8xl md:text-8xl lg:text-8xl 2xl:text-8xl block font-black uppercase"
+            :style="leadingTextStyle"
           >
             <span>{{ item.text }}</span>
           </span>
@@ -136,7 +155,6 @@ onUnmounted(() => {
   }
 }
 .animated-text-bg {
-  animation-delay: 2s;
   position: relative;
   display: block;
   -webkit-user-select: none;
@@ -168,7 +186,6 @@ onUnmounted(() => {
   }
 }
 .animated-text-fg {
-  animation-delay: 2s;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
