@@ -152,6 +152,7 @@ onUnmounted(() => {
   }
 }
 .animated-text-bg {
+  animation-delay: 2s;
   position: relative;
   display: block;
   -webkit-user-select: none;
@@ -183,6 +184,7 @@ onUnmounted(() => {
   }
 }
 .animated-text-fg {
+  animation-delay: 2s;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
