@@ -60,14 +60,9 @@ onUnmounted(() => {
           <span
             v-for="(item, i) in leadingsText"
             :key="i"
-            :style="`--content: '${item.text}'; --start-color: ${
-              item.startColor
-            }; --end-color: ${item.endColor}; --animation-name: anim-fg-${
-              i + 1
-            }`"
-            class="animated-text-bg drop-shadow-xl text-6xl sm:text-8xl md:text-8xl lg:text-8xl 2xl:text-8xl block font-black uppercase"
+            class="drop-shadow-xl text-6xl sm:text-8xl md:text-8xl lg:text-8xl 2xl:text-8xl block font-black uppercase"
           >
-            <span class="animated-text-fg">{{ item.text }}</span>
+            <span>{{ item.text }}</span>
           </span>
         </h1>
         <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
