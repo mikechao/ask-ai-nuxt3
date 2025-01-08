@@ -10,9 +10,16 @@ const userStore = useUserStore()
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
+
+// leadings text styles
 const leadingsTextStyleDefault = "font-weight: 900; display: block; font-size: 6rem; line-height: 1;"
 const leadingTextStyleSM = "font-weight: 900; display: block; font-size: 3.75rem; line-height: 1;"
 const leadingTextStyle = ref(leadingsTextStyleDefault)
+
+// body text styles
+const bodyTextStyleDefault = "padding-left: 1rem; padding-right: 1rem; margin-top: 1.5rem; text-align: center; max-width: 600px;"
+const bodyTextStyleSM = "padding-left: 1rem; padding-right: 1rem; margin-top: 1.5rem; text-align: center; max-width: 500px;"
+const bodyTextStyle = ref(bodyTextStyleDefault)
 
 onMounted(() => {
   isSmaller.value = breakpoints.smallerOrEqual('sm').value
@@ -21,8 +28,10 @@ onMounted(() => {
 watch(isSmaller, (value) => {
   if (value) {
     leadingTextStyle.value = leadingTextStyleSM
+    bodyTextStyle.value = bodyTextStyleSM
   } else {
     leadingTextStyle.value = leadingsTextStyleDefault
+    bodyTextStyle.value = bodyTextStyleDefault
   }
 }, {immediate: true})
 
@@ -89,16 +98,16 @@ onUnmounted(() => {
             <span class="animated-text-fg">{{ item.text }}</span>
           </span>
         </h1>
-        <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
+        <div :style="bodyTextStyle">
           {{
             awesome?.description ||
             'Ask AI about text, audio or an image'
           }}
         </div>
-        <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
+        <div :style="bodyTextStyle">
             Guest User's AI Chatbot memory will be wiped after logging out
         </div>
-        <div class="px-4 mt-6 text-center max-w-[500px] md:max-w-[600px]">
+        <div :style="bodyTextStyle">
             Google/GitHub User's AI Chatbot memory will be retained after logging out
         </div>
         <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-1 max-sm:w-full max-sm:h-min">
