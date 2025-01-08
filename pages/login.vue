@@ -7,31 +7,20 @@ const AwesomeAlertBanner = defineAsyncComponent(() => import('~/layers/nuxt-awes
 const { awesome } = useAppConfig()
 const userStore = useUserStore()
 
-const titlesText = computed<string[]>(() =>
-  (
-    awesome?.layout?.welcome?.title ||
-    awesome?.name ||
-    'Ask&nbsp;AI'
-  )
-    .replaceAll('&nbsp;', '[space]')
-    .split(' ')
-    .map((item) => item.replaceAll('[space]', ' ')),
-)
-
-const leadingsText = computed(() => [
+const leadingsText = [
   {
-    text: titlesText.value[0],
+    text: 'Ask',
     startColor: '#007CF0',
     endColor: '#00DFD8',
     delay: 0,
   },
   {
-    text: titlesText.value[1],
+    text: 'AI',
     startColor: '#7928CA',
     endColor: '#FF0080',
     delay: 2,
   },
-])
+]
 
 const alertTilte = computed(() => {
   if (userStore.accountExists) {
