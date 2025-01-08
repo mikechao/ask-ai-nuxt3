@@ -40,15 +40,7 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes('node_modules/vue-advanced-chat')) return 'vueAdvancedChat'
-          }
-        }
-      }
-    }
+
   },
   googleFonts: {
     display: 'swap',
