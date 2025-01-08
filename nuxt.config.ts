@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const firebaseModules = ["firebase/app", "firebase/auth", "firebase/firestore", "firebase/storage"]
 export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-11-01',
@@ -46,8 +45,6 @@ export default defineNuxtConfig({
         output: {
           manualChunks(id) {
             if (id.includes('node_modules/vue-advanced-chat')) return 'vueAdvancedChat'
-            // const seprateModule = firebaseModules.find(module => id.includes(module))
-            // if (seprateModule) return seprateModule
           }
         }
       }
