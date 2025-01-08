@@ -70,6 +70,7 @@ const showDrawer = ref(false)
       >
         <div class="pl-4 flex space-x-3 text-xl">
           <AwesomeLink
+            aria-label="Navigation Menu shows up on bottom"
             class="text-gray-400 hover:text-gray-100"
             @click.prevent="() => (showDrawer = !showDrawer)"
           >
