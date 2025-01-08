@@ -33,7 +33,7 @@ const availableThemes = [
     >
       <HeadlessListboxLabel class="sr-only">Theme</HeadlessListboxLabel>
       <HeadlessListboxButton type="template" aria-label="Dark Mode, Light Mode Switcher">
-        <AwesomeLink class="dark:text-gray-400 text-gray-600">
+        <AwesomeLink class="dark:text-gray-400 text-gray-600" aria-label="Dark Mode, Light Mode Switcher">
           <span class="flex justify-center items-center dark:hidden">
             <Icon name="uil:sun" />
           </span>
