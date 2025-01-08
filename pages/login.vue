@@ -16,11 +16,6 @@ const leadingsTextStyleDefault = "font-weight: 900; display: block; font-size: 6
 const leadingTextStyleSM = "font-weight: 900; display: block; font-size: 3.75rem; line-height: 1;"
 const leadingTextStyle = ref(leadingsTextStyleDefault)
 
-// body text styles
-const bodyTextStyleDefault = "padding-left: 1rem; padding-right: 1rem; margin-top: 1.5rem; text-align: center; max-width: 600px;"
-const bodyTextStyleSM = "padding-left: 1rem; padding-right: 1rem; margin-top: 1.5rem; text-align: center; max-width: 500px;"
-const bodyTextStyle = ref(bodyTextStyleDefault)
-
 onMounted(() => {
   isSmaller.value = breakpoints.smallerOrEqual('sm').value
 })
@@ -28,10 +23,8 @@ onMounted(() => {
 watch(isSmaller, (value) => {
   if (value) {
     leadingTextStyle.value = leadingTextStyleSM
-    bodyTextStyle.value = bodyTextStyleSM
   } else {
     leadingTextStyle.value = leadingsTextStyleDefault
-    bodyTextStyle.value = bodyTextStyleDefault
   }
 }, {immediate: true})
 
@@ -98,16 +91,16 @@ onUnmounted(() => {
             <span class="animated-text-fg">{{ item.text }}</span>
           </span>
         </h1>
-        <div :style="bodyTextStyle">
+        <div :class="isSmaller ? 'body-text-sm' : 'body-text-reg'">
           {{
             awesome?.description ||
             'Ask AI about text, audio or an image'
           }}
         </div>
-        <div :style="bodyTextStyle">
+        <div :class="isSmaller ? 'body-text-sm' : 'body-text-reg'">
             Guest User's AI Chatbot memory will be wiped after logging out
         </div>
-        <div :style="bodyTextStyle">
+        <div :class="isSmaller ? 'body-text-sm' : 'body-text-reg'">
             Google/GitHub User's AI Chatbot memory will be retained after logging out
         </div>
         <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-1 max-sm:w-full max-sm:h-min">
@@ -214,6 +207,20 @@ onUnmounted(() => {
   opacity: 0;
   z-index: 1;
   animation: var(--animation-name) 8s infinite;
+}
+.body-text-reg {
+  padding-left: 1rem; 
+  padding-right: 1rem; 
+  margin-top: 1.5rem; 
+  text-align: center; 
+  max-width: 600px;
+}
+.body-text-sm {
+  padding-left: 1rem; 
+  padding-right: 1rem; 
+  margin-top: 1.5rem; 
+  text-align: center; 
+  max-width: 500px;
 }
 html.dark {
   .animated-text-bg {
