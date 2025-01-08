@@ -9,6 +9,12 @@ useHead({
     lang: 'en'
   }
 })
+useSeoMeta({
+  title: awesome.name,
+  ogTitle: awesome.name,
+  description: awesome.description,
+  ogDescription: awesome.description
+})
 </script>
 
 <template>
