@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/userStore'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { useFirebaseLogin } from '~/composables/useFirebaseLogin'
+import type { User } from 'firebase/auth'
 
 const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
@@ -15,6 +17,9 @@ const isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
 const leadingsTextStyleDefault = "font-weight: 900; display: block; font-size: 6rem; line-height: 1;"
 const leadingTextStyleSM = "font-weight: 900; display: block; font-size: 3.75rem; line-height: 1;"
 const leadingTextStyle = ref(leadingsTextStyleDefault)
+
+const accountExists = ref<AccountExists>()
+const isLoading = ref(false)
 
 onMounted(() => {
   isSmaller.value = breakpoints.smallerOrEqual('sm').value
@@ -44,26 +49,56 @@ const leadingsText = [
 ]
 
 const alertTilte = computed(() => {
-  if (userStore.accountExists) {
-    return 'Could not login with ' + userStore.accountExists.providerUsed
+  if (accountExists.value) {
+    return 'Could not login with ' + accountExists.value.providerUsed
   } 
   return undefined
 })
 
 const alertText = computed(() => {
-  if (userStore.accountExists) {
-    return 'Account with email ' + userStore.accountExists.conflictEmail + ' already exists.\nLogin with Google'
+  if (accountExists.value) {
+    return 'Account with email ' + accountExists.value.conflictEmail + ' already exists.\nLogin with Google'
   }
   return undefined
 })
 
 function alertBannerClosed() {
-  userStore.clearAccountExists()
+  accountExists.value = undefined
 }
 
 onUnmounted(() => {
-  userStore.clearAccountExists()
+  accountExists.value = undefined
 })
+
+async function loginAsGuest() {
+  isLoading.value = true
+  const { loginAsGuest } = useFirebaseLogin()
+  const user = await loginAsGuest() as User
+  userStore.setUser(user)
+  isLoading.value = false
+}
+
+async function loginWithGoogle() {
+  isLoading.value = true
+  const { accountExists: loginAccountExists, loginWithGoogle } = useFirebaseLogin()
+  const user = await loginWithGoogle() as User
+  userStore.setUser(user)
+  if (loginAccountExists.value) {
+    accountExists.value = loginAccountExists.value
+  }
+  isLoading.value = false
+}
+
+async function loginWithGitHub() {
+  isLoading.value = true
+  const { accountExists: loginAccountExists, loginWithGitHub } = useFirebaseLogin()
+  const user = await loginWithGitHub() as User
+  userStore.setUser(user)
+  if (loginAccountExists.value) {
+    accountExists.value = loginAccountExists.value
+  }
+  isLoading.value = false
+}
 </script>
 
 <template>
@@ -71,7 +106,7 @@ onUnmounted(() => {
     <LayoutPageSection class="flex-1 flex max-sm:mb-1">
       <div class="flex-1 flex flex-col items-center justify-center max-sm:h-min">
         <AwesomeAlertBanner 
-          v-if="userStore.accountExists"
+          v-if="accountExists"
           type="primary"
           :title="alertTilte"
           :text="alertText"
@@ -104,22 +139,22 @@ onUnmounted(() => {
             Google/GitHub User's AI Chatbot memory will be retained after logging out
         </div>
         <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-1 max-sm:w-full max-sm:h-min">
-          <AwesomeButton class="max-sm:w-4/5" href="#" @click="userStore.loginAsGuest">
+          <AwesomeButton class="max-sm:w-4/5" href="#" @click="loginAsGuest">
             <Icon name="mdi:shield-account" class="w-5 h5"/>
             Login as Guest
           </AwesomeButton>
-          <AwesomeButton class="max-sm:w-4/5" href="#" @click="userStore.loginWithGoogle">
+          <AwesomeButton class="max-sm:w-4/5" href="#" @click="loginWithGoogle">
             <Icon name="mdi:google" class="w-5 h-5 mr-1"/>
             Login with Google
           </AwesomeButton>
-          <AwesomeButton class="max-sm:w-4/5" href="#" @click="userStore.loginWithGitHub">
+          <AwesomeButton class="max-sm:w-4/5" href="#" @click="loginWithGitHub">
             <Icon name="mdi:github-face" class="w-5 h-5 mr-1"/>
             Login with GitHub
           </AwesomeButton>
         </div>
       </div>
     </LayoutPageSection>
-    <ModalOverlay :is-visible="userStore.isLoading"/>
+    <ModalOverlay :is-visible="isLoading"/>
   </LayoutPageWrapper>
 </template>
 <style lang="scss">

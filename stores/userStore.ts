@@ -1,4 +1,4 @@
-import { onAuthStateChanged, type User,} from "firebase/auth"
+import type { Auth, User,} from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
   const token = useCookie('token')
@@ -9,8 +9,6 @@ export const useUserStore = defineStore('userStore', () => {
   const imageChatStore = useImageChatStore()
   const tokenStore = useTokenStore()
   const appUser = ref<User>()
-  const isLoading = ref(false)
-  const accountExists = ref<AccountExists>()
 
   async function deleteChat() {
     if (appUser.value) {
@@ -20,64 +18,30 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
-  async function clearAccountExists() {
-    accountExists.value = undefined
-  }
-
   async function logout() {
     deleteChat()
     textChatStore.clearChat()
     audioChatStore.clearChat()
     imageChatStore.clearChat()
     tokenStore.reset()
-    const authStore = await getAuthStore()
-    await authStore.auth.signOut()
-    isLoading.value = false
+    const nuxtApp = useNuxtApp()
+    const auth = nuxtApp.$auth as Auth
+    await auth?.signOut()
+    const user = useState('user')
+    user.value = undefined
+    appUser.value = undefined
     token.value = null
-    clearAccountExists()
     changeToLogin()
     router.push('/')
   }
 
-  let authStore: ReturnType<typeof import('./useAuth').useAuth> | null = null
-  async function getAuthStore() {
-    if (authStore === null) {
-      const authStoreModule = await import('./useAuth')
-      authStore = authStoreModule.useAuth()
-      onAuthStateChanged(authStore.auth, (user) => {
-        if (user) {
-          appUser.value = user
-          token.value = user.uid
-          changeToLogOut()
-          router.push('/')
-        } else {
-          // user is signed out
-          appUser.value = undefined
-        }
-      })
+  async function setUser(user: User) {
+    if (user) {
+      appUser.value = user
+      token.value = user.uid
+      changeToLogOut()
+      router.push('/')
     }
-    return authStore
-  }
-
-  async function loginAsGuest() {
-    const authStore = await getAuthStore()
-    isLoading.value = authStore.isLoading
-    authStore.loginAsGuest()
-    isLoading.value = authStore.isLoading
-  }
-
-  async function loginWithGoogle() {
-    const authStore = await getAuthStore()
-    isLoading.value = authStore.isLoading
-    authStore.loginWithGoogle()
-    isLoading.value = authStore.isLoading
-  }
-
-  async function loginWithGitHub() {
-    const authStore = await getAuthStore()
-    isLoading.value = authStore.isLoading
-    authStore.loginWithGitHub()
-    isLoading.value = authStore.isLoading
   }
 
   function changeToLogOut() {
@@ -110,16 +74,11 @@ export const useUserStore = defineStore('userStore', () => {
     return appUser.value?.photoURL ?? 'https://i.pravatar.cc/100'
   }
 
-  return { 
-    loginAsGuest, 
-    loginWithGoogle, 
-    loginWithGitHub, 
+  return {
     logout, 
     getUserName, 
     getUserPhotoURL, 
     deleteChat, 
-    isLoading,
-    accountExists,
-    clearAccountExists
+    setUser
   }
 })

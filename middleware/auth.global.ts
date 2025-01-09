@@ -1,10 +1,7 @@
-import type { Auth } from "firebase/auth"
-
 export default defineNuxtRouteMiddleware(async (to, _from) => {
-    const nuxtApp = useNuxtApp()
-    const auth = nuxtApp.$auth as Auth
+    const user = useState('user')
     if (to.path !== '/login') {
-        if (!auth.currentUser) {
+        if (!user || !user.value) {
             return navigateTo({ path: '/login'})
         }
     }

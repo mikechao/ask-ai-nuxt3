@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 // useUserStore to fix the issue of 1. Login 2. Close tab 3 reopen tab
 // and the login button stays as login instead of logout
-useUserStore()
+// useUserStore()
 const { awesome } = useAppConfig()
 useHead({
   title: awesome.name,
