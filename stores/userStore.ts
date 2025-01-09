@@ -1,6 +1,4 @@
-import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged,
-  type User, GithubAuthProvider, type AuthProvider,
-  type AuthError, } from "firebase/auth"
+import { onAuthStateChanged, type User,} from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
   const token = useCookie('token')
@@ -32,8 +30,8 @@ export const useUserStore = defineStore('userStore', () => {
     audioChatStore.clearChat()
     imageChatStore.clearChat()
     tokenStore.reset()
-    const lAuth = await getAuth()
-    await lAuth.signOut()
+    const authStore = await getAuthStore()
+    await authStore.auth.signOut()
     isLoading.value = false
     token.value = null
     clearAccountExists()
@@ -41,86 +39,45 @@ export const useUserStore = defineStore('userStore', () => {
     router.push('/')
   }
 
-  async function getAuth() {
-    const authStoreModule = await import('./useAuth')
-    const authStore = authStoreModule.useAuth()
-    onAuthStateChanged(authStore.auth, (user) => {
-      if (user) {
-        appUser.value = user
-        token.value = user.uid
-        changeToLogOut()
-        router.push('/')
-      } else {
-        // user is signed out
-        appUser.value = undefined
-      }
-    })
-    return authStore.auth
+  let authStore: ReturnType<typeof import('./useAuth').useAuth> | null = null
+  async function getAuthStore() {
+    if (authStore === null) {
+      const authStoreModule = await import('./useAuth')
+      authStore = authStoreModule.useAuth()
+      onAuthStateChanged(authStore.auth, (user) => {
+        if (user) {
+          appUser.value = user
+          token.value = user.uid
+          changeToLogOut()
+          router.push('/')
+        } else {
+          // user is signed out
+          appUser.value = undefined
+        }
+      })
+    }
+    return authStore
   }
 
   async function loginAsGuest() {
-    isLoading.value = true
-    const lAuth = await getAuth()
-    signInAnonymously(lAuth)
-    .catch((error) => {
-      console.log('Fail to login')
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('errorCode', errorCode)
-      console.log('errorMessage', errorMessage)
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+    const authStore = await getAuthStore()
+    isLoading.value = authStore.isLoading
+    authStore.loginAsGuest()
+    isLoading.value = authStore.isLoading
   }
 
-  async function loginWithProvider(provider: AuthProvider) {
-    isLoading.value = true
-    const lAuth = await getAuth()
-    signInWithPopup(lAuth, provider)
-      .catch((error) => {
-        const errorCode = error.code
-        if (errorCode === 'auth/account-exists-with-different-credential') {
-          // notify the user somehow
-          const conflictEmail = getEmailFromError(error)
-          const loginProvider = getProvider(provider)
-          accountExists.value = {
-            conflictEmail: conflictEmail,
-            providerUsed: loginProvider
-          }
-        }
-        console.log('Fail to login\nError code:\nError message:\n', errorCode, error.message)
-
-      })
-      .finally(() => {
-        isLoading.value = false
-      })
+  async function loginWithGoogle() {
+    const authStore = await getAuthStore()
+    isLoading.value = authStore.isLoading
+    authStore.loginWithGoogle()
+    isLoading.value = authStore.isLoading
   }
 
-  function getEmailFromError(error: AuthError) {
-    return (error.customData.email) ? error.customData.email as string : 'No Email'
-  }
-
-  function getProvider(provider: AuthProvider) {
-    if (GoogleAuthProvider.PROVIDER_ID === provider.providerId) {
-      return "Google"
-    } else if (GithubAuthProvider.PROVIDER_ID === provider.providerId) {
-      return "GitHub"
-    }
-    return "Unknown"
-  }
-
-  function loginWithGoogle() {
-    loginWithProvider(new GoogleAuthProvider())
-  }
-
-  function loginWithGitHub() {
-    const provider = new GithubAuthProvider()
-
-    // https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps
-    //provider.addScope('repo')
-    // no scope Grants read-only access to public information (including user profile info, repository info, and gists)
-    loginWithProvider(provider)
+  async function loginWithGitHub() {
+    const authStore = await getAuthStore()
+    isLoading.value = authStore.isLoading
+    authStore.loginWithGitHub()
+    isLoading.value = authStore.isLoading
   }
 
   function changeToLogOut() {
