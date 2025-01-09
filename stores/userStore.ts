@@ -1,9 +1,8 @@
 import { GoogleAuthProvider, signInAnonymously, signInWithPopup, onAuthStateChanged,
-  type Auth, type User, GithubAuthProvider, type AuthProvider,
+  type User, GithubAuthProvider, type AuthProvider,
   type AuthError, } from "firebase/auth"
 
 export const useUserStore = defineStore('userStore', () => {
-  const auth = useFirebaseAuth() as Auth
   const token = useCookie('token')
   const router = useRouter()
   const { awesome } = useAppConfig()
@@ -33,7 +32,8 @@ export const useUserStore = defineStore('userStore', () => {
     audioChatStore.clearChat()
     imageChatStore.clearChat()
     tokenStore.reset()
-    await auth.signOut()
+    const lAuth = await getAuth()
+    await lAuth.signOut()
     isLoading.value = false
     token.value = null
     clearAccountExists()
@@ -41,9 +41,27 @@ export const useUserStore = defineStore('userStore', () => {
     router.push('/')
   }
 
-  function loginAsGuest() {
+  async function getAuth() {
+    const authStoreModule = await import('./useAuth')
+    const authStore = authStoreModule.useAuth()
+    onAuthStateChanged(authStore.auth, (user) => {
+      if (user) {
+        appUser.value = user
+        token.value = user.uid
+        changeToLogOut()
+        router.push('/')
+      } else {
+        // user is signed out
+        appUser.value = undefined
+      }
+    })
+    return authStore.auth
+  }
+
+  async function loginAsGuest() {
     isLoading.value = true
-    signInAnonymously(auth)
+    const lAuth = await getAuth()
+    signInAnonymously(lAuth)
     .catch((error) => {
       console.log('Fail to login')
       const errorCode = error.code;
@@ -56,9 +74,10 @@ export const useUserStore = defineStore('userStore', () => {
     })
   }
 
-  function loginWithProvider(provider: AuthProvider) {
+  async function loginWithProvider(provider: AuthProvider) {
     isLoading.value = true
-    signInWithPopup(auth, provider)
+    const lAuth = await getAuth()
+    signInWithPopup(lAuth, provider)
       .catch((error) => {
         const errorCode = error.code
         if (errorCode === 'auth/account-exists-with-different-credential') {
@@ -133,18 +152,6 @@ export const useUserStore = defineStore('userStore', () => {
   function getUserPhotoURL() {
     return appUser.value?.photoURL ?? 'https://i.pravatar.cc/100'
   }
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      appUser.value = user
-      token.value = user.uid
-      changeToLogOut()
-      router.push('/')
-    } else {
-      // user is signed out
-      appUser.value = undefined
-    }
-  })
 
   return { 
     loginAsGuest, 
