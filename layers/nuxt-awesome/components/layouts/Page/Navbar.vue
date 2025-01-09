@@ -2,7 +2,6 @@
 const { awesome } = useAppConfig()
 const { parseMenuRoute, parseMenuTitle } = useNavbarParser()
 const $screen = useAwesomeScreen()
-const nuxtApp = useNuxtApp()
 
 const menus = computed(
   () =>
