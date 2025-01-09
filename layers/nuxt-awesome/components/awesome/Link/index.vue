@@ -20,14 +20,14 @@ const to = toRef(props, 'to')
 </script>
 
 <template>
-  <NuxtLink
+  <LazyNuxtLink
     v-if="to"
     tag="a"
     :to="to"
     :class="`transition-colors duration-300 dark:hover:text-white hover:text-gray-900 hover:underline`"
   >
     <slot>{{ text }}</slot>
-  </NuxtLink>
+  </LazyNuxtLink>
   <a
     v-else-if="!href"
     :class="`transition-colors duration-300 dark:hover:text-white hover:text-gray-900 hover:underline`"

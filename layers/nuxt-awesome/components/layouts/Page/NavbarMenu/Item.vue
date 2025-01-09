@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-const nuxtApp = useNuxtApp()
 const { parseMenuRoute, parseMenuTitle } = useNavbarParser()
 
 const props = defineProps({
