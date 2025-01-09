@@ -40,7 +40,17 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('@vue/shared')) {
+              return 'vue-shared'
+            }
+          }
+        }
+      }
+    }
   },
   googleFonts: {
     display: 'swap',
