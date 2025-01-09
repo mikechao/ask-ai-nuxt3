@@ -1,7 +1,8 @@
 import { GithubAuthProvider, GoogleAuthProvider, signInAnonymously, signInWithPopup, type Auth, type AuthError, type AuthProvider } from "firebase/auth"
 
 export const useAuth = defineStore('authStore', () => {
-  const auth = useFirebaseAuth() as Auth
+  const nuxtApp = useNuxtApp()
+  const auth = nuxtApp.$auth as Auth
   const accountExists = ref<AccountExists>()
   const isLoading = ref(false)
 
