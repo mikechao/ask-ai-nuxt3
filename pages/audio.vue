@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
-const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
+// const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.client.vue'))
 const audioAreaHeight = ref(0)
 const audioChatWindowHeight = computed(() => {
   return `${audioAreaHeight.value}px`
@@ -46,7 +46,8 @@ async function sendPrompt() {
         </div>
       </div>
       <div class="flex-1 flex h-full">
-        <ChatWindow 
+        <ClientOnly>
+          <ChatWindow 
           :height="audioChatWindowHeight"
           :store="audioChatStore"
           initial-message="Hello click the Choose File button to select an audio file, then hit the Transcribe button and ask your question below."
@@ -54,7 +55,8 @@ async function sendPrompt() {
           :get-content="getContent"
           :send-prompt="sendPrompt"
           class="block w-full"
-        />
+          />
+        </ClientOnly>
       </div>
     </LayoutPageWrapper>
 </template>

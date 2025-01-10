@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
-const ChatWindow = defineAsyncComponent(() => import('~/components/ChatWindow.vue'))
+// const ChatWindow = defineAsyncComponent({
+//   loader: () => import('~/components/ChatWindow.client.vue'),
+// })
 const imageChatStore = useImageChatStore()
 const tokenStore = useTokenStore()
 const imageAreaHeight = ref(0)
@@ -57,7 +59,8 @@ async function sendPrompt() {
       </div>
     </div>
     <div class="flex-1 flex h-full">
-      <ChatWindow 
+      <ClientOnly>
+        <ChatWindow 
         :height="imageChatWindowHeight"
         :store="imageChatStore"
         initial-message="Hello add an image to the left and ask questions below and I will answer to the best of my ability"
@@ -65,7 +68,8 @@ async function sendPrompt() {
         :get-content="getContent"
         :send-prompt="sendPrompt"
         class="block w-full"
-      />
+        />
+      </ClientOnly>
     </div>
   </LayoutPageWrapper>
 </template>
