@@ -23,6 +23,7 @@ const isLoading = ref(false)
 
 onMounted(() => {
   isSmaller.value = breakpoints.smallerOrEqual('sm').value
+  console.log('userStore user name', userStore.getUserName())
 })
 
 watch(isSmaller, (value) => {
