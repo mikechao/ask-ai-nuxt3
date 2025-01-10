@@ -2,6 +2,7 @@
 import { useObjectUrl, useFileDialog, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { useImageChatStore } from "~/stores/imageChat"
 
+const ModalOverlay = defineAsyncComponent(() => import("./ModalOverlay.vue"))
 const AwesomeButton = defineAsyncComponent(() => import("~/layers/nuxt-awesome/components/awesome/Button/index.vue"))
 const imageChatStore = useImageChatStore()
 const { open, reset, onChange } = useFileDialog({
@@ -14,6 +15,7 @@ const fileButtonKey = ref(newKeyValue())
 const resetButtonKey = ref(newKeyValue())
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
+const isResizing = ref(false)
 
 onMounted(() => {
   isSmaller.value = breakpoints.smallerOrEqual('sm').value
@@ -36,11 +38,13 @@ watch(clearFile, () => {
 })
 
 async function resizeImage(imageURL: string, fileName: string) {
+  isResizing.value = true
   const {jimp:j, jimpMime } = await getJimp()
   const image = await j.read(imageURL)
   const resized = image.scaleToFit({w: 200, h:200})
   const outputBuffer = await resized.getBuffer(jimpMime.jpeg)
   const outputBlob = new Blob([outputBuffer], { type: jimpMime.jpeg})
+  isResizing.value = false
   return new File([outputBlob], fileName)
 }
 
@@ -88,5 +92,6 @@ function newKeyValue() {
       />
     </div>
     <h3 v-if="imageChatStore.file?.name" class="font-semibold my-2 text-purple-300 max-sm:my-0 max-sm:text-sm">{{ imageChatStore.file?.name }}</h3>
+    <ModalOverlay :is-visible="isResizing" text="Resizing image"/>
   </div>
 </template>
