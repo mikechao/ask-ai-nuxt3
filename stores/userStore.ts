@@ -40,7 +40,7 @@ export const useUserStore = defineStore('userStore', () => {
       appUser.value = user
       token.value = user.uid
       changeToLogOut()
-      router.push('/')
+      router.push('/nav')
     }
   }
 
