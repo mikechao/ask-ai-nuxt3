@@ -11,10 +11,10 @@ defineProps({
 })
 </script>
 <template>
-  <div v-if="isVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg flex flex-col items-center">
+  <div v-if="isVisible" class="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 p-4 rounded flex flex-col items-center">
       <p class="text-gray-900 dark:text-white">{{ text }}</p>
-      <div class="loader mt-4"/>
+      <div class="loader mt-4 mb-4"/>
     </div>
   </div>
 </template>
