@@ -2,6 +2,7 @@
 import { useFileDialog, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { useAudioChatStore } from "~/stores/audioChat"
 
+const AwesomeButton = defineAsyncComponent(() => import("~/layers/nuxt-awesome/components/awesome/Button/index.vue"))
 const audioChatStore = useAudioChatStore()
 const { files, open, reset, onChange } = useFileDialog({
   accept: "audio/*",

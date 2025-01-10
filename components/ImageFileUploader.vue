@@ -2,6 +2,7 @@
 import { useObjectUrl, useFileDialog, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { useImageChatStore } from "~/stores/imageChat"
 
+const AwesomeButton = defineAsyncComponent(() => import("~/layers/nuxt-awesome/components/awesome/Button/index.vue"))
 const imageChatStore = useImageChatStore()
 const { open, reset, onChange } = useFileDialog({
   accept: "image/*",

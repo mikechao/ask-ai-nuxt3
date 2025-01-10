@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 
+const AwesomeButton = defineAsyncComponent(() => import("~/layers/nuxt-awesome/components/awesome/Button/index.vue"))
 const audioChatStore = useAudioChatStore()
 const hasFile = computed(() => audioChatStore.file === undefined)
 const disableTranscribe = computed(() => hasFile.value || audioChatStore.isTranscribing)

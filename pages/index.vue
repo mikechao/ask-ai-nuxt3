@@ -4,6 +4,7 @@ import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { useFirebaseLogin } from '~/composables/useFirebaseLogin'
 import type { User } from 'firebase/auth'
 
+const AwesomeButton = defineAsyncComponent(() => import("~/layers/nuxt-awesome/components/awesome/Button/index.vue"))
 const LayoutPageSection = defineAsyncComponent(() => import('../layers/nuxt-awesome/components/layouts/Page/Section/index.vue'))
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
 const AwesomeAlertBanner = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/awesome/AlertBanner.vue'))

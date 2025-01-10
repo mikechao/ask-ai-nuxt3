@@ -4,6 +4,8 @@ import 'vue3-side-panel/dist/vue3-side-panel.css'
 import { useSettingStore } from '~/stores/settingsStore'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
+const AwesomeButton = defineAsyncComponent(() => import("~/layers/nuxt-awesome/components/awesome/Button/index.vue"))
+
 const isOpen = ref(false)
 const settingsStore = useSettingStore()
 const sidePanelClass = 'bg-[#f8f9fa] dark:bg-gray-800'
