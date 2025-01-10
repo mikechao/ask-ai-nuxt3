@@ -1,8 +1,5 @@
 <script setup lang="ts">
 const LayoutPageWrapper = defineAsyncComponent(() => import('~/layers/nuxt-awesome/components/layouts/Page/Wrapper.vue'))
-// const ChatWindow = defineAsyncComponent({
-//   loader: () => import('~/components/ChatWindow.client.vue'),
-// })
 const imageChatStore = useImageChatStore()
 const tokenStore = useTokenStore()
 const imageAreaHeight = ref(0)
