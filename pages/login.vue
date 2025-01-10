@@ -154,7 +154,7 @@ async function loginWithGitHub() {
         </div>
       </div>
     </LayoutPageSection>
-    <ModalOverlay :is-visible="isLoading"/>
+    <ModalOverlay :is-visible="isLoading" text="Logging in"/>
   </LayoutPageWrapper>
 </template>
 <style lang="scss">
