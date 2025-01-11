@@ -1,11 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   routeRules: {
+    '/': {prerender: true},
     '/nav': { prerender: true},
+    '/logout': {prerender: true},
     '/image': {ssr: false},
     '/audio': {ssr: false},
-    '/': {prerender: true},
-    '/logout': {prerender: true},
     '/text': {ssr: false}
   },  
   compatibilityDate: '2024-11-01',

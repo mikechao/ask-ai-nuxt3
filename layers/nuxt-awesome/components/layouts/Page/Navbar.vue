@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 const { awesome } = useAppConfig()
-const breakpoints = useBreakpoints(breakpointsTailwind)
+const $screen = useAwesomeScreen()
 const menus = computed(
   () =>
     (awesome?.layout?.page?.navbar?.menus ||
@@ -10,11 +9,7 @@ const menus = computed(
 
 // drawer
 const HamburgerMenu = defineAsyncComponent(() => import('./HamburgerMenu.vue'))
-const showDrawer: Ref<boolean> = breakpoints.smaller('md')
-const openDraw = ref(false)
-onMounted(() => {
-  showDrawer.value = breakpoints.smaller('md').value
-})
+const showDrawer = ref(false)
 
 </script>
 
@@ -40,7 +35,7 @@ onMounted(() => {
       </div>
       <!-- menus -->
       <div
-        v-if="!showDrawer"
+        v-if="$screen.higherThan('md', $screen.current.value)"
         class="flex space-x-4 items-center"
         :class="{ 'divide-x divide-gray-500': menus.length > 0 }"
       >
@@ -76,7 +71,7 @@ onMounted(() => {
           <AwesomeLink
             aria-label="Navigation Menu shows up on bottom"
             class="text-gray-400 hover:text-gray-100"
-            @click.prevent="() => (openDraw = !openDraw)"
+            @click.prevent="() => (showDrawer = !showDrawer)"
           >
             <Icon name="heroicons:bars-3-bottom-right-20-solid" />
           </AwesomeLink>
@@ -85,6 +80,6 @@ onMounted(() => {
     </div>
     <!-- misc -->
     <!-- drawer -->
-    <HamburgerMenu v-if="openDraw" @menu:close="openDraw = !openDraw"/>
+    <HamburgerMenu v-if="!$screen.higherThan('md', $screen.current.value) && showDrawer" @menu:close="showDrawer = !showDrawer"/>
   </header>
 </template>
