@@ -8,19 +8,12 @@ const audioChatWindowHeight = computed(() => {
 
 const audioChatStore = useAudioChatStore()
 const tokenStore = useTokenStore()
+const audioArea = ref(null)
 
-function observeHeight() {
-  const resizeObserver = new ResizeObserver(function(entries: ResizeObserverEntry[]) {
-    const textArea = entries[0]
-    const cr = textArea.contentRect
-    audioAreaHeight.value = cr.height
-  });
-  const textAreaEl = document.getElementById('audioArea') as Element
-  resizeObserver.observe(textAreaEl);
-}
-
-onMounted(() => {
-  observeHeight()
+useResizeObserver(audioArea, (entries) => {
+  const entry = entries[0]
+  const { height } = entry.contentRect
+  audioAreaHeight.value = height
 })
 
 function getContent() {
@@ -34,7 +27,7 @@ async function sendPrompt() {
 </script>
 <template>
     <LayoutPageWrapper class="flex-1 flex max-sm:flex-col">
-      <div id="audioArea" class="flex-1 flex flex-col mr-2 h-full max-sm:mb-1">
+      <div ref="audioArea" class="flex-1 flex flex-col mr-2 h-full max-sm:mb-1">
         <h3>Choose audio that has some speech that you would like to ask questions about.</h3>
         <section class="mt-4">
           <LazyAudioFileUploader file-type="audio/*"/>
