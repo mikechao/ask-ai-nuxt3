@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 const { awesome } = useAppConfig()
-const $screen = useAwesomeScreen()
 const menus = computed(
   () =>
     (awesome?.layout?.page?.navbar?.menus ||
@@ -35,8 +34,7 @@ const showDrawer = ref(false)
       </div>
       <!-- menus -->
       <div
-        v-if="$screen.higherThan('md', $screen.current.value)"
-        class="flex space-x-4 items-center"
+        class="hidden md:flex space-x-4 items-center"
         :class="{ 'divide-x divide-gray-500': menus.length > 0 }"
       >
         <div class="flex space-x-4 text-sm items-center">
@@ -63,8 +61,7 @@ const showDrawer = ref(false)
       </div>
       <!-- drawer:btn -->
       <div
-        v-else
-        class="flex space-x-4 items-center"
+        class="flex md:hidden space-x-4 items-center"
         :class="{ 'divide-x divide-gray-500': menus.length > 0 }"
       >
         <div class="pl-4 flex space-x-3 text-xl">
@@ -80,6 +77,6 @@ const showDrawer = ref(false)
     </div>
     <!-- misc -->
     <!-- drawer -->
-    <HamburgerMenu v-if="!$screen.higherThan('md', $screen.current.value) && showDrawer" @menu:close="showDrawer = !showDrawer"/>
+    <HamburgerMenu v-if="showDrawer" @menu:close="showDrawer = !showDrawer"/>
   </header>
 </template>
