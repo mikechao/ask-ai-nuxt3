@@ -23,7 +23,7 @@ export default defineAppConfig({
                   { type: 'button', title:'Text', to: '/text' },
                   { type: 'button', title: 'Audio', to: '/audio' },
                   { type: 'button', title: 'Image', to: '/image'},
-                  { type: 'button', title: 'Login', to: '/login'}
+                  { type: 'button', title: 'Login', to: '/'}
                 ]
             }
         },

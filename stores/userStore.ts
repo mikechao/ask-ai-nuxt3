@@ -61,7 +61,7 @@ export const useUserStore = defineStore('userStore', () => {
       const index = menus.findIndex(m => m.title === 'Log Out')
       if (index > -1) {
         menus[index].title = 'Login'
-        menus[index].to = '/login'
+        menus[index].to = '/'
       }
     }
   }
