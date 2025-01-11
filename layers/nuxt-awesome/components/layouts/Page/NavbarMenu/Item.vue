@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { parseMenuRoute, parseMenuTitle } = useNavbarParser()
 
-const props = defineProps({
+defineProps({
   menu: {
     type: Object as () =>
       | AwesomeLayoutPageNavbarMenu

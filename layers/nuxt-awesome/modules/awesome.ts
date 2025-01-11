@@ -1,6 +1,5 @@
 import { existsSync, statSync } from 'fs'
 import {
-  useNuxt,
   defineNuxtModule,
   createResolver,
   addImportsDir,
@@ -19,11 +18,9 @@ export default defineNuxtModule({
     // tailwindcss:get_config
     let tsConfigs = {}
     for (const layer of nuxt.options._layers) {
-      let isJs = true
       let storesPath = resolver.resolve(layer.cwd, 'tailwind.config.js')
       if (!existsSync(storesPath) || !statSync(storesPath).isFile()) {
         storesPath = resolver.resolve(layer.cwd, 'tailwind.config.ts')
-        isJs = false
       }
 
       if (existsSync(storesPath) && statSync(storesPath).isFile()) {
