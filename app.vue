@@ -13,8 +13,11 @@ useHead({
 useSeoMeta({
   title: awesome.name,
   description: awesome.description,
+  author: 'Mike Chao',
+  applicationName: 'Ask AI',
   ogTitle: awesome.name,
   ogDescription: seoDescription,
+  ogType: 'website',
   ogImage: { 
     url: 'https://ask-ai-n3.netlify.app/askAISample.png',
     alt: 'A textbox on the left with a poem and a chat window o the right about it',
