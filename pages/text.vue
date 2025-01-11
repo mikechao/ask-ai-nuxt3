@@ -7,19 +7,12 @@ const textAreaHeight = ref(0)
 const textChatWindowHeight = computed(() => {
   return `${textAreaHeight.value}px`
 })
+const textArea = ref(null)
 
-function observeHeight() {
-  const resizeObserver = new ResizeObserver(function(entries: ResizeObserverEntry[]) {
-    const textArea = entries[0]
-    const cr = textArea.contentRect
-    textAreaHeight.value = cr.height
-  });
-  const textAreaEl = document.getElementById('textArea') as Element
-  resizeObserver.observe(textAreaEl);
-}
-
-onMounted(() => {
-  observeHeight()
+useResizeObserver(textArea, (entries) => {
+  const entry = entries[0]
+  const { height } = entry.contentRect
+  textAreaHeight.value = height
 })
 
 function getContent() {
@@ -33,7 +26,7 @@ async function sendPrompt() {
 </script>
 <template>
   <LayoutPageWrapper class="flex-1 flex max-sm:flex-col">
-    <div id="textArea" class="flex-1 flex flex-col mr-2 h-full max-sm:mb-1">
+    <div ref="textArea" class="flex-1 flex flex-col mr-2 h-full max-sm:mb-1">
       <h1>Enter the text you would like to ask questions about.</h1>
       <section class="mt-1 flex-1 flex">
         <textarea
