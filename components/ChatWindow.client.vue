@@ -3,7 +3,10 @@ import { register } from 'vue-advanced-chat'
 import type {Room, Message, RoomUser, UserStatus, } from 'vue-advanced-chat'
 import { lightChatTheme } from './lightChatTheme'
 import { darkChatTheme } from './darkChatTheme'
-register()
+
+if (import.meta.client) {
+  register()
+}
 
 const props = defineProps({
   height: {
