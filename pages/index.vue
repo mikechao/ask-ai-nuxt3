@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/userStore'
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { useFirebaseLogin } from '~/composables/useFirebaseLogin'
 import type { User } from 'firebase/auth'
 
@@ -11,28 +10,8 @@ const AwesomeAlertBanner = defineAsyncComponent(() => import('~/layers/nuxt-awes
 const { awesome } = useAppConfig()
 const userStore = useUserStore()
 
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const isSmaller: Ref<boolean> = breakpoints.smallerOrEqual("sm")
-
-// leadings text styles
-const leadingsTextStyleDefault = "font-weight: 900; display: block; font-size: 6rem; line-height: 1;"
-const leadingTextStyleSM = "font-weight: 900; display: block; font-size: 3.75rem; line-height: 1;"
-const leadingTextStyle = ref(leadingsTextStyleDefault)
-
 const accountExists = ref<AccountExists>()
 const isLoading = ref(false)
-
-onMounted(() => {
-  isSmaller.value = breakpoints.smallerOrEqual('sm').value
-})
-
-watch(isSmaller, (value) => {
-  if (value) {
-    leadingTextStyle.value = leadingTextStyleSM
-  } else {
-    leadingTextStyle.value = leadingsTextStyleDefault
-  }
-}, {immediate: true})
 
 const leadingsText = [
   {
@@ -117,26 +96,26 @@ async function loginWithGitHub() {
           <span
             v-for="(item, i) in leadingsText"
             :key="i"
-            :style="leadingTextStyle + `--content: '${item.text}'; --start-color: ${
+            :style="`--content: '${item.text}'; --start-color: ${
               item.startColor
             }; --end-color: ${item.endColor}; --animation-name: anim-fg-${
               i + 1
             }`"
-            class="animated-text-bg"
+            class="animated-text-bg block font-black text-8xl max-sm:text-6xl"
           >
             <span class="animated-text-fg">{{ item.text }}</span>
           </span>
         </h1>
-        <div :class="isSmaller ? 'body-text-sm' : 'body-text-reg'">
+        <div class="px-4 mt-6 text-center max-w-[600px] max-sm:max-w-[500px]">
           {{
             awesome?.description ||
             'Ask AI about text, audio or an image'
           }}
         </div>
-        <div :class="isSmaller ? 'body-text-sm' : 'body-text-reg'">
+        <div class="px-4 mt-6 text-center max-w-[600px] max-sm:max-w-[500px]">
             Guest User's AI Chatbot memory will be wiped after logging out
         </div>
-        <div :class="isSmaller ? 'body-text-sm' : 'body-text-reg'">
+        <div class="px-4 mt-6 text-center max-w-[600px] max-sm:max-w-[500px]">
             Google/GitHub User's AI Chatbot memory will be retained after logging out
         </div>
         <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-1 max-sm:w-full max-sm:h-min">
@@ -243,20 +222,6 @@ async function loginWithGitHub() {
   opacity: 0;
   z-index: 1;
   animation: var(--animation-name) 8s infinite;
-}
-.body-text-reg {
-  padding-left: 1rem; 
-  padding-right: 1rem; 
-  margin-top: 1.5rem; 
-  text-align: center; 
-  max-width: 600px;
-}
-.body-text-sm {
-  padding-left: 1rem; 
-  padding-right: 1rem; 
-  margin-top: 1.5rem; 
-  text-align: center; 
-  max-width: 500px;
 }
 html.dark {
   .animated-text-bg {
