@@ -1,4 +1,4 @@
-import { NuxtAwesomeAppConfig } from './app.config'
+import type { NuxtAwesomeAppConfig } from './app.config'
 
 export default defineNuxtSchema({
   appConfig: {

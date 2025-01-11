@@ -79,15 +79,7 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
-  // module::content
-  content: {
-    markdown: {
-      mdc: true,
-    },
-    highlight: {
-      theme: 'github-dark',
-    },
-  },
+})
 
   // todo: feat/localization
   // module::i18n
@@ -118,4 +110,3 @@ export default defineNuxtConfig({
   //     }
   //   ]
   // },
-})
