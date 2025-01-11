@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   routeRules: {
-    '/': {prerender: true},
+    '/': {ssr: false},
     '/nav': { prerender: true},
     '/logout': {prerender: true},
     '/image': {ssr: false},
