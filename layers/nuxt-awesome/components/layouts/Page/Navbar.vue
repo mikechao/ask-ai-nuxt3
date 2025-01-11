@@ -122,7 +122,7 @@ onMounted(() => {
                   size="sm"
                   :to="parseMenuRoute(item.to)"
                   class="w-full mb-1"
-                  @click="showDrawer = !showDrawer"
+                  @click="openDraw = !openDraw"
                 />
               </template>
               <template v-if="item?.type === 'dropdown'">
