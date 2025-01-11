@@ -1,19 +1,35 @@
 <script lang="ts" setup>
-// useUserStore to fix the issue of 1. Login 2. Close tab 3 reopen tab
-// and the login button stays as login instead of logout
-// useUserStore()
 const { awesome } = useAppConfig()
+const seoDescription = `Chat with an AI that remembers text, audio, and images. 
+    It answers questions in any style—whether as an assistant, pirate, or Yoda—with context-aware, personalized responses.`
+
 useHead({
   title: awesome.name,
   htmlAttrs: {
     lang: 'en'
   }
 })
+
 useSeoMeta({
   title: awesome.name,
-  ogTitle: awesome.name,
   description: awesome.description,
-  ogDescription: awesome.description
+  ogTitle: awesome.name,
+  ogDescription: seoDescription,
+  ogImage: { 
+    url: 'https://ask-ai-n3.netlify.app/askAISample.png',
+    alt: 'A textbox on the left with a poem and a chat window o the right about it',
+    type: 'image/png',
+    width: 1884,
+    height: 774
+  },
+  ogUrl: 'https://ask-ai-n3.netlify.app',
+  twitterTitle: awesome.name,
+  twitterDescription: seoDescription,
+  twitterImage: { 
+    url: 'https://ask-ai-n3.netlify.app/askAISample.png',
+    alt: 'A textbox on the left with a poem and a chat window o the right about it'
+  },
+  twitterCard: 'summary_large_image'
 })
 </script>
 
