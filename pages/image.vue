@@ -7,19 +7,12 @@ const imageAreaHeight = ref(0)
 const imageChatWindowHeight = computed(() => {
   return `${imageAreaHeight.value}px`
 })
+const imageArea = ref(null)
 
-function observeHeight() {
-  const resizeObserver = new ResizeObserver(function(entries: ResizeObserverEntry[]) {
-    const imageArea = entries[0]
-    const cr = imageArea.contentRect
-    imageAreaHeight.value = cr.height
-  });
-  const imageAreaEl = document.getElementById('imageArea') as Element
-  resizeObserver.observe(imageAreaEl);
-}
-
-onMounted(() => {
-  observeHeight()
+useResizeObserver(imageArea, (entries) => {
+  const entry = entries[0]
+  const { height } = entry.contentRect
+  imageAreaHeight.value = height
 })
 
 function getContent() {
@@ -33,7 +26,7 @@ async function sendPrompt() {
 
 <template>
   <LayoutPageWrapper class="flex-1 flex max-sm:flex-col max-sm:py-0">
-    <div id="imageArea" class="flex-1 flex flex-col mr-2 h-full w-full max-sm:mb-1">
+    <div ref="imageArea" class="flex-1 flex flex-col mr-2 h-full w-full max-sm:mb-1">
       <h3>Choose an image that you would like to ask questions about.</h3>
       <section class="my-4">
         <LazyImageFileUploader/>
