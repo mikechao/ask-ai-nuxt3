@@ -42,7 +42,7 @@ const styles = reactive<{
   [key: string]: string
 }>({
   none: '',
-  primary: 'text-gray-800 bg-primary-500 hover:bg-primary-300 hover:text-gray-600 border-primary-500',
+  primary: 'text-gray-800 bg-primary-500 hover:bg-primary-200 hover:text-gray-600 border-primary-500',
   secondary:
     'text-gray-800 bg-gray-200 border-gray-200 hover:bg-gray-300 dark:text-white dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700',
   opposite:
