@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 const { awesome } = useAppConfig()
 const { parseMenuRoute, parseMenuTitle } = useNavbarParser()
-const $screen = useAwesomeScreen()
-
+const breakpoints = useBreakpoints(breakpointsTailwind)
 const menus = computed(
   () =>
     (awesome?.layout?.page?.navbar?.menus ||
@@ -10,7 +10,12 @@ const menus = computed(
 )
 
 // drawer
-const showDrawer = ref(false)
+const showDrawer: Ref<boolean> = breakpoints.smaller('md')
+const openDraw = ref(false)
+onMounted(() => {
+  showDrawer.value = breakpoints.smaller('md').value
+})
+
 </script>
 
 <template>
@@ -26,7 +31,7 @@ const showDrawer = ref(false)
         <slot name="title">
           <NuxtLink to="/" class="font-bold text-lg text-primary-500">
             <Icon
-              :name="awesome.icon"
+              :name="awesome.icon || ''"
               class="font-black text-xl font-mono mr-2 inline-block"
             />
             <span class="capitalize">{{ awesome.name }}</span>
@@ -35,7 +40,7 @@ const showDrawer = ref(false)
       </div>
       <!-- menus -->
       <div
-        v-if="$screen.higherThan('md', $screen.current.value)"
+        v-if="!showDrawer"
         class="flex space-x-4 items-center"
         :class="{ 'divide-x divide-gray-500': menus.length > 0 }"
       >
@@ -71,7 +76,7 @@ const showDrawer = ref(false)
           <AwesomeLink
             aria-label="Navigation Menu shows up on bottom"
             class="text-gray-400 hover:text-gray-100"
-            @click.prevent="() => (showDrawer = !showDrawer)"
+            @click.prevent="() => (openDraw = !openDraw)"
           >
             <Icon name="heroicons:bars-3-bottom-right-20-solid" />
           </AwesomeLink>
@@ -81,8 +86,8 @@ const showDrawer = ref(false)
     <!-- misc -->
     <!-- drawer -->
     <AwesomeActionSheet
-      v-if="!$screen.higherThan('md', $screen.current.value) && showDrawer"
-      @close="() => (showDrawer = false)"
+      v-if="openDraw"
+      @close="() => (openDraw = false)"
     >
       <AwesomeActionSheetGroup>
         <AwesomeActionSheetHeader>
