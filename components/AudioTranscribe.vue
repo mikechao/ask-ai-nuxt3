@@ -30,7 +30,7 @@ function newKeyValue() {
 </script>
 <template>
   <div class="flex flex-col h-full">
-    <h3 class="mb-4 max-sm:mb-1">Transcribe the speech to text:</h3>
+    <h3 class="mb-4 max-sm:mb-1 max-sm:text-sm">Transcribe the speech to text:</h3>
     <div class="flex flex-col items-start space-x-4 md:justify-start">
       <AwesomeButton
         :key="buttonKey"
@@ -40,7 +40,7 @@ function newKeyValue() {
         @click="audioChatStore.transcribeFile()"
       />
     </div>
-    <h3 v-if="audioChatStore.confidence > 0" class="mt-2">Transcription Confidence: {{ audioChatStore.confidence }}</h3>
+    <h3 v-if="audioChatStore.confidence > 0" class="mt-2 max-sm:text-sm">Transcription Confidence: {{ audioChatStore.confidence }}</h3>
     <div v-if="audioChatStore.transcript.length > 0" class="mt-4 flex-1 flex max-sm:mt-1">
       <textarea 
         v-model="audioChatStore.transcript"
