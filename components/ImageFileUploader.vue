@@ -99,7 +99,6 @@ function newKeyValue() {
         @click="resetFile()"
       />
     </div>
-    <h3 v-if="imageChatStore.file?.name" class="font-semibold my-2 text-purple-300 max-sm:my-0 max-sm:text-sm">{{ imageChatStore.file?.name }}</h3>
     <ModalOverlay :is-visible="isResizing" text="Resizing image"/>
   </div>
 </template>

@@ -34,9 +34,11 @@ async function sendPrompt() {
       </section>
       <div class="flex-1 flex flex-row h-full">
         <div v-if="imageChatStore.imageURL.length > 0" class="items-start justify-start" :class="imageWidthHeightClass">
+          <h3 v-if="imageChatStore.file?.name" class="font-semibold my-2 text-purple-300 max-sm:mb-1 max-sm:text-sm">{{ imageChatStore.file?.name }}</h3>
           <img :src="imageChatStore.imageURL" alt="uploaded image" class="object-contain">
         </div>
         <div v-if="imageChatStore.imageDescription.length > 0" class="mt-0 flex-1 flex flex-col ml-2">
+          <h3 class="font-semibold my-2 max-sm:mb-1 max-sm:text-sm">What the AI sees</h3>
           <textarea 
             v-model="imageChatStore.imageDescription"
             readonly
