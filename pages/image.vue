@@ -44,7 +44,7 @@ async function sendPrompt() {
           />
         </div>
       </div>
-      <div class="flex space-x-4 max-sm:space-x-1">
+      <div class="flex space-x-4 max-sm:justify-between">
         <h3 v-if="tokenStore.imageTokens > 0" class="max-sm:text-sm">Tokens for image: {{ tokenStore.imageTokens }}</h3>
         <h3 v-if="tokenStore.totalTokens > 0" class="max-sm:text-sm">Total tokens: {{ tokenStore.totalTokens }}</h3>
       </div>
