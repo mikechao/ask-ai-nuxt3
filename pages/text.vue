@@ -27,7 +27,7 @@ async function sendPrompt() {
 <template>
   <LayoutPageWrapper class="flex-1 flex max-sm:flex-col">
     <div ref="textArea" class="flex-1 flex flex-col mr-2 h-full max-sm:mb-1">
-      <h1>Enter the text you would like to ask questions about.</h1>
+      <h1 class="max-sm:text-sm">Enter the text you would like to ask questions about.</h1>
       <section class="mt-1 flex-1 flex">
         <textarea
           v-model="textChatStore.text"
