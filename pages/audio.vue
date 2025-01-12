@@ -28,14 +28,14 @@ async function sendPrompt() {
 <template>
     <LayoutPageWrapper class="flex-1 flex max-sm:flex-col">
       <div ref="audioArea" class="flex-1 flex flex-col mr-2 h-full max-sm:mb-1">
-        <h3 class="max-sm:text-sm">Choose audio that has some speech that you would like to ask questions about.</h3>
+        <h1 class="max-sm:text-sm">Choose audio that has some speech that you would like to ask questions about.</h1>
         <section class="mt-4">
           <LazyAudioFileUploader file-type="audio/*"/>
         </section>
         <LazyAudioTranscribe class="h-full"/>
-        <div class="flex space-x-4">
-          <h3 v-if="tokenStore.state.audioTokens > 0">Tokens used for audio: {{ tokenStore.state.audioTokens}}</h3>
-          <h1 v-if="tokenStore.totalTokens > 0">Total tokens used: {{ tokenStore.totalTokens }}</h1>
+        <div class="flex space-x-4 max-sm:justify-between">
+          <h3 v-if="tokenStore.state.audioTokens > 0" class="max-sm:text-sm">Tokens for audio: {{ tokenStore.state.audioTokens}}</h3>
+          <h3 v-if="tokenStore.totalTokens > 0" class="max-sm:text-sm">Total tokens: {{ tokenStore.totalTokens }}</h3>
         </div>
       </div>
       <div class="flex-1 flex h-full">
