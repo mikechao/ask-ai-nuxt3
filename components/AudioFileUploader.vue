@@ -53,7 +53,7 @@ function newKeyValue() {
 }
 </script>
 <template>
-  <div class="flex flex-col h-24 max-sm:h-16">
+  <div class="flex flex-col h-16 max-sm:h-10">
     <div class="flex space-x-4 justify-center md:justify-start max-sm:justify-start">
       <AwesomeButton
         :key="fileButtonKey"
