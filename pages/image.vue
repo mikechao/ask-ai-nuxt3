@@ -28,7 +28,7 @@ async function sendPrompt() {
 <template>
   <LayoutPageWrapper class="flex-1 flex max-sm:flex-col max-sm:py-0">
     <div ref="imageArea" class="flex-1 flex flex-col mr-2 h-full w-full max-sm:mb-1">
-      <h3 class="max-sm:text-sm">Choose an image that you would like to ask questions about.</h3>
+      <h1 class="max-sm:text-sm">Choose an image that you would like to ask questions about.</h1>
       <section class="my-4 max-sm:my-2">
         <LazyImageFileUploader/>
       </section>

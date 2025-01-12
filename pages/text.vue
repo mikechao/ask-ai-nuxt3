@@ -34,9 +34,9 @@ async function sendPrompt() {
           class="w-full h-full resize-none"
         />
       </section>
-      <div class="flex space-x-4">
-        <h1 v-if="tokenStore.state.textTokens > 0">Tokens used for text: {{ tokenStore.state.textTokens }}</h1>
-        <h1 v-if="tokenStore.totalTokens > 0">Total tokens used: {{ tokenStore.totalTokens }}</h1>
+      <div class="flex space-x-4 max-sm:justify-between">
+        <h3 v-if="tokenStore.state.textTokens > 0" class="max-sm:text-sm">Tokens for text: {{ tokenStore.state.textTokens }}</h3>
+        <h3 v-if="tokenStore.totalTokens > 0" class="max-sm:text-sm">Total tokens: {{ tokenStore.totalTokens }}</h3>
       </div>
     </div>
     <div class="flex-1 flex h-full">
