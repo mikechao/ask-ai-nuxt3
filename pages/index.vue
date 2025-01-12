@@ -101,24 +101,36 @@ async function loginWithGitHub() {
             }; --end-color: ${item.endColor}; --animation-name: anim-fg-${
               i + 1
             }`"
-            class="animated-text-bg block font-black text-8xl max-sm:text-6xl"
+            class="animated-text-bg block font-black text-8xl max-sm:text-7xl"
           >
             <span class="animated-text-fg">{{ item.text }}</span>
           </span>
         </h1>
-        <div class="px-4 mt-6 text-center max-w-[600px] max-sm:max-w-[500px]">
+        <div 
+          class="px-4 mt-6 text-center max-w-[600px]
+          max-sm:px-2 max-sm:mt-7 max-sm:max-w-[500px]  "
+        >
           {{
             awesome?.description ||
             'Ask AI about text, audio or an image'
           }}
         </div>
-        <div class="px-4 mt-6 text-center max-w-[600px] max-sm:max-w-[500px]">
+        <div 
+          class="px-4 mt-6 text-center max-w-[600px] 
+          max-sm:px-2 max-sm:mt-7 max-sm:max-w-[500px]"
+        >
             Guest User's AI Chatbot memory will be wiped after logging out
         </div>
-        <div class="px-4 mt-6 text-center max-w-[600px] max-sm:max-w-[500px]">
+        <div 
+          class="px-4 mt-6 text-center max-w-[600px] 
+          max-sm:px-2 max-sm:mt-7 max-sm:max-w-[500px]  "
+        >
             Google/GitHub User's AI Chatbot memory will be retained after logging out
         </div>
-        <div class="flex space-x-4 ml-2 mt-8 justify-center max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-1 max-sm:w-full max-sm:h-min">
+        <div
+          class="flex space-x-4 ml-2 mt-8 justify-center 
+          max-sm:flex-col max-sm:items-center max-sm:space-x-0 max-sm:space-y-1 max-sm:w-full max-sm:h-min max-sm:mt-12"
+        >
           <AwesomeButton class="max-sm:w-4/5" href="#" @click="loginAsGuest">
             <Icon name="mdi:shield-account" class="w-5 h5"/>
             Login as Guest
