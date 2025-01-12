@@ -8,6 +8,7 @@ const imageChatWindowHeight = computed(() => {
   return `${imageAreaHeight.value}px`
 })
 const imageArea = ref(null)
+const imageWidthHeightClass = computed(() => `max-w-[${imageChatStore.imageWidth}px] max-h-[${imageChatStore.imageHeight}px]`)
 
 useResizeObserver(imageArea, (entries) => {
   const entry = entries[0]
@@ -31,12 +32,11 @@ async function sendPrompt() {
       <section class="my-4">
         <LazyImageFileUploader/>
       </section>
-      <div class="flex-1 flex flex-col h-full">
-        <div v-if="imageChatStore.imageURL.length > 0" class="flex-1 flex items-start justify-start">
-          <img :src="imageChatStore.imageURL" alt="uploaded image" class="max-w-full max-h-full object-contain">
+      <div class="flex-1 flex flex-row h-full">
+        <div v-if="imageChatStore.imageURL.length > 0" class="items-start justify-start" :class="imageWidthHeightClass">
+          <img :src="imageChatStore.imageURL" alt="uploaded image" class="object-contain">
         </div>
-        <div v-if="imageChatStore.imageDescription.length > 0" class="mt-0 flex-1 flex flex-col">
-          <h3 class="my-2">What the AI sees</h3>
+        <div v-if="imageChatStore.imageDescription.length > 0" class="mt-0 flex-1 flex flex-col ml-2">
           <textarea 
             v-model="imageChatStore.imageDescription"
             readonly

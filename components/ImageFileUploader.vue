@@ -42,10 +42,16 @@ async function resizeImage(imageURL: string, fileName: string) {
   const {jimp:j, jimpMime } = await getJimp()
   const image = await j.read(imageURL)
   const resized = image.scaleToFit({w: 200, h:200})
+  const resizedHeight = resized.height
+  const resizedWidth = resized.width
   const outputBuffer = await resized.getBuffer(jimpMime.jpeg)
   const outputBlob = new Blob([outputBuffer], { type: jimpMime.jpeg})
   isResizing.value = false
-  return new File([outputBlob], fileName)
+  return {
+    resizedHeight: resizedHeight, 
+    resizedWidth: resizedWidth, 
+    resizedFile: new File([outputBlob], fileName)
+  }
 }
 
 async function getJimp() {
@@ -57,8 +63,10 @@ onChange( async (file) => {
   if (file && file.item(0)) {
     const imageFile = file.item(0) as File
     const objectURL = useObjectUrl(imageFile)
-    const resizedFile = await resizeImage(objectURL.value as string, imageFile.name)
+    const { resizedHeight, resizedWidth, resizedFile } = await resizeImage(objectURL.value as string, imageFile.name)
     imageChatStore.file = resizedFile
+    imageChatStore.imageHeight = resizedHeight
+    imageChatStore.imageWidth = resizedWidth
     imageChatStore.clearFile = false
   }
 })

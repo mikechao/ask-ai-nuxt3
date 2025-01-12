@@ -16,6 +16,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
       return ''
     }
   })
+  const imageWidth = ref(0)
+  const imageHeight = ref(0)
   const messages: Ref<Message[]> = ref([])
   const tokenStore = useTokenStore()
   const settingStore = useSettingStore()
@@ -95,6 +97,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
     clearFile.value = false
     imageDescription.value = ''
     messages.value = []
+    imageHeight.value = 0
+    imageWidth.value = 0
   }
 
   return {
@@ -107,6 +111,8 @@ export const useImageChatStore = defineStore('imageChat', () => {
     sendPrompt,
     imageDescription,
     messages,
+    imageWidth,
+    imageHeight,
     setMessages,
     setQuestion
   }
