@@ -28,8 +28,8 @@ async function sendPrompt() {
 <template>
   <LayoutPageWrapper class="flex-1 flex max-sm:flex-col max-sm:py-0">
     <div ref="imageArea" class="flex-1 flex flex-col mr-2 h-full w-full max-sm:mb-1">
-      <h3>Choose an image that you would like to ask questions about.</h3>
-      <section class="my-4">
+      <h3 class="max-sm:text-sm">Choose an image that you would like to ask questions about.</h3>
+      <section class="my-4 max-sm:my-2">
         <LazyImageFileUploader/>
       </section>
       <div class="flex-1 flex flex-row h-full">
@@ -44,9 +44,9 @@ async function sendPrompt() {
           />
         </div>
       </div>
-      <div class="flex space-x-4">
-        <h3 v-if="tokenStore.imageTokens > 0">Tokens used for image: {{ tokenStore.imageTokens }}</h3>
-        <h3 v-if="tokenStore.totalTokens > 0">Total tokens used: {{ tokenStore.totalTokens }}</h3>
+      <div class="flex space-x-4 max-sm:space-x-1">
+        <h3 v-if="tokenStore.imageTokens > 0" class="max-sm:text-sm">Tokens for image: {{ tokenStore.imageTokens }}</h3>
+        <h3 v-if="tokenStore.totalTokens > 0" class="max-sm:text-sm">Total tokens: {{ tokenStore.totalTokens }}</h3>
       </div>
     </div>
     <div class="flex-1 flex h-full">
