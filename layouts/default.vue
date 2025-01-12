@@ -12,11 +12,11 @@ const showSettings = computed(() => {
 </script>
 <template>
     <div class="overflow-x-hidden">
-      <LayoutPageNavbar class="h-[52px] max-h-[52px] max-sm:h-min max-sm:fixed"/>
+      <LayoutPageNavbar class="h-[52px] max-h-[52px] max-sm:h-[40px] max-sm:fixed"/>
         <SettingsPanel v-if=showSettings />
       <LayoutPageContent class="max-w-[68rem] m-auto h-full">
         <slot />
       </LayoutPageContent>
-      <LayoutPageFooter class="h-[52px] md:h-[42px] max-sm:h-min" />
+      <LayoutPageFooter class="h-[52px] md:h-[42px] max-sm:h-[40px]" />
     </div>
 </template>
