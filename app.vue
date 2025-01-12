@@ -7,7 +7,14 @@ useHead({
   title: awesome.name,
   htmlAttrs: {
     lang: 'en'
-  }
+  },
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }
+  ]
 })
 
 useSeoMeta({
