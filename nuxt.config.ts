@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   routeRules: {
     '/': {prerender: true},
-    '/nav': { prerender: true},
+    '/nav': {prerender: true},
     '/logout': {prerender: true},
     '/image': {ssr: false},
     '/audio': {ssr: false},
